@@ -152,7 +152,7 @@ def getUserById():
 
     id = query_parameters.get('id')
 
-    query = 'SELECT first_name, last_name, is_active, is_superuser, role, email, username FROM users WHERE'
+    query = 'SELECT id, first_name, last_name, is_active, is_superuser, role, email, phone_number, username, mfa FROM users WHERE'
     to_filter = []
 
     if not id:
@@ -186,6 +186,57 @@ def api_all():
     all_users = cur.execute('SELECT first_name, last_name, username, email, is_active, is_superuser, id, role FROM users;').fetchall()
 
     return jsonify(all_users)
+
+
+# Get update profile(first_name, last_name, phone_number)
+@app.route('/users/<int:update_id>',  methods=['PUT'])
+@cross_origin()
+def update_entry(update_id):
+
+    content = request.get_json()
+    first_name = content.get("first_name")
+    last_name = content.get("last_name")
+    phone_number = content.get("phone_number")
+    update_id = int(update_id)
+
+    # Save the data in db
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("update users set first_name=?, last_name=?, phone_number=? where id=?", (first_name, last_name, phone_number, update_id,))
+    conn.commit()
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully updated"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+# Get update profile(MFA)
+@app.route('/updateMfa/<int:update_id>',  methods=['PUT'])
+@cross_origin()
+def update_mfa(update_id):
+
+    content = request.get_json()
+    mfa = content.get("mfa")
+    update_id = int(update_id)
+
+    # Save the data in db
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("update users set mfa=? where id=?", (mfa, update_id,))
+    conn.commit()
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully updated"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
 
 
 @app.errorhandler(404)
