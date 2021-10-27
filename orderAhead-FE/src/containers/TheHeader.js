@@ -53,7 +53,9 @@ const TheHeader = () => {
   }, [localUser])
 
   useEffect(() => {
-    setFullName(user.username);
+    if (!user.first_name || !user.last_name)
+      setFullName(user.username);
+    else setFullName(user.first_name + ' ' + user.last_name)
   }, [user])
 
   const logout = () => {
@@ -88,6 +90,9 @@ const TheHeader = () => {
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
         </CHeaderNavItem>
+        <CHeaderNavItem className={isLogin && !isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/setting" className={currPath === '/setting' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Setting</CHeaderNavLink>
+        </CHeaderNavItem>
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
@@ -119,6 +124,7 @@ const TheHeader = () => {
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
                 <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('users')}>User Manage</CDropdownItem>
                 <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('links')}>Link Manage</CDropdownItem>
+                <CDropdownItem className={isLogin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('setting')}>Setting</CDropdownItem>
                 <CDropdownItem className="dropdown-toggle-menuitem" onClick={logout}>Log out</CDropdownItem>
             </CDropdownMenu>
         </CDropdown>

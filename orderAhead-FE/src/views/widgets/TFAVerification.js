@@ -51,7 +51,7 @@ const TFAVerification = () => {
 
             <div className="d-flex mt-3">
                 <h5>
-                    With 2-step verification, you protect your account with both your password and your phone. To log in into account or withdraw funds you will require a separate code that you will get in the Google Authenticator app
+                    With 2-step verification, you protect your account with both your password and your phone. To log in into account you will require a separate code that you will get in the Google Authenticator app
                 </h5>
             </div>
             

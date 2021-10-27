@@ -55,31 +55,29 @@ const PersionalInfoSetting = () => {
  const history = useHistory()
  
  const [isSubmitting, setIsSubmitting] = useState(false)
- const [fullName, setFullName] = useState()
+ const [firstName, setFirstName] = useState()
+ const [lastName, setLastName] = useState()
+ const [phoneNumber, setPhoneNumber] = useState()
  const [email, setEmail] = useState()
- const [address, setAddress] = useState()
- const [birthDay, setBirthday] = useState()
- const [toDateFormat, setToDateFormat] = useState(false)
 
  const user = useSelector(state => state.user)
  
  useEffect(() => {
     if (localStorage.getItem('userId') && user) {
-        setFullName(user.fullName)
+        setFirstName(user.first_name)
+        setLastName(user.last_name)
+        setPhoneNumber(user.phone_number)
         setEmail(user.email)
-        setAddress(user.address)
-        setBirthday(user.birthday)
-        
     }
  }, [user]);
   
   const onSubmit = () => {
-      if (user && fullName !== '') {
+      if (user) {
           const newUser = {
               ...user,
-              "fullName": fullName,
-              "address": address,
-              "birthday": birthDay
+              "first_name": firstName,
+              "last_name": lastName,
+              "phone_number": phoneNumber
           }
           setIsSubmitting(true);
           userService.update(newUser).then(
@@ -105,51 +103,49 @@ const PersionalInfoSetting = () => {
             <div className="d-flex mt-3">
                 {
                     <RedditTextField
-                        id="full-name"
-                        label="Full name"
-                        placeholder="Full name"
-                        value={fullName}
+                        id="first-name"
+                        label="First name"
+                        placeholder="First name"
+                        value={firstName}
                         InputLabelProps={{
                             shrink: true,
                         }}
                         fullWidth
                         variant="filled"
-                        onChange={(e) => setFullName(e.target.value)}
+                        onChange={(e) => setFirstName(e.target.value)}
                     />
                 }
             </div>
             <div className="d-flex mt-3">
                 {
                     <RedditTextField
-                        id="address"
-                        label="Address"
-                        placeholder="Address"
-                        value={address}
+                        id="last-name"
+                        label="Last name"
+                        placeholder="Last name"
+                        value={lastName}
                         InputLabelProps={{
                             shrink: true,
                         }}
                         fullWidth
                         variant="filled"
-                        onChange={(e) => setAddress(e.target.value)}
+                        onChange={(e) => setLastName(e.target.value)}
                     />
                 }
             </div>
+
             <div className="d-flex mt-3">
                 {
                     <RedditTextField
-                        id="birthday"
-                        label="Birth date"
-                        placeholder="Birth date"
-                        value={birthDay}
+                        id="phone-number"
+                        label="Phone number"
+                        placeholder="Phone number"
+                        value={phoneNumber}
                         InputLabelProps={{
                             shrink: true,
                         }}
                         fullWidth
-                        type={toDateFormat? 'date' : 'text'}
                         variant="filled"
-                        onChange={(e) => setBirthday(e.target.value)}
-                        onFocus={() => setToDateFormat(true) }
-                        onBlur={() => setToDateFormat(true) }
+                        onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                 }
             </div>
