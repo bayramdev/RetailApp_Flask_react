@@ -24,6 +24,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/signin" name="Login Page" render={props => <Signin {...props}/>} />
               <Route exact path="/signup" name="Register Page" render={props => <Signup {...props}/>} />
+              <Route exact path="/signup/:code" name="Register Page with parameter" render={props => <Signup {...props}/>} />
               <Route path="/" name="Home" render={props => <TheLayout {...props}/>} />
             </Switch>
           </React.Suspense>
