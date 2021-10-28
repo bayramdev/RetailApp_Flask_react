@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import {
-  CWidgetSimple,
   CButton,
-  CImg
+  CCard,
+  CCardBody,
+  CCardGroup,
+  CCol,
+  CContainer,
+  CRow
 } from '@coreui/react'
 import { useDispatch } from 'react-redux';
 import { userService } from '../../controllers/_services';
@@ -111,133 +115,150 @@ const Signup = () => {
   }, [username, email, password, confirmPassword])
 
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
-      <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto">
-        <h2 className="text-left signin-header-title">Welcome<span className="text-success">.</span></h2>
-        <h5 className="text-left signin-header-desc">Login or register</h5>
+    <div className="c-app c-default-layout flex-row align-items-center" style={{backgroundImage: "url(img/login-bg.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+      <CContainer>
+        <CRow className="justify-content-center">
+          <CCol md="8">
+            <CCardGroup>
+              <CCard className="p-4">
+                <CCardBody>
+                  <div className="text-left pt-0 pb-0 mx-auto">
+                    <h2 className="text-left signin-header-title">Welcome<span className="text-success">.</span></h2>
+                    <h5 className="text-left signin-header-desc">
+                        <div className="mt-1 text-left">
+                          <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => { history.push("signin") }}>Sign in</span></h5>
+                        </div>
+                    </h5>
 
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="user-name"
-                        label="Username"
-                        placeholder="Type username"
-                        value={username}
-                        helperText={errMessageForUsername && errMessageForUsername !== '' ? errMessageForUsername : '' }
-                        error={errMessageForUsername && errMessageForUsername !== ''}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        onKeyDown={handleEnterKeyDown}
-                        fullWidth
-                        variant="filled"
-                        onBlur={() => {
-                          if (!username || username === '') setErrMessageForUsername('Username is required')
-                          else setErrMessageForUsername('')
-                        }}
-                        onChange={(e) => {
-                          setUsername(e.target.value); }}
-                    />
-                }
-            </div>
+                        <div className="d-flex mt-3">
+                            {
+                                <RedditTextField
+                                    id="user-name"
+                                    label="Username"
+                                    placeholder="Type username"
+                                    value={username}
+                                    helperText={errMessageForUsername && errMessageForUsername !== '' ? errMessageForUsername : '' }
+                                    error={errMessageForUsername && errMessageForUsername !== ''}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onKeyDown={handleEnterKeyDown}
+                                    fullWidth
+                                    variant="filled"
+                                    onBlur={() => {
+                                      if (!username || username === '') setErrMessageForUsername('Username is required')
+                                      else setErrMessageForUsername('')
+                                    }}
+                                    onChange={(e) => {
+                                      setUsername(e.target.value); }}
+                                />
+                            }
+                        </div>
 
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="email"
-                        label="Email"
-                        placeholder="Type your email"
-                        value={email}
-                        helperText={errMessageForEmail && errMessageForEmail !== '' ? errMessageForEmail : '' }
-                        error={errMessageForEmail && errMessageForEmail !== ''}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        variant="filled"
-                        onKeyDown={handleEnterKeyDown}
-                        onBlur={() => {
-                          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                          if (!email || email === '') setErrMessageForEmail('Email is required')
-                          else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
-                          else setErrMessageForEmail('')
-                        }}
-                        onChange={(e) => {
-                          setEmail(e.target.value); }}
-                    />
-                }
-            </div>
+                        <div className="d-flex mt-3">
+                            {
+                                <RedditTextField
+                                    id="email"
+                                    label="Email"
+                                    placeholder="Type your email"
+                                    value={email}
+                                    helperText={errMessageForEmail && errMessageForEmail !== '' ? errMessageForEmail : '' }
+                                    error={errMessageForEmail && errMessageForEmail !== ''}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    fullWidth
+                                    variant="filled"
+                                    onKeyDown={handleEnterKeyDown}
+                                    onBlur={() => {
+                                      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                      if (!email || email === '') setErrMessageForEmail('Email is required')
+                                      else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
+                                      else setErrMessageForEmail('')
+                                    }}
+                                    onChange={(e) => {
+                                      setEmail(e.target.value); }}
+                                />
+                            }
+                        </div>
 
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="password"
-                        label="Password"
-                        placeholder="Type your password"
-                        value={password}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        type="password"
-                        fullWidth
-                        variant="filled"
-                        helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
-                        error={errMessageForNewPassword && errMessageForNewPassword !== ''}
-                        onKeyDown={handleEnterKeyDown}
-                        onBlur={() => {
-                          if (!password || password === '') setErrMessageForNewPassword('Password is required')
-                          else if (password.length < 6) setErrMessageForNewPassword('Password hat to be at least 6 characters!')
-                          else if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/)) setErrMessageForNewPassword('Password must contain: numbers, uppercase and lowercase letters');
-                          else setErrMessageForNewPassword('')
-                        }}
-                        onChange={(e) => { setPassword(e.target.value); }}
-                    />
-                }
-            </div>
+                        <div className="d-flex mt-3">
+                            {
+                                <RedditTextField
+                                    id="password"
+                                    label="Password"
+                                    placeholder="Type your password"
+                                    value={password}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    type="password"
+                                    fullWidth
+                                    variant="filled"
+                                    helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
+                                    error={errMessageForNewPassword && errMessageForNewPassword !== ''}
+                                    onKeyDown={handleEnterKeyDown}
+                                    onBlur={() => {
+                                      if (!password || password === '') setErrMessageForNewPassword('Password is required')
+                                      else if (password.length < 6) setErrMessageForNewPassword('Password hat to be at least 6 characters!')
+                                      else if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/)) setErrMessageForNewPassword('Password must contain: numbers, uppercase and lowercase letters');
+                                      else setErrMessageForNewPassword('')
+                                    }}
+                                    onChange={(e) => { setPassword(e.target.value); }}
+                                />
+                            }
+                        </div>
 
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="confirm-password"
-                        label="Repeat new password"
-                        placeholder="Repeat new password"
-                        value={confirmPassword}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        type="password"
-                        fullWidth
-                        variant="filled"
-                        helperText={errMessageForConfirmPassword && errMessageForConfirmPassword !== '' ? errMessageForConfirmPassword : '' }
-                        error={errMessageForConfirmPassword && errMessageForConfirmPassword !== ''}
-                        onKeyDown={handleEnterKeyDown}
-                        onBlur={() => {
-                          if (!confirmPassword || confirmPassword === '') setErrMessageForConfirmPassword('Password confirmation is required!')
-                          else if (confirmPassword !== password) setErrMessageForConfirmPassword('Passwords must match')
-                          else setErrMessageForConfirmPassword('')
-                        }}
-                        onChange={(e) => { setConfirmPassword(e.target.value); }}
-                    />
-                }
-            </div>
+                        <div className="d-flex mt-3">
+                            {
+                                <RedditTextField
+                                    id="confirm-password"
+                                    label="Repeat new password"
+                                    placeholder="Repeat new password"
+                                    value={confirmPassword}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    type="password"
+                                    fullWidth
+                                    variant="filled"
+                                    helperText={errMessageForConfirmPassword && errMessageForConfirmPassword !== '' ? errMessageForConfirmPassword : '' }
+                                    error={errMessageForConfirmPassword && errMessageForConfirmPassword !== ''}
+                                    onKeyDown={handleEnterKeyDown}
+                                    onBlur={() => {
+                                      if (!confirmPassword || confirmPassword === '') setErrMessageForConfirmPassword('Password confirmation is required!')
+                                      else if (confirmPassword !== password) setErrMessageForConfirmPassword('Passwords must match')
+                                      else setErrMessageForConfirmPassword('')
+                                    }}
+                                    onChange={(e) => { setConfirmPassword(e.target.value); }}
+                                />
+                            }
+                        </div>
 
-            {/* <div className="d-flex mt-2">
-              <h5 className="text-left signin-header-desc">By signing in or creating an account. you agree with our <span className="span-underline" onClick={() => {
-                history.push('/terms');  dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false})}}
-                >Terms of Use</span> and <span className="span-underline" onClick={() => {
-                  dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false}); history.push('/privacy')
-                }}>Privacy Policy</span></h5>
-            </div> */}
+                        {/* <div className="d-flex mt-2">
+                          <h5 className="text-left signin-header-desc">By signing in or creating an account. you agree with our <span className="span-underline" onClick={() => {
+                            history.push('/terms');  dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false})}}
+                            >Terms of Use</span> and <span className="span-underline" onClick={() => {
+                              dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false}); history.push('/privacy')
+                            }}>Privacy Policy</span></h5>
+                        </div> */}
 
-            <div className="d-flex mt-1">
-                <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled || isSubmitting}>
-                    <h3>Sign up</h3>
-                </CButton>
-            </div>
-            <div className="mt-1 text-center">
-              <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => { history.push("signin") }}>Sign in</span></h5>
-            </div>
-      </CWidgetSimple>
+                        <div className="d-flex mt-1">
+                            <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled || isSubmitting}>
+                                <h3>SIGN UP</h3>
+                            </CButton>
+                        </div>
+                  </div>        
+                </CCardBody>
+              </CCard>
+              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%', backgroundImage: "url(img/logo.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+                <CCardBody className="text-center">
+                </CCardBody>
+              </CCard>
+            </CCardGroup>
+          </CCol>
+        </CRow>
+      </CContainer>
     </div>
   )
 }

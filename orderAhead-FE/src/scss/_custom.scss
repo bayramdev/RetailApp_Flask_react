@@ -147,12 +147,12 @@
 }
 
 .button-exchange {
-  background-color: red;
+  background-color: rgb(152, 2, 172);
   color: white;
   margin-top: 15px;
   padding: 14px 16px;
-  font-size: 16px;
-  line-height: 21px;
+  font-size: 14px;
+  line-height: 20px;
 }
 .button-exchange:hover {
     background-color: rgba(255, 0, 0, 0.63);
@@ -397,10 +397,12 @@
 * **************** Sign In ***************
 */
 .signin-widget {
+  min-width: 450px;
   margin: 0;
   background-color: white !important;
   color: #181924;
-  padding: 3px 20px !important;
+  padding: 3px 15px !important;
+  box-shadow: 20px 20px 60px #1b1d1f;
 
   input {
     color: #181924 !important;
@@ -414,7 +416,7 @@
 .signin-header-title {
   font-size: 26px;
   line-height: 32px;
-  margin-top: 30px;
+  margin-top: 20px;
   color: #404b51;
   font-weight: 600;
 }
@@ -427,6 +429,7 @@
 .span-underline {
   text-decoration: underline;
   cursor: pointer;
+  color: rgb(152, 2, 172);
 }
 .span-underline:hover {
   color: #494949;

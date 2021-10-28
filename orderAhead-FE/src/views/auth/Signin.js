@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {
-  CWidgetSimple,
   CButton,
-  CImg
+  CCard,
+  CCardBody,
+  CCardGroup,
+  CCol,
+  CContainer,
+  CRow
 } from '@coreui/react'
 import { useDispatch } from 'react-redux'
 import { userService } from '../../controllers/_services/user.service';
@@ -103,88 +107,102 @@ const Signin = () => {
   }
 
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
-      <CWidgetSimple className="signin-widget text-left p-1 pt-0 pb-0 mx-auto">
-        <h2 className="text-left signin-header-title">Welcome<span className="text-success">.</span></h2>
-        <h5 className="text-left signin-header-desc">Login or register</h5>
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="email"
-                        label="Email"
-                        placeholder="Type your email"
-                        value={email}
-                        helperText={errMessageForEmail && errMessageForEmail !== '' ? errMessageForEmail : '' }
-                        error={errMessageForEmail && errMessageForEmail !== ''}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        variant="filled"
-                        onKeyDown={handleEnterKeyDown}
-                        onBlur={() => {
-                          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                          if (!email || email === '') setErrMessageForEmail('Email is required')
-                          else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
-                          else setErrMessageForEmail('')
-                        }}
-                        onChange={(e) => {
-                          setEmail(e.target.value); }}
-                    />
-                }
-            </div>
+    <div className="c-app c-default-layout flex-row align-items-center" style={{backgroundImage: "url(img/login-bg.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+      <CContainer>
+        <CRow className="justify-content-center">
+          <CCol md="8">
+            <CCardGroup>
+              <CCard className="p-4">
+                <CCardBody>
+                    <h2 className="text-left signin-header-title">Login<span className="text-success">.</span></h2>
+                    <h5 className="text-left signin-header-desc">
+                    <div className="mt-1 text-left mb-0">
+                      <h5 className="signin-header-desc">Doesn't have an account yet? <span className="span-underline" onClick={() => { history.push("signup") }}>Sign Up</span></h5>
+                    </div>
+                </h5>
+                    <div className="d-flex mt-3">
+                        {
+                            <RedditTextField
+                                id="email"
+                                label="Email Address"
+                                placeholder="you@example.com"
+                                value={email}
+                                helperText={errMessageForEmail && errMessageForEmail !== '' ? errMessageForEmail : '' }
+                                error={errMessageForEmail && errMessageForEmail !== ''}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                fullWidth
+                                variant="filled"
+                                onKeyDown={handleEnterKeyDown}
+                                onBlur={() => {
+                                  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                  if (!email || email === '') setErrMessageForEmail('Email is required')
+                                  else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
+                                  else setErrMessageForEmail('')
+                                }}
+                                onChange={(e) => {
+                                  setEmail(e.target.value); }}
+                            />
+                        }
+                    </div>
 
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="password"
-                        label="Password"
-                        placeholder="Type your password"
-                        value={password}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        type="password"
-                        fullWidth
-                        variant="filled"
-                        helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
-                        error={errMessageForNewPassword && errMessageForNewPassword !== ''}
-                        onKeyDown={handleEnterKeyDown}
-                        onBlur={() => {
-                          if (!password || password === '') setErrMessageForNewPassword('Password is required')
-                          else setErrMessageForNewPassword('')
-                        }}
-                        onChange={(e) => { setPassword(e.target.value); }}
-                    />
-                }
-            </div>
+                    <div className="d-flex mt-3">
+                        {
+                            <RedditTextField
+                                id="password"
+                                label="Password"
+                                placeholder="Enter your password"
+                                value={password}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                type="password"
+                                fullWidth
+                                variant="filled"
+                                helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
+                                error={errMessageForNewPassword && errMessageForNewPassword !== ''}
+                                onKeyDown={handleEnterKeyDown}
+                                onBlur={() => {
+                                  if (!password || password === '') setErrMessageForNewPassword('Password is required')
+                                  else setErrMessageForNewPassword('')
+                                }}
+                                onChange={(e) => { setPassword(e.target.value); }}
+                            />
+                        }
+                    </div>
 
-            {/* <div className="d-flex mt-2">
-              <h5 className="text-left signin-header-desc">By signing in or creating an account. you agree with our <span className="span-underline" onClick={() => {
-                history.push('/terms'); dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false})
-              }}>Terms of Use</span> and <span className="span-underline" onClick={() => {
-                history.push('/privacy');  dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false})}
-                }>Privacy Policy</span></h5>
-            </div> */}
+                    {/* <div className="d-flex mt-2">
+                      <h5 className="text-left signin-header-desc">By signing in or creating an account. you agree with our <span className="span-underline" onClick={() => {
+                        history.push('/terms'); dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false})
+                      }}>Terms of Use</span> and <span className="span-underline" onClick={() => {
+                        history.push('/privacy');  dispatch({type: 'set', openSignin: false}); dispatch({type: 'set', openSignup: false})}
+                        }>Privacy Policy</span></h5>
+                    </div> */}
 
-            {/* <div className="mt-0 text-right p-0">
-              <h5 className="text-right signin-header-desc p-0 m-0"><span className="span-underline" onClick={() => {
-                dispatch({type: 'set', openSignin: false})
-                dispatch({type: 'set', openSignup: false})
-                dispatch({type: 'set', forgotPassword1: true})
-              }}>Forgot password?</span></h5>
-            </div> */}
+                    <div className="mt-3 text-right p-0">
+                      <h5 className="text-right signin-header-desc p-0 m-0"><span className="span-underline" onClick={() => {
+                        dispatch({type: 'set', openSignin: false})
+                        dispatch({type: 'set', openSignup: false})
+                        dispatch({type: 'set', forgotPassword1: true})
+                      }}>Forgot password?</span></h5>
+                    </div>
 
-            <div className="d-flex mt-3">
-                <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
-                    <h3>Sign in</h3>
-                </CButton>
-            </div>
-            
-            <div className="mt-1 text-center mb-0">
-              <h5 className="signin-header-desc">No account yet? <span className="span-underline" onClick={() => { history.push("signup") }}>Sign up</span></h5>
-            </div>
-      </CWidgetSimple>
+                    <div className="d-flex mt-3">
+                        <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
+                            <h3>LOGIN</h3>
+                        </CButton>
+                    </div>
+                </CCardBody>
+              </CCard>
+              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%', backgroundImage: "url(img/logo.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+                <CCardBody className="text-center">
+                </CCardBody>
+              </CCard>
+            </CCardGroup>
+          </CCol>
+        </CRow>
+      </CContainer>
       <AuthDialog />
     </div>
   )

@@ -27,7 +27,6 @@ const TheLayout = () => {
         </div>
         <TheFooter/>
       </div>
-      <AuthDialog />
     </div>
   )
 }
