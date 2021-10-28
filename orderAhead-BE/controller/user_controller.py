@@ -6,7 +6,7 @@ db_name = os.getenv('DB_NAME', 'order.db')
 
 
 def getUserByEmail(email):
-    query = 'SELECT id, email, password, username, first_name, last_name, is_superuser, is_active, mfa, verif_code FROM users WHERE'
+    query = 'SELECT id, email, password, username, first_name, last_name, is_superuser, is_active, mfa FROM users WHERE'
     to_filter = []
 
     if email:

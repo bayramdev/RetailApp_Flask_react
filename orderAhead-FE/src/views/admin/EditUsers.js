@@ -51,14 +51,16 @@ const EditUser = () => {
 
   const handleClose = () => {
     dispatch({type: 'set', editUser: false})
+    dispatch({type: 'set', selectedUser: {}})
   };
 
   const onSubmit = () => {
       if (selectedUser) {
             userService.update(selectedUser).then(
               result => {
-                  successNotification("Successfully updated", 3000);
-                  dispatch({type: 'set', editUser: false})
+                    successNotification("Successfully updated", 3000);
+                    dispatch({type: 'set', editUser: false})
+                    dispatch({type: 'set', selectedUser: {}})
               },
               err => {
                   console.log(err)

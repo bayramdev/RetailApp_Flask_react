@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, jsonify
 import os
 import common
-from controller import user_controller
+from controller import user_controller, link_controller
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -240,6 +240,71 @@ def update_mfa(update_id):
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+# Create Link
+@app.route('/link/create', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def createLink():
+    # Receives the data in JSON format in a HTTP POST request
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+    level = content.get("level")
+    label = content.get("label")
+
+    if not (level, label):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    link_controller.saveLinkByLevelAndLabel(level, label)
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully created"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+# Get all users
+@app.route('/links', methods=['GET'])
+@cross_origin()
+def links_all():
+
+    return jsonify(link_controller.getAllLinks())
+
+
+# Create Link
+@app.route('/links/send', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def sendLink():
+    # Receives the data in JSON format in a HTTP POST request
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+
+    print(content)
+
+    code = content.get("code")
+    label = content.get("label")
+    level = content.get("level")
+    sendEmail = content.get("sendEmail")
+
+    if not (level, label, code, sendEmail):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=sendEmail)
+    msg.body = "Please input the following URL to sign up:\n " + code
+    mail.send(msg)
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent"}),
         status=200,
         mimetype='application/json'
     )

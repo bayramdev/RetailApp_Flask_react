@@ -14,7 +14,11 @@ export const userService = {
     update,
     updateMfa,
     updatePassword,
-    delete: _delete
+    delete: _delete,
+
+    createLinkForSignup,
+    getAllLinks,
+    sendLink
 };
 
 function login(email, password, confirm) {
@@ -80,6 +84,15 @@ function getAll() {
     return fetch(`${serverURL}/users`, requestOptions).then(handleResponse);
 }
 
+function getAllLinks() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`${serverURL}/links`, requestOptions).then(handleResponse);
+}
+
 function getById(id) {
     const requestOptions = {
         method: 'GET',
@@ -87,6 +100,18 @@ function getById(id) {
     };
 
     return fetch(`${serverURL}/getUser?id=${id}`, requestOptions).then(handleResponse);
+}
+
+function sendLink(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+    };
+
+    return fetch(`${serverURL}/links/send`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -139,6 +164,21 @@ function _delete(id) {
     };
 
     return fetch(`${serverURL}/users/${id}`, requestOptions).then(handleResponse);
+}
+
+/*
+* LINK Manage
+*/
+function createLinkForSignup(selectedRole) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(selectedRole)
+    };
+
+    return fetch(`${serverURL}/link/create`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
