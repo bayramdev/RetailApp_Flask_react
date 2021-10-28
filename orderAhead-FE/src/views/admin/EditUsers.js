@@ -3,11 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
     CModal,
     CModalBody,
-    CButton,
-    CFormGroup,
-    CInputRadio,
-    CLabel,
-    CCol,
+    CButton
   } from '@coreui/react'
 import TextField from '@material-ui/core/TextField';
 import {
@@ -57,21 +53,6 @@ const EditUser = () => {
     dispatch({type: 'set', editUser: false})
   };
 
-  const [selectedStatus, setSelectedStatus] = useState('Active')
-
-  const onChangeTransaction = (value) => {
-      if (selectedUser) {
-          setSelectedStatus(value);
-          selectedUser.status = value;
-      }
-  }
-
-  useEffect(() => {
-      if (selectedUser) {
-        setSelectedStatus(selectedUser.status)
-      }
-  }, [selectedUser]);
-
   const onSubmit = () => {
       if (selectedUser) {
             userService.update(selectedUser).then(
@@ -109,6 +90,7 @@ const EditUser = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            onChange={(e) => selectedUser.first_name = e.target.value}
                             variant="filled"
                         />
                 </div>
@@ -125,6 +107,7 @@ const EditUser = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            onChange={(e) => selectedUser.last_name = e.target.value}
                             variant="filled"
                         />
                 </div>
@@ -141,6 +124,7 @@ const EditUser = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            onChange={(e) => selectedUser.username = e.target.value}
                             variant="filled"
                         />
                 </div>
@@ -157,13 +141,14 @@ const EditUser = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            onChange={(e) => selectedUser.email = e.target.value}
                             variant="filled"
                         />
                 </div>
             }
             
             <div className="d-flex mx-3 px-3">
-                <CButton block className="button-exchange p-1 pt-2" onClick={onSubmit} disabled={selectedStatus === 'Processing'}>
+                <CButton block className="button-exchange p-1 pt-2" onClick={onSubmit}>
                     <h3>Save</h3>
                 </CButton>
             </div>

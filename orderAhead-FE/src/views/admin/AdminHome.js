@@ -19,7 +19,6 @@ import { format } from 'date-fns';
 import { paymentService } from '../../controllers/_services/payment.service';
 import { warningNotification } from '../../controllers/_helpers';
 
-const EditTransaction = lazy(() => import('./EditTransaction'));
 
 const AdminHome = () => {
   const dispatch = useDispatch()
@@ -28,7 +27,6 @@ const AdminHome = () => {
   dispatch({type: 'set', darkMode: false})
 
   const user = useSelector(state => state.user)
-  const editTransaction = useSelector(state => state.editTransaction)
 
   if (!localStorage.getItem('userId') || !user) {
     dispatch({type: 'set', darkMode: true})
@@ -66,53 +64,10 @@ const AdminHome = () => {
     }
   }
 
-  useEffect(() => {
-    paymentService.getAllTransactions()
-    .then(
-      transactions => {
-        let processingTransaction = [];
-        let completedTransaction = [];
-        let tempUSDT = 0;
-        let tempETH = 0;
-        let tempBTC = 0;
-        let tempUSDC = 0;
-        let tempBUSD = 0;
-        let tempBNB = 0;
-        transactions.forEach(element => {
-            if (element.status === 'Processing') {
-                processingTransaction.push(element);
-                // if (element.from === 'USDT') tempUSDT = tempUSDT + Number(element.amount);
-                // if (element.from === 'ETH') tempETH = tempETH + Number(element.amount);
-                // if (element.from === 'BTC') tempBTC = tempBTC + Number(element.amount);
-                // if (element.from === 'USDC') tempUSDC = tempUSDC + Number(element.amount);
-                // if (element.from === 'BUSD') tempBUSD = tempBUSD + Number(element.amount);
-                // if (element.from === 'BNB') tempBNB = tempBNB + Number(element.amount);
-            }
-            if (element.status === 'Completed') {
-                completedTransaction.push(element);
-            }
-                
-        });
-        setNumberOfProcessing(processingTransaction.length);
-        setNumberOfCompleted(completedTransaction.length);
-        setAmountOfUSDT(Math.round(tempUSDT * 100) / 100)
-        setAmountOfETH(Math.round(tempETH * 100) / 100)
-        setAmountOfBTC(Math.round(tempBTC * 100) / 100)
-        setAmountOfUSDC(Math.round(tempUSDC * 100) / 100)
-        setAmountOfBUSD(Math.round(tempBUSD * 100) / 100)
-        setAmountOfBNB(Math.round(tempBNB * 100) / 100)
-        setTotalTransactions(processingTransaction);
-        setMytransactions(processingTransaction);
-      },
-      error => {}
-    )
-  }, [editTransaction]);
-
 
   const onClickProcess = (transaction) => {
     paymentService.getPaymentMethodsByIdAndName(transaction.userId, transaction.to).then(
       result => {
-        dispatch({type: 'set', editTransaction: true})
         dispatch({type: 'set', selectedPaymentMethod: result})
         dispatch({type: 'set', selectedTransaction: transaction})
       },
@@ -279,8 +234,6 @@ const AdminHome = () => {
           </CCard>
         </CCol>
       </CRow>
-      
-      <EditTransaction />
     </>
   )
 }

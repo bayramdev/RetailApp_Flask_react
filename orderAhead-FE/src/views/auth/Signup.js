@@ -111,8 +111,8 @@ const Signup = () => {
   }, [username, email, password, confirmPassword])
 
   return (
-    <>
-      <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto" style={{maxWidth: '500px'}}>
+    <div className="c-app c-default-layout flex-row align-items-center">
+      <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto">
         <h2 className="text-left signin-header-title">Welcome<span className="text-success">.</span></h2>
         <h5 className="text-left signin-header-desc">Login or register</h5>
 
@@ -238,7 +238,7 @@ const Signup = () => {
               <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => { history.push("signin") }}>Sign in</span></h5>
             </div>
       </CWidgetSimple>
-    </>
+    </div>
   )
 }
 

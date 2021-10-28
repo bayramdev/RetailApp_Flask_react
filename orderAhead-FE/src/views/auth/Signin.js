@@ -14,6 +14,7 @@ import {
     makeStyles,
   } from '@material-ui/core/styles';
 
+  const AuthDialog = React.lazy(() => import('../../views/auth/AuthDialog'));
   const useStylesReddit = makeStyles((theme) => ({
     root: {
       border: "1px solid lightgray",
@@ -102,8 +103,8 @@ const Signin = () => {
   }
 
   return (
-    <>
-      <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto" style={{maxWidth: '500px'}}>
+    <div className="c-app c-default-layout flex-row align-items-center">
+      <CWidgetSimple className="signin-widget text-left p-1 pt-0 pb-0 mx-auto">
         <h2 className="text-left signin-header-title">Welcome<span className="text-success">.</span></h2>
         <h5 className="text-left signin-header-desc">Login or register</h5>
             <div className="d-flex mt-3">
@@ -184,7 +185,8 @@ const Signin = () => {
               <h5 className="signin-header-desc">No account yet? <span className="span-underline" onClick={() => { history.push("signup") }}>Sign up</span></h5>
             </div>
       </CWidgetSimple>
-    </>
+      <AuthDialog />
+    </div>
   )
 }
 
