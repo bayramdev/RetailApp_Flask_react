@@ -1,8 +1,9 @@
 import json
 
 from flask import Flask, request, jsonify
-import sqlite3
 import os
+import common
+from model import user
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -10,39 +11,33 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
 )
-from passlib.hash import pbkdf2_sha256 as sha256
 from flask_cors import cross_origin
+from flask_mail import Mail, Message
+from random import randint, randrange
 
 # Init app
 app = Flask(__name__)
 
 # Application Configuration
+SENDER_EMAIL = os.getenv('SEND_EMAIL')
+app.config['MAIL_SERVER'] = os.getenv('EMAIL_HOST')
+app.config['MAIL_PORT'] = os.getenv('EMAIL_PORT')
+app.config['MAIL_USERNAME'] = os.getenv('EMAIL_HOST_USER')
+app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_HOST_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.getenv('EMAIL_USE_TLS')
+app.config['MAIL_USE_SSL'] = os.getenv('EMAIL_USE_SSL')
+
 app.config['SECRET_KEY'] = 'OrderaheadSecretKey'
 app.config['JWT_SECRET_KEY'] = 'SecretSecureKy'
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
-
 # JwtManager object
 jwt = JWTManager(app)
-
+# create an instance of the Mail class
+mail = Mail(app)
 
 db_name = 'order.db'
-
-
-def generate_hash(password):
-    return sha256.hash(password)
-
-
-def verify_hash(password, hash_):
-    return sha256.verify(password, hash_)
-
-
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
 
 
 # Flask maps HTTP requests to Python functions.
@@ -67,27 +62,19 @@ def logIn():
     if not (email or password):
         return jsonify({"status": False, "message": "Please input the email and password."})
 
-    query = 'SELECT id, email, password, username, first_name, last_name, is_superuser, is_active FROM users WHERE'
-    to_filter = []
-
-    if email:
-        query += ' email=? AND'
-        to_filter.append(email)
-
-    query = query[:-4] + ';'
-
-    db_path = os.path.join('db', db_name)
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-
-    result = cur.execute(query, to_filter).fetchone()
+    result = user.getUserByEmail(email)
 
     if result:
-        if verify_hash(password, result['password']):
+        if common.verify_hash(password, result['password']):
             access_token = create_access_token(identity=email)
-            print(result['is_active'])
+
             if result['is_active']:
+                verif_code = randint(1000000, 9999999)
+                # if result['mfa'] == 'email':
+                #     msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
+                #     msg.body = "Verification code:\n" + verif_code
+                #     mail.send(msg)
+
                 response = app.response_class(
                     response=json.dumps({"status": True, "message": "successfully logged in", "data": "{}".format(result['id']),
                                          "isAdmin": result['is_superuser'], "token": access_token}),
@@ -126,15 +113,10 @@ def register():
     email = content.get("email")
     password = content.get("password")
 
-    # Save the data in db
-    db_path = os.path.join('db', db_name)
-    conn = sqlite3.connect(db_path)
-    query = f'INSERT INTO users (username, email, password) \
-              VALUES ("{username}", "{email}", "{generate_hash(password)}");'
+    if not (username or email or password):
+        return jsonify({"status": False, "message": "Input error!"})
 
-    cur = conn.cursor()
-    cur.execute(query)
-    conn.commit()
+    user.saveUserByUsernameAndEmailAndPassword(username, email, password)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully registered"}),
@@ -152,24 +134,10 @@ def getUserById():
 
     id = query_parameters.get('id')
 
-    query = 'SELECT id, first_name, last_name, is_active, is_superuser, role, email, phone_number, username, mfa FROM users WHERE'
-    to_filter = []
-
     if not id:
         return jsonify({"status": False, "message": "Input error!"})
 
-    if id:
-        query += ' id=? AND'
-        to_filter.append(id)
-
-    query = query[:-4] + ';'
-
-    db_path = os.path.join('db', db_name)
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-
-    results = cur.execute(query, to_filter).fetchone()
+    results = user.getUserById(id)
 
     return jsonify(results)
 
@@ -177,15 +145,9 @@ def getUserById():
 # Get all users
 @app.route('/users', methods=['GET'])
 @cross_origin()
-def api_all():
-    db_path = os.path.join('db', db_name)
-    conn = sqlite3.connect(db_path)
-    # returns items from the database as dictionaries rather than lists
-    conn.row_factory = dict_factory
-    cur = conn.cursor()
-    all_users = cur.execute('SELECT first_name, last_name, username, email, is_active, is_superuser, id, role FROM users;').fetchall()
+def users_all():
 
-    return jsonify(all_users)
+    return jsonify(user.getAllUsers())
 
 
 # Get update profile(first_name, last_name, phone_number)
@@ -199,12 +161,10 @@ def update_entry(update_id):
     phone_number = content.get("phone_number")
     update_id = int(update_id)
 
-    # Save the data in db
-    db_path = os.path.join('db', db_name)
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    cur.execute("update users set first_name=?, last_name=?, phone_number=? where id=?", (first_name, last_name, phone_number, update_id,))
-    conn.commit()
+    if not (update_id or first_name or last_name or phone_number):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    user.updateNameAndPhoneById(first_name, last_name, phone_number, update_id)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),
@@ -223,12 +183,10 @@ def update_mfa(update_id):
     mfa = content.get("mfa")
     update_id = int(update_id)
 
-    # Save the data in db
-    db_path = os.path.join('db', db_name)
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-    cur.execute("update users set mfa=? where id=?", (mfa, update_id,))
-    conn.commit()
+    if not (update_id or mfa):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    user.updateMFAById(mfa, update_id)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),
@@ -236,7 +194,6 @@ def update_mfa(update_id):
         mimetype='application/json'
     )
     return response
-
 
 
 @app.errorhandler(404)
@@ -247,4 +204,4 @@ def page_not_found(e):
 # A method that runs the application server.
 if __name__ == "__main__":
     # Threaded option to enable multiple instances for multiple user access support
-    app.run(debug=False, threaded=True, port=5000)
+    app.run(debug=False, threaded=True, port=os.getenv('PORT'))

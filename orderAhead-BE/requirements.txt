@@ -8,3 +8,4 @@ Werkzeug==0.16.0
 flask_jwt_extended
 Flask-SQLAlchemy
 Flask-Migrate
+Flask-Mail
