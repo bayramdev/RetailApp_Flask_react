@@ -1,4 +1,5 @@
 from passlib.hash import pbkdf2_sha256 as sha256
+from random import randint
 
 
 def generate_hash(password):
@@ -14,3 +15,7 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
+
+def get_verification_code():
+    return randint(1000000, 9999999)

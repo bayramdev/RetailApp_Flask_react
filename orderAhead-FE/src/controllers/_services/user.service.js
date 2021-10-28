@@ -28,8 +28,10 @@ function login(email, password, confirm) {
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('userId', user.data);
-            localStorage.setItem('token', user.token);
+            if (user.status) {
+                localStorage.setItem('userId', user.data);
+                localStorage.setItem('token', user.token);
+            }
 
             return user;
         });
@@ -65,7 +67,8 @@ function emailVerify(email, verifyCode, password) {
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
 }
 
 function getAll() {

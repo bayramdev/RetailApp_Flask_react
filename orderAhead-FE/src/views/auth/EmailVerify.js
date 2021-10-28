@@ -63,18 +63,20 @@ const EmailVerify = () => {
             userService.login(selectedUser.email, selectedUser.password, false)
                 .then(
                     result => {
-                        dispatch({type: 'set', openSignin: false})
-                        dispatch({type: 'set', openSignup: false})
-                        dispatch({type: 'set', openEmailVerification: false})
-                        dispatch({type: 'set', isLogin: true})
-                        setSubmitting(false)
-                        if (result.role) {
-                          successNotification('Welcome Adminstrator', 3000)
-                          dispatch({type: 'set', isAdmin: true})
-                          history.push('admin')
+                        if (result.status) {
+                          dispatch({type: 'set', openEmailVerification: false})
+                          dispatch({type: 'set', isLogin: true})
+                          setSubmitting(false)
+                          if (result.is_superuser) {
+                            successNotification('Welcome Adminstrator', 3000)
+                            dispatch({type: 'set', isAdmin: true})
+                            history.push('users')
+                          } else {
+                            successNotification('Welcome to Orderahead', 3000)
+                            history.push('home')
+                          }
                         } else {
-                          successNotification('Welcome to Unicash', 3000)
-                          history.push('dashboard')
+                          warningNotification('Failed', 3000)
                         }
                     },
                     error => {

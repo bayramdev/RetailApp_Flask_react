@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, jsonify
 import os
 import common
-from model import user
+from controller import user_controller
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -13,7 +13,6 @@ from flask_jwt_extended import (
 )
 from flask_cors import cross_origin
 from flask_mail import Mail, Message
-from random import randint, randrange
 
 # Init app
 app = Flask(__name__)
@@ -37,8 +36,6 @@ jwt = JWTManager(app)
 # create an instance of the Mail class
 mail = Mail(app)
 
-db_name = 'order.db'
-
 
 # Flask maps HTTP requests to Python functions.
 # The process of mapping URLs to functions is called routing.
@@ -58,30 +55,52 @@ def logIn():
     content = request.get_json()
     email = content.get("email")
     password = content.get("password")
+    # If true, do verify
+    confirm = content.get("confirm")
 
     if not (email or password):
         return jsonify({"status": False, "message": "Please input the email and password."})
 
-    result = user.getUserByEmail(email)
+    result = user_controller.getUserByEmail(email)
 
     if result:
         if common.verify_hash(password, result['password']):
-            access_token = create_access_token(identity=email)
-
             if result['is_active']:
-                verif_code = randint(1000000, 9999999)
-                # if result['mfa'] == 'email':
-                #     msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
-                #     msg.body = "Verification code:\n" + verif_code
-                #     mail.send(msg)
+                # Do 2mfa
+                if confirm:
+                    verif_code = common.get_verification_code()
+                    user_controller.updateVerificatonCOdeById(verif_code, result['id'])
 
-                response = app.response_class(
-                    response=json.dumps({"status": True, "message": "successfully logged in", "data": "{}".format(result['id']),
-                                         "isAdmin": result['is_superuser'], "token": access_token}),
-                    status=200,
-                    mimetype='application/json'
-                )
-                return response
+                    verif_message = "Please confirm your email to log in."
+                    # MFA with Email
+                    if result['mfa'] == 'email':
+                        msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
+                        msg.body = "Verification code:\n {}".format(verif_code)
+                        mail.send(msg)
+                    # MFA with phone
+                    else:
+                        verif_message = "Please confirm your phone to log in."
+                        print('Sending the sms using Twilio')
+
+                    access_token = create_access_token(identity=email)
+                    response = app.response_class(
+                        response=json.dumps(
+                            {"status": False, "message": verif_message}),
+                        status=200,
+                        mimetype='application/json'
+                    )
+                    return response
+
+                else:
+                    access_token = create_access_token(identity=email)
+                    response = app.response_class(
+                        response=json.dumps(
+                            {"status": True, "message": "successfully logged in", "data": "{}".format(result['id']),
+                             "isAdmin": result['is_superuser'], "token": access_token}),
+                        status=200,
+                        mimetype='application/json'
+                    )
+                    return response
             else:
                 response = app.response_class(
                     response=json.dumps({"status": False, "message": "Your account need to be active"}),
@@ -116,7 +135,7 @@ def register():
     if not (username or email or password):
         return jsonify({"status": False, "message": "Input error!"})
 
-    user.saveUserByUsernameAndEmailAndPassword(username, email, password)
+    user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully registered"}),
@@ -124,6 +143,37 @@ def register():
         mimetype='application/json'
     )
     return response
+
+
+@app.route('/users/verify', methods=["GET"], strict_slashes=False)
+@cross_origin()
+def verifyCode():
+    query_parameters = request.args
+
+    email = query_parameters.get('email')
+    verifyCode = query_parameters.get('verifyCode')
+
+    if not (email or verifyCode):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    result = user_controller.getUserByEmail(email)
+
+    if result and result['verif_code'] == verifyCode:
+        response = app.response_class(
+            response=json.dumps(
+                {"status": True, "message": "verified"}),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    else:
+        response = app.response_class(
+            response=json.dumps(
+                {"status": False, "message": "wrong code"}),
+            status=401,
+            mimetype='application/json'
+        )
+        return response
 
 
 # Get the user info by id
@@ -137,7 +187,7 @@ def getUserById():
     if not id:
         return jsonify({"status": False, "message": "Input error!"})
 
-    results = user.getUserById(id)
+    results = user_controller.getUserById(id)
 
     return jsonify(results)
 
@@ -147,7 +197,7 @@ def getUserById():
 @cross_origin()
 def users_all():
 
-    return jsonify(user.getAllUsers())
+    return jsonify(user_controller.getAllUsers())
 
 
 # Get update profile(first_name, last_name, phone_number)
@@ -164,7 +214,7 @@ def update_entry(update_id):
     if not (update_id or first_name or last_name or phone_number):
         return jsonify({"status": False, "message": "Input error!"})
 
-    user.updateNameAndPhoneById(first_name, last_name, phone_number, update_id)
+    user_controller.updateNameAndPhoneById(first_name, last_name, phone_number, update_id)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),
@@ -186,7 +236,7 @@ def update_mfa(update_id):
     if not (update_id or mfa):
         return jsonify({"status": False, "message": "Input error!"})
 
-    user.updateMFAById(mfa, update_id)
+    user_controller.updateMFAById(mfa, update_id)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),

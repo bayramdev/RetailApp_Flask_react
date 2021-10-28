@@ -78,13 +78,22 @@ const Signin = () => {
     userService.login(email, password, true)
       .then(
           result => {
-            dispatch({type: 'set', isLogin: true})
-            successNotification('Welcome to Orderahead', 3000)
-            if (result.is_superuser) {
-              dispatch({type: 'set', isAdmin: true})
-              history.push('users')
-            } 
-            else history.push('home')
+            if (result.status)  {
+              dispatch({type: 'set', isLogin: true})
+              successNotification('Welcome to Orderahead', 3000)
+              if (result.is_superuser) {
+                dispatch({type: 'set', isAdmin: true})
+                history.push('users')
+              } 
+              else history.push('home')
+            }
+            else {
+              dispatch({type: 'set', selectedUser: {
+                "email": email,
+                "password": password
+              }})
+              dispatch({type: 'set', openEmailVerification: true})
+            }
           },
           error => {
             warningNotification(error, 3000)

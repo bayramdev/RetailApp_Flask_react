@@ -6,7 +6,7 @@ db_name = os.getenv('DB_NAME', 'order.db')
 
 
 def getUserByEmail(email):
-    query = 'SELECT id, email, password, username, first_name, last_name, is_superuser, is_active, mfa FROM users WHERE'
+    query = 'SELECT id, email, password, username, first_name, last_name, is_superuser, is_active, mfa, verif_code FROM users WHERE'
     to_filter = []
 
     if email:
@@ -68,6 +68,15 @@ def updateNameAndPhoneById(first_name, last_name, phone_number, id):
     cur = conn.cursor()
     cur.execute("update users set first_name=?, last_name=?, phone_number=? where id=?",
                 (first_name, last_name, phone_number, id,))
+    conn.commit()
+
+
+def updateVerificatonCOdeById(verif_code, id):
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("update users set verif_code=? where id=?",
+                (verif_code, id,))
     conn.commit()
 
 
