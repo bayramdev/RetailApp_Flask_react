@@ -71,6 +71,16 @@ def updateNameAndPhoneById(first_name, last_name, phone_number, id):
     conn.commit()
 
 
+# Update for Admin
+def updateNameAndPhoneAndActiveById(first_name, last_name, phone_number, active, id):
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("update users set first_name=?, last_name=?, phone_number=?, is_active=? where id=?",
+                (first_name, last_name, phone_number, active, id,))
+    conn.commit()
+
+
 def updateVerificatonCOdeById(verif_code, id):
     db_path = os.path.join('db', db_name)
     conn = sqlite3.connect(db_path)

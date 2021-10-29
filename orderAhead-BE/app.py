@@ -215,12 +215,38 @@ def update_entry(update_id):
     first_name = content.get("first_name")
     last_name = content.get("last_name")
     phone_number = content.get("phone_number")
+
     update_id = int(update_id)
 
     if not (update_id or first_name or last_name or phone_number):
         return jsonify({"status": False, "message": "Input error!"})
 
     user_controller.updateNameAndPhoneById(first_name, last_name, phone_number, update_id)
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully updated"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+# Get update profile(first_name, last_name, phone_number, active and so on...)
+@app.route('/admin/users/<int:update_id>',  methods=['PUT'])
+@cross_origin()
+def update_for_admin(update_id):
+
+    content = request.get_json()
+    first_name = content.get("first_name")
+    last_name = content.get("last_name")
+    phone_number = content.get("phone_number")
+    is_active = content.get("is_active")
+    update_id = int(update_id)
+
+    if not (update_id, first_name, last_name, phone_number, is_active):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    user_controller.updateNameAndPhoneAndActiveById(first_name, last_name, phone_number, is_active, update_id)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),

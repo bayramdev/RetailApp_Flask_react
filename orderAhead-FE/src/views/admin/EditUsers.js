@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
     CModal,
     CModalBody,
-    CButton
+    CButton,
+    CSelect
   } from '@coreui/react'
 import TextField from '@material-ui/core/TextField';
 import {
@@ -56,7 +57,10 @@ const EditUser = () => {
 
   const onSubmit = () => {
       if (selectedUser) {
-            userService.update(selectedUser).then(
+            userService.updateForAdmin({
+                ...selectedUser,
+                "is_active": activeState
+            }).then(
               result => {
                     successNotification("Successfully updated", 3000);
                     dispatch({type: 'set', editUser: false})
@@ -70,6 +74,13 @@ const EditUser = () => {
   }
 
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const [activeState, setActiveState] = useState(0)
+
+  useEffect(() => {
+      if (selectedUser) {
+          setActiveState(selectedUser.is_active)
+      }
+  }, [selectedUser])
 
   return (
     <CModal 
@@ -147,6 +158,13 @@ const EditUser = () => {
                             variant="filled"
                         />
                 </div>
+            }
+
+            { selectedUser && 
+                <CSelect custom size="lg" className="p-1 mt-2 mb-2" name="selectLg" id="selectLg" value={activeState} onChange={(e) => setActiveState(e.target.value)}>
+                    <option value="0">Pending</option>
+                    <option value="1">Active</option>
+                </CSelect>                    
             }
             
             <div className="d-flex mx-3 px-3">

@@ -12,6 +12,7 @@ export const userService = {
     getAll,
     getById,
     update,
+    updateForAdmin,
     updateMfa,
     updatePassword,
     delete: _delete,
@@ -143,6 +144,16 @@ function update(user) {
     };
 
     return fetch(`${serverURL}/users/${user.id}`, requestOptions).then(handleResponse);;
+}
+
+function updateForAdmin(user) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
+
+    return fetch(`${serverURL}/admin/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
 function updateMfa(user) {
