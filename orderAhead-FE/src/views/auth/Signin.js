@@ -116,9 +116,9 @@ const Signin = () => {
                 <CCardBody>
                     <h2 className="text-left signin-header-title">Login<span className="text-success">.</span></h2>
                     <h5 className="text-left signin-header-desc">
-                    <div className="mt-1 text-left mb-0">
+                    {/* <div className="mt-1 text-left mb-0">
                       <h5 className="signin-header-desc">Doesn't have an account yet? <span className="span-underline" onClick={() => { history.push("signup") }}>Sign Up</span></h5>
-                    </div>
+                    </div> */}
                 </h5>
                     <div className="d-flex mt-3">
                         {

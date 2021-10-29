@@ -16,7 +16,7 @@ import {
     alpha,
     makeStyles,
   } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const useStylesReddit = makeStyles((theme) => ({
   root: {
@@ -54,6 +54,8 @@ const Signup = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  const { code } = useParams();
+
   const handleEnterKeyDown = (e) => {
     if (e.key === 'Enter') {
       onSubmit();
@@ -65,6 +67,7 @@ const Signup = () => {
     userService.register({
       // "first_name": firstName,
       // "last_name": lastName,
+      "code": code,
       "username": username,
       "email": email,
       "password": password,
@@ -104,6 +107,7 @@ const Signup = () => {
   const [errMessageForNewPassword, setErrMessageForNewPassword] = useState('')
   const [errMessageForConfirmPassword, setErrMessageForConfirmPassword] = useState('')
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true)
+  const [selectedRole, setSelectedRole] = useState('')
 
   useEffect(() => {
     if (username !== '' && email !== '' && password !== '' && errMessageForUsername === '' && errMessageForEmail === '' && errMessageForNewPassword === '' && 
@@ -114,8 +118,19 @@ const Signup = () => {
     }
   }, [username, email, password, confirmPassword])
 
+  useEffect(() => {
+    userService.confirmCodeBeforeSignup(code).then(
+      result => {
+        setSelectedRole(result.role)
+      },
+      err => {
+        history.push('/')
+      }
+    )
+  }, [code]);
+
   return (
-    <div className="c-app c-default-layout flex-row align-items-center" style={{backgroundImage: "url(img/login-bg.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+    <div className="c-app c-default-layout flex-row align-items-center" style={{backgroundImage: "url('../img/login-bg.jpg')", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md="8">
@@ -123,12 +138,12 @@ const Signup = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <div className="text-left pt-0 pb-0 mx-auto">
-                    <h2 className="text-left signin-header-title">Welcome<span className="text-success">.</span></h2>
-                    <h5 className="text-left signin-header-desc">
+                    <h2 className="text-left signin-header-title">Welcome<span className="text-success">({selectedRole})</span></h2>
+                    {/* <h5 className="text-left signin-header-desc">
                         <div className="mt-1 text-left">
                           <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => { history.push("signin") }}>Sign in</span></h5>
                         </div>
-                    </h5>
+                    </h5> */}
 
                         <div className="d-flex mt-3">
                             {
@@ -251,7 +266,7 @@ const Signup = () => {
                   </div>        
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%', backgroundImage: "url(img/logo.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%', backgroundImage: "url('../img/logo.jpg')", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
                 <CCardBody className="text-center">
                 </CCardBody>
               </CCard>

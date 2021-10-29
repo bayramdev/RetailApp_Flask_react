@@ -18,7 +18,8 @@ export const userService = {
 
     createLinkForSignup,
     getAllLinks,
-    sendLink
+    sendLink,
+    confirmCodeBeforeSignup
 };
 
 function login(email, password, confirm) {
@@ -112,6 +113,14 @@ function sendLink(user) {
     };
 
     return fetch(`${serverURL}/links/send`, requestOptions).then(handleResponse);
+}
+
+function confirmCodeBeforeSignup(code) {
+    const requestOptions = {
+        method: 'GET'
+    };
+
+    return fetch(`${serverURL}/confirmCodeBeforeSignup?code=${code}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {

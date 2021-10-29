@@ -25,3 +25,20 @@ def getAllLinks():
     return cur.execute(
         'SELECT * FROM links;').fetchall()
 
+
+def getLinkByCode(code):
+    query = 'SELECT * FROM links WHERE'
+    to_filter = []
+
+    if code:
+        query += ' code=? AND'
+        to_filter.append(code)
+
+    query = query[:-4] + ';'
+
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = common.dict_factory
+    cur = conn.cursor()
+
+    return cur.execute(query, to_filter).fetchone()

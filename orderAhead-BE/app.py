@@ -76,7 +76,7 @@ def logIn():
                     if result['mfa'] == 'email':
                         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
                         msg.body = "Verification code:\n {}".format(verif_code)
-                        mail.send(msg)
+                        # mail.send(msg)
                     # MFA with phone
                     else:
                         verif_message = "Please confirm your phone to log in."
@@ -128,14 +128,20 @@ def register():
         return jsonify({"status": False, "message": "Input error!"})
 
     content = request.get_json()
+    code = content.get("code")
     username = content.get("username")
     email = content.get("email")
     password = content.get("password")
 
-    if not (username or email or password):
+    if not (username, email, password, code):
         return jsonify({"status": False, "message": "Input error!"})
 
-    user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password)
+    role_info = link_controller.getLinkByCode(code)
+
+    if not role_info:
+        return jsonify({"status": False, "message": "Invalid Access"})
+
+    user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password, role_info['level'], role_info['role'])
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully registered"}),
@@ -309,6 +315,30 @@ def sendLink():
         mimetype='application/json'
     )
     return response
+
+
+# Get the user info by id
+@app.route('/confirmCodeBeforeSignup', methods=['GET'])
+@cross_origin()
+def confirmCodeBeforeSignup():
+    query_parameters = request.args
+
+    code = query_parameters.get('code')
+
+    if not code:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    result = link_controller.getLinkByCode(code)
+
+    if result:
+        return jsonify(result)
+    else:
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Not found"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
 
 @app.errorhandler(404)

@@ -23,12 +23,12 @@ def getUserByEmail(email):
     return cur.execute(query, to_filter).fetchone()
 
 
-def saveUserByUsernameAndEmailAndPassword(userName, email, password):
+def saveUserByUsernameAndEmailAndPassword(userName, email, password, level, role):
     # Save the data in db
     db_path = os.path.join('db', db_name)
     conn = sqlite3.connect(db_path)
-    query = f'INSERT INTO users (username, email, password) \
-                  VALUES ("{userName}", "{email}", "{common.generate_hash(password)}");'
+    query = f'INSERT INTO users (username, email, password, is_superuser, role) \
+                  VALUES ("{userName}", "{email}", "{common.generate_hash(password)}", "{level}", "{role}");'
 
     cur = conn.cursor()
     cur.execute(query)
