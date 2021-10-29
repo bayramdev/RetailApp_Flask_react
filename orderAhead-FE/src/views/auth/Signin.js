@@ -86,7 +86,7 @@ const Signin = () => {
             if (result.status)  {
               dispatch({type: 'set', isLogin: true})
               successNotification('Welcome to Orderahead', 3000)
-              if (result.is_superuser) {
+              if (result.is_superuser === 1) {
                 dispatch({type: 'set', isAdmin: true})
                 history.push('users')
               } 

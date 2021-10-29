@@ -76,7 +76,7 @@ def logIn():
                     if result['mfa'] == 'email':
                         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
                         msg.body = "Verification code:\n {}".format(verif_code)
-                        # mail.send(msg)
+                        mail.send(msg)
                     # MFA with phone
                     else:
                         verif_message = "Please confirm your phone to log in."

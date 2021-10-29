@@ -67,7 +67,7 @@ const EmailVerify = () => {
                           dispatch({type: 'set', openEmailVerification: false})
                           dispatch({type: 'set', isLogin: true})
                           setSubmitting(false)
-                          if (result.is_superuser) {
+                          if (result.is_superuser === 1) {
                             successNotification('Welcome Adminstrator', 3000)
                             dispatch({type: 'set', isAdmin: true})
                             history.push('users')
