@@ -5,11 +5,7 @@ import {
     CCardHeader,
     CCol,
     CRow,
-    CButton,
-    CInputGroup,
-    CInputGroupAppend,
-    CInputGroupText,
-    CInput
+    CButton
 } from '@coreui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';

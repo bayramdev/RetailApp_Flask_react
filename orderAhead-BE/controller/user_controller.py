@@ -36,7 +36,7 @@ def saveUserByUsernameAndEmailAndPassword(userName, email, password, level, role
 
 
 def getUserById(id):
-    query = 'SELECT id, first_name, last_name, is_active, is_superuser, role, email, phone_number, username, mfa FROM users WHERE'
+    query = 'SELECT id, first_name, password, last_name, is_active, is_superuser, role, email, phone_number, username, mfa FROM users WHERE'
     to_filter = []
 
     if id:
@@ -104,4 +104,12 @@ def updateMFAById(mfa, id):
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
     cur.execute("update users set mfa=? where id=?", (mfa, id,))
+    conn.commit()
+
+
+def deleteAccount(user_id):
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("delete from users where id=?", (user_id,))
     conn.commit()

@@ -354,6 +354,67 @@ def update_mfa(update_id):
     return response
 
 
+# Update new password
+@app.route('/users/updatePassword/<int:update_id>',  methods=['PUT'])
+@cross_origin()
+def update_new_password(update_id):
+
+    content = request.get_json()
+    oldPassword = content.get("oldPassword")
+    password = content.get("password")
+
+    update_id = int(update_id)
+
+    if not (update_id, oldPassword, password):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    result = user_controller.getUserById(update_id)
+
+    if not result:
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Not found the user"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
+
+    if common.verify_hash(oldPassword, result['password']):
+        user_controller.updatePasswordByEmail(email=result['email'], password=password)
+        response = app.response_class(
+            response=json.dumps({"status": True, "message": "successfully new password was updated"}),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    else:
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Password is incorrect."}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
+
+
+# Delete the account
+@app.route('/users/<int:delete_id>',  methods=['DELETE'])
+@cross_origin()
+def delete_account(delete_id):
+
+    delete_id = int(delete_id)
+
+    if not (delete_id):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    user_controller.deleteAccount(delete_id)
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully deleted"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
 # Create Link
 @app.route('/link/create', methods=["POST"], strict_slashes=False)
 @cross_origin()
