@@ -76,7 +76,7 @@ def logIn():
                     if result['mfa'] == 'email':
                         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
                         msg.body = "Verification code:\n {}".format(verif_code)
-                        mail.send(msg)
+                        # mail.send(msg)
                     # MFA with phone
                     else:
                         verif_message = "Please confirm your phone to log in."
@@ -142,6 +142,73 @@ def register():
         return jsonify({"status": False, "message": "Invalid Access"})
 
     user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password, role_info['level'], role_info['role'])
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully registered"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+@app.route('/users/forgotPasswordToConfirmEmail', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def forgotPasswordToConfirmEmail():
+    # Receives the data in JSON format in a HTTP POST request
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+    email = content.get("email")
+
+    if not email:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    result = user_controller.getUserByEmail(email)
+    if result:
+        verif_code = common.get_verification_code()
+        user_controller.updateVerificatonCOdeById(verif_code, result['id'])
+
+        msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
+        msg.body = "If you forgot the password, please input the verification code:\n {}".format(verif_code)
+        # mail.send(msg)
+
+        response = app.response_class(
+            response=json.dumps({"status": True}),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    else:
+        response = app.response_class(
+            response=json.dumps({"status": False}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
+
+
+@app.route('/users/forgotPassword', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def forgotPassword():
+    # Receives the data in JSON format in a HTTP POST request
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+    code = content.get("code")
+    email = content.get("email")
+    password = content.get("password")
+
+    if not (email, password, code):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    result = user_controller.getUserByEmail(email)
+
+    if not result or result['verif_code'] != code:
+        return jsonify({"status": False, "message": "Email or Verification code is incorrect."})
+
+    user_controller.updatePasswordByEmail(email=email, password=password)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully registered"}),

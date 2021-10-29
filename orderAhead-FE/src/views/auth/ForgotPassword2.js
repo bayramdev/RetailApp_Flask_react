@@ -84,9 +84,13 @@ const Signup = () => {
     })
         .then(
             user => { 
-                successNotification("Your password is changed successfully.", 3000);
-                onClose()
-                dispatch({type: 'set', openSignin: true})
+                if (user.status) {
+                  successNotification("Your password is changed successfully.", 3000);
+                  onClose()
+                }
+                else {
+                  warningNotification(user.message, 3000);
+                }
             },
             error => {
                 warningNotification(error, 3000);
@@ -95,11 +99,9 @@ const Signup = () => {
   }
 
   const onClose = () => {
-    dispatch({type: 'set', openSignup: false})
     dispatch({type: 'set', openEmailVerification: false})
     dispatch({type: 'set', forgotPassword1: false})
     dispatch({type: 'set', forgotPassword2: false})
-    dispatch({type: 'set', openSignin: false})
   }
 
 //   useEffect(() => {
@@ -201,12 +203,6 @@ const Signup = () => {
                 <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
                     <h3>Reset your password</h3>
                 </CButton>
-            </div>
-            <div className="mt-1 text-center">
-              <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => {
-                onClose()
-                dispatch({type: 'set', openSignin: true})
-                }}>Sign in</span></h5>
             </div>
       </CWidgetSimple>
     </>

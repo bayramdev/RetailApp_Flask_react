@@ -54,11 +54,9 @@ const ForgotPassword = () => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true)
 
   const onClose = () => {
-    dispatch({type: 'set', openSignup: false})
     dispatch({type: 'set', openEmailVerification: false})
     dispatch({type: 'set', forgotPassword1: false})
     dispatch({type: 'set', forgotPassword2: false})
-    dispatch({type: 'set', openSignin: false})
   }
 
   useEffect(() => {
@@ -129,13 +127,6 @@ const ForgotPassword = () => {
                 <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
                     <h3>Confirm</h3>
                 </CButton>
-            </div>
-            
-            <div className="mt-1 text-center">
-              <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => {
-                onClose()
-                dispatch({type: 'set', openSignin: true})
-                }}>Sign in</span></h5>
             </div>
       </CWidgetSimple>
     </>
