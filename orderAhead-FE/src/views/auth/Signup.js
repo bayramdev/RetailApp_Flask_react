@@ -164,6 +164,10 @@ const Signup = () => {
                                       if (!username || username === '') setErrMessageForUsername('Username is required')
                                       else setErrMessageForUsername('')
                                     }}
+                                    onKeyUp={() => {
+                                      if (!username || username === '') setErrMessageForUsername('Username is required')
+                                      else setErrMessageForUsername('')
+                                    }}
                                     onChange={(e) => {
                                       setUsername(e.target.value); }}
                                 />
@@ -186,6 +190,12 @@ const Signup = () => {
                                     variant="filled"
                                     onKeyDown={handleEnterKeyDown}
                                     onBlur={() => {
+                                      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                      if (!email || email === '') setErrMessageForEmail('Email is required')
+                                      else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
+                                      else setErrMessageForEmail('')
+                                    }}
+                                    onKeyUp={() => {
                                       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                                       if (!email || email === '') setErrMessageForEmail('Email is required')
                                       else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
@@ -219,6 +229,12 @@ const Signup = () => {
                                       else if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/)) setErrMessageForNewPassword('Password must contain: numbers, uppercase and lowercase letters');
                                       else setErrMessageForNewPassword('')
                                     }}
+                                    onKeyUp={() => {
+                                      if (!password || password === '') setErrMessageForNewPassword('Password is required')
+                                      else if (password.length < 6) setErrMessageForNewPassword('Password hat to be at least 6 characters!')
+                                      else if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/)) setErrMessageForNewPassword('Password must contain: numbers, uppercase and lowercase letters');
+                                      else setErrMessageForNewPassword('')
+                                    }}
                                     onChange={(e) => { setPassword(e.target.value); }}
                                 />
                             }
@@ -245,6 +261,11 @@ const Signup = () => {
                                       else if (confirmPassword !== password) setErrMessageForConfirmPassword('Passwords must match')
                                       else setErrMessageForConfirmPassword('')
                                     }}
+                                    onKeyUp={() => {
+                                      if (!confirmPassword || confirmPassword === '') setErrMessageForConfirmPassword('Password confirmation is required!')
+                                      else if (confirmPassword !== password) setErrMessageForConfirmPassword('Passwords must match')
+                                      else setErrMessageForConfirmPassword('')
+                                    }}
                                     onChange={(e) => { setConfirmPassword(e.target.value); }}
                                 />
                             }
@@ -259,7 +280,7 @@ const Signup = () => {
                         </div> */}
 
                         <div className="d-flex mt-1">
-                            <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled || isSubmitting}>
+                            <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={isSubmitting}>
                                 <h3>SIGN UP</h3>
                             </CButton>
                         </div>

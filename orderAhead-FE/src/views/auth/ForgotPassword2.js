@@ -140,6 +140,10 @@ const Signup = () => {
                           if (!confirmationCode || confirmationCode === '') setErrMessageForConfirmationCode('Full name is required')
                           else setErrMessageForConfirmationCode('')
                         }}
+                        onKeyUp={() => {
+                          if (!confirmationCode || confirmationCode === '') setErrMessageForConfirmationCode('Full name is required')
+                          else setErrMessageForConfirmationCode('')
+                        }}
                         onChange={(e) => {
                           setConfirmationCode(e.target.value); }}
                     />
@@ -168,6 +172,12 @@ const Signup = () => {
                           else if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/)) setErrMessageForNewPassword('Password must contain: numbers, uppercase and lowercase letters');
                           else setErrMessageForNewPassword('')
                         }}
+                        onKeyUp={() => {
+                          if (!password || password === '') setErrMessageForNewPassword('Password is required')
+                          else if (password.length < 6) setErrMessageForNewPassword('Password hat to be at least 6 characters!')
+                          else if (!password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/)) setErrMessageForNewPassword('Password must contain: numbers, uppercase and lowercase letters');
+                          else setErrMessageForNewPassword('')
+                        }}
                         onChange={(e) => { setPassword(e.target.value); }}
                     />
                 }
@@ -190,6 +200,11 @@ const Signup = () => {
                         helperText={errMessageForConfirmPassword && errMessageForConfirmPassword !== '' ? errMessageForConfirmPassword : '' }
                         error={errMessageForConfirmPassword && errMessageForConfirmPassword !== ''}
                         onBlur={() => {
+                          if (!confirmPassword || confirmPassword === '') setErrMessageForConfirmPassword('Password confirmation is required!')
+                          else if (confirmPassword !== password) setErrMessageForConfirmPassword('Passwords must match')
+                          else setErrMessageForConfirmPassword('')
+                        }}
+                        onKeyUp={() => {
                           if (!confirmPassword || confirmPassword === '') setErrMessageForConfirmPassword('Password confirmation is required!')
                           else if (confirmPassword !== password) setErrMessageForConfirmPassword('Passwords must match')
                           else setErrMessageForConfirmPassword('')

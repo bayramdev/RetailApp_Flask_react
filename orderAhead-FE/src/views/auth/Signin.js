@@ -141,6 +141,12 @@ const Signin = () => {
                                   else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
                                   else setErrMessageForEmail('')
                                 }}
+                                onKeyUp={() => {
+                                  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                  if (!email || email === '') setErrMessageForEmail('Email is required')
+                                  else if (!re.test(String(email).toLowerCase())) setErrMessageForEmail('Invalid email address')
+                                  else setErrMessageForEmail('')
+                                }}
                                 onChange={(e) => {
                                   setEmail(e.target.value); }}
                             />

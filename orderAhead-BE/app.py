@@ -14,6 +14,7 @@ from flask_jwt_extended import (
 from flask_cors import cross_origin
 from flask_mail import Mail, Message
 
+LOCAL = False
 # Init app
 app = Flask(__name__)
 
@@ -76,7 +77,8 @@ def logIn():
                     if result['mfa'] == 'email':
                         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
                         msg.body = "Verification code:\n {}".format(verif_code)
-                        mail.send(msg)
+                        if not LOCAL:
+                            mail.send(msg)
                     # MFA with phone
                     else:
                         verif_message = "Please confirm your phone to log in."
@@ -116,7 +118,13 @@ def logIn():
             )
             return response
     else:
-        return jsonify({"status": False, "message": "Email or password is not correct."})
+        response = app.response_class(
+            response=json.dumps(
+                {"status": False, "message": "Email or password is not correct."}),
+            status=401,
+            mimetype='application/json'
+        )
+        return response
 
 
 # Register
@@ -171,7 +179,8 @@ def forgotPasswordToConfirmEmail():
 
         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
         msg.body = "If you forgot the password, please input the verification code:\n {}".format(verif_code)
-        mail.send(msg)
+        if not LOCAL:
+            mail.send(msg)
 
         response = app.response_class(
             response=json.dumps({"status": True}),
@@ -400,7 +409,8 @@ def sendLink():
 
     msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=sendEmail)
     msg.body = "Please input the following URL to sign up:\n " + code
-    mail.send(msg)
+    if not LOCAL:
+        mail.send(msg)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully sent"}),
