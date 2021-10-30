@@ -14,7 +14,7 @@ from flask_jwt_extended import (
 from flask_cors import cross_origin
 from flask_mail import Mail, Message
 
-LOCAL = False
+LOCAL = True
 # Init app
 app = Flask(__name__)
 
