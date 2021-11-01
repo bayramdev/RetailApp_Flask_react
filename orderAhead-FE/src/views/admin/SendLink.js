@@ -99,7 +99,7 @@ const SendLink = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
-                            onChange={(e) => setSendEmail(sendEmail)}
+                            onChange={(e) => setSendEmail(e.target.value)}
                             variant="filled"
                         />
                 </div>
