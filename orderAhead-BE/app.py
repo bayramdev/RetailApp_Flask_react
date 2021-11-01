@@ -83,7 +83,7 @@ def logIn():
                             mail.send(msg)
 
                         else:
-                            server = smtplib.SMTP("localhost", 1025)
+                            server = smtplib.SMTP("localhost", 10255)
                             server.sendmail(SENDER_EMAIL, [email], msg.as_string())
                             server.quit()
 
@@ -190,7 +190,7 @@ def forgotPasswordToConfirmEmail():
         if not LOCAL:
             mail.send(msg)
         else:
-            server = smtplib.SMTP("localhost", 1025)
+            server = smtplib.SMTP("localhost", 10255)
             server.sendmail(SENDER_EMAIL, [email], msg.as_string())
             server.quit()
 
@@ -485,7 +485,7 @@ def sendLink():
     if not LOCAL:
         mail.send(msg)
     else:
-        server = smtplib.SMTP("localhost", 1025)
+        server = smtplib.SMTP("localhost", 10255)
         server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
         server.quit()
 
