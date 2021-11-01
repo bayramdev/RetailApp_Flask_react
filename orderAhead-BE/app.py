@@ -14,18 +14,18 @@ from flask_jwt_extended import (
 from flask_cors import cross_origin
 from flask_mail import Mail, Message
 
-LOCAL = True
+LOCAL = False
 # Init app
 app = Flask(__name__)
 
 # Application Configuration
-SENDER_EMAIL = os.getenv('SEND_EMAIL')
-app.config['MAIL_SERVER'] = os.getenv('EMAIL_HOST')
-app.config['MAIL_PORT'] = os.getenv('EMAIL_PORT')
-app.config['MAIL_USERNAME'] = os.getenv('EMAIL_HOST_USER')
-app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_HOST_PASSWORD')
-app.config['MAIL_USE_TLS'] = os.getenv('EMAIL_USE_TLS')
-app.config['MAIL_USE_SSL'] = os.getenv('EMAIL_USE_SSL')
+SENDER_EMAIL = os.getenv('SEND_EMAIL', 'code.lover1110@gmx.com')
+app.config['MAIL_SERVER'] = os.getenv('EMAIL_HOST', 'smtp.mailgun.org')
+app.config['MAIL_PORT'] = int(os.getenv('EMAIL_PORT', 587))
+app.config['MAIL_USERNAME'] = os.getenv('EMAIL_HOST_USER', 'postmaster@violetteam.com')
+app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_HOST_PASSWORD', '0f219f465ea3d17caa802d481f913aa0-156db0f1-19949148')
+app.config['MAIL_USE_TLS'] = os.getenv('EMAIL_USE_TLS', True)
+app.config['MAIL_USE_SSL'] = os.getenv('EMAIL_USE_SSL', False)
 
 app.config['SECRET_KEY'] = 'OrderaheadSecretKey'
 app.config['JWT_SECRET_KEY'] = 'SecretSecureKy'
