@@ -14,7 +14,9 @@ from flask_jwt_extended import (
 from flask_cors import cross_origin
 from flask_mail import Mail, Message
 
-LOCAL = False
+import smtplib
+
+LOCAL = True
 # Init app
 app = Flask(__name__)
 
@@ -79,6 +81,12 @@ def logIn():
                         msg.body = "Verification code:\n {}".format(verif_code)
                         if not LOCAL:
                             mail.send(msg)
+
+                        else:
+                            server = smtplib.SMTP("localhost", 1025)
+                            server.sendmail(SENDER_EMAIL, [email], msg.as_string())
+                            server.quit()
+
                     # MFA with phone
                     else:
                         verif_message = "Please confirm your phone to log in."
@@ -181,6 +189,10 @@ def forgotPasswordToConfirmEmail():
         msg.body = "If you forgot the password, please input the verification code:\n {}".format(verif_code)
         if not LOCAL:
             mail.send(msg)
+        else:
+            server = smtplib.SMTP("localhost", 1025)
+            server.sendmail(SENDER_EMAIL, [email], msg.as_string())
+            server.quit()
 
         response = app.response_class(
             response=json.dumps({"status": True}),
@@ -472,6 +484,10 @@ def sendLink():
     msg.body = "Please input the following URL to sign up:\n " + code
     if not LOCAL:
         mail.send(msg)
+    else:
+        server = smtplib.SMTP("localhost", 1025)
+        server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
+        server.quit()
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully sent"}),
