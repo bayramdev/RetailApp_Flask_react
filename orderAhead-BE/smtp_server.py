@@ -17,7 +17,7 @@ class CustomSMTPServer(smtpd.SMTPServer):
 class SMTPServer():
 
   def __init__(self):
-    self.port = 10255
+    self.port = 25
 
   def start(self):
     '''Start listening on self.port'''
@@ -44,5 +44,5 @@ class SMTPServer():
 
 
 if __name__ == '__main__':
-  server = CustomSMTPServer(('0.0.0.0', 10255), None)
+  server = CustomSMTPServer(('0.0.0.0', 25), None)
   asyncore.loop()

@@ -10,7 +10,7 @@ def send_email(sender, recipient, content):
   msg['From'] = email.utils.formataddr(('From ', sender))
   msg['Subject'] = content
 
-  client = smtplib.SMTP('127.0.0.1', 10255)
+  client = smtplib.SMTP('127.0.0.1', 25)
   client.set_debuglevel(True) # show communication with the server
 
   try:
