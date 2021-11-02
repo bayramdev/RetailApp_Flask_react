@@ -15,6 +15,9 @@ from flask_cors import cross_origin
 from flask_mail import Mail, Message
 
 import smtplib
+from smtp_client import send_email
+from smtp_server import SMTPServer
+
 
 LOCAL = True
 # Init app
@@ -83,9 +86,15 @@ def logIn():
                             mail.send(msg)
 
                         else:
-                            server = smtplib.SMTP("localhost", 10255)
-                            server.sendmail(SENDER_EMAIL, [email], msg.as_string())
-                            server.quit()
+                            # server = smtplib.SMTP("localhost", 10255)
+                            # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
+                            # server.quit()
+                            server = SMTPServer()
+                            server.start()
+                            try:
+                                send_email(SENDER_EMAIL, email, "Verification code:\n {}".format(verif_code))
+                            finally:
+                                server.stop()
 
                     # MFA with phone
                     else:
@@ -190,9 +199,15 @@ def forgotPasswordToConfirmEmail():
         if not LOCAL:
             mail.send(msg)
         else:
-            server = smtplib.SMTP("localhost", 10255)
-            server.sendmail(SENDER_EMAIL, [email], msg.as_string())
-            server.quit()
+            # server = smtplib.SMTP("localhost", 10255)
+            # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
+            # server.quit()
+            server = SMTPServer()
+            server.start()
+            try:
+                send_email(SENDER_EMAIL, email, "If you forgot the password, please input the verification code:\n {}".format(verif_code))
+            finally:
+                server.stop()
 
         response = app.response_class(
             response=json.dumps({"status": True}),
@@ -485,9 +500,15 @@ def sendLink():
     if not LOCAL:
         mail.send(msg)
     else:
-        server = smtplib.SMTP("localhost", 10255)
-        server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
-        server.quit()
+        # server = smtplib.SMTP("localhost", 10255)
+        # server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
+        # server.quit()
+        server = SMTPServer()
+        server.start()
+        try:
+            send_email(SENDER_EMAIL, sendEmail, "Please input the following URL to sign up:\n " + code)
+        finally:
+            server.stop()
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully sent"}),
