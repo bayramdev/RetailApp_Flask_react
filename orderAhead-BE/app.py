@@ -18,19 +18,31 @@ import smtplib
 from smtp_client import send_email
 from smtp_server import SMTPServer
 
-
 LOCAL = True
 # Init app
 app = Flask(__name__)
 
+mail_settings = {
+    "MAIL_SERVER": 'smtp.gmail.com',
+    "MAIL_PORT": 465,
+    "MAIL_USE_TLS": False,
+    "MAIL_USE_SSL": True,
+    "MAIL_USERNAME": 'your@gmail.com',
+    "MAIL_PASSWORD": 'password'
+}
+
+app.config.update(mail_settings)
+mail = Mail(app)
+
+
 # Application Configuration
 SENDER_EMAIL = os.getenv('SEND_EMAIL', 'code.lover1110@gmx.com')
-app.config['MAIL_SERVER'] = os.getenv('EMAIL_HOST', 'smtp.mailgun.org')
-app.config['MAIL_PORT'] = int(os.getenv('EMAIL_PORT', 587))
-app.config['MAIL_USERNAME'] = os.getenv('EMAIL_HOST_USER', 'postmaster@violetteam.com')
-app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_HOST_PASSWORD', '0f219f465ea3d17caa802d481f913aa0-156db0f1-19949148')
-app.config['MAIL_USE_TLS'] = os.getenv('EMAIL_USE_TLS', True)
-app.config['MAIL_USE_SSL'] = os.getenv('EMAIL_USE_SSL', False)
+# app.config['MAIL_SERVER'] = os.getenv('EMAIL_HOST', 'smtp.mailgun.org')
+# app.config['MAIL_PORT'] = int(os.getenv('EMAIL_PORT', 587))
+# app.config['MAIL_USERNAME'] = os.getenv('EMAIL_HOST_USER', 'postmaster@violetteam.com')
+# app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_HOST_PASSWORD', '0f219f465ea3d17caa802d481f913aa0-156db0f1-19949148')
+# app.config['MAIL_USE_TLS'] = os.getenv('EMAIL_USE_TLS', True)
+# app.config['MAIL_USE_SSL'] = os.getenv('EMAIL_USE_SSL', False)
 
 app.config['SECRET_KEY'] = 'OrderaheadSecretKey'
 app.config['JWT_SECRET_KEY'] = 'SecretSecureKy'
@@ -89,12 +101,13 @@ def logIn():
                             # server = smtplib.SMTP("localhost", 10255)
                             # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
                             # server.quit()
-                            server = SMTPServer()
-                            server.start()
-                            try:
-                                send_email(SENDER_EMAIL, email, "Verification code:\n {}".format(verif_code))
-                            finally:
-                                server.stop()
+
+                            msg = Message(subject="Welcome to Order ahead",
+                                          sender=SENDER_EMAIL,
+                                          recipients=[email],  # replace with your email for testing
+                                          body="Verification code:\n {}".format(verif_code))
+
+                            mail.send(msg)
 
                     # MFA with phone
                     else:
@@ -202,12 +215,18 @@ def forgotPasswordToConfirmEmail():
             # server = smtplib.SMTP("localhost", 10255)
             # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
             # server.quit()
-            server = SMTPServer()
-            server.start()
-            try:
-                send_email(SENDER_EMAIL, email, "If you forgot the password, please input the verification code:\n {}".format(verif_code))
-            finally:
-                server.stop()
+            # server = SMTPServer()
+            # server.start()
+            # try:
+            #     send_email(SENDER_EMAIL, email, "If you forgot the password, please input the verification code:\n {}".format(verif_code))
+            # finally:
+            #     server.stop()
+            msg = Message(subject="Welcome to Order ahead",
+                          sender=SENDER_EMAIL,
+                          recipients=[email],  # replace with your email for testing
+                          body="If you forgot the password, please input the verification code:\n {}".format(verif_code))
+
+            mail.send(msg)
 
         response = app.response_class(
             response=json.dumps({"status": True}),
@@ -503,12 +522,12 @@ def sendLink():
         # server = smtplib.SMTP("localhost", 10255)
         # server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
         # server.quit()
-        server = SMTPServer()
-        server.start()
-        try:
-            send_email(SENDER_EMAIL, sendEmail, "Please input the following URL to sign up:\n " + code)
-        finally:
-            server.stop()
+        msg = Message(subject="Welcome to Order ahead",
+                      sender=SENDER_EMAIL,
+                      recipients=[sendEmail],  # replace with your email for testing
+                      body="Please input the following URL to sign up:\n " + code)
+
+        mail.send(msg)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully sent"}),
