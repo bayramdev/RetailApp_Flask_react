@@ -96,7 +96,7 @@ const EmailVerify = () => {
   return (
     <>
       <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto">
-        <h3 className="text-center mb-2" style={{fontWeight: '400', fontSize: '24px'}}>Email Verification</h3>
+        <h2 className="text-center mb-3 mt-2" style={{fontWeight: '400', fontSize: '24px', fontFamily: 'PoppinsR'}}>Email Verification</h2>
         <Formik
             initialValues={initialValues}
             validate={validate(validationSchema)}
@@ -121,7 +121,7 @@ const EmailVerify = () => {
                   <CCol>
                     <CForm onSubmit={handleSubmit} noValidate name='loginForm' className="text-left">
                       <CFormGroup>
-                            <CLabel htmlFor="verifyCode" style={{fontSize: '15px'}}>Enter the code.</CLabel>
+                            {/* <CLabel htmlFor="verifyCode" style={{fontSize: '15px'}}>Enter the code.</CLabel> */}
                             <CInput type="password"
                                     name="verifyCode"
                                     id="verifyCode"
@@ -134,11 +134,12 @@ const EmailVerify = () => {
                                     onBlur={handleBlur}
                                     value={values.verifyCode}/>
                             {/*<CInvalidFeedback>Required password containing at least: number, uppercase and lowercase letter, 8 characters</CInvalidFeedback>*/}
-                            <CInvalidFeedback>{errors.verifyCode}</CInvalidFeedback>
+                            <CInvalidFeedback style={{fontSize: '15px'}}>{errors.verifyCode}</CInvalidFeedback>
                       </CFormGroup>
                       <CFormGroup>
                         <CButton block type="submit" className="m-auto mt-3 btn-pill" size="lg" style={{
-                          fontSize: '20px'
+                          fontSize: '20px',
+                          fontFamily: 'PoppinsR'
                         }} color="info" disabled={isSubmitting || !isValid}>{isSubmitting ? 'Wait...' : 'Confirm'}</CButton>
                       </CFormGroup>
                     </CForm>
