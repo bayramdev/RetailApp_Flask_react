@@ -26,9 +26,15 @@ const AuthDialog = () => {
     <CModal 
         show={openEmailVerification || forgotPassword1 || forgotPassword2} 
         onClose={handleClose}
-        className="p-0 auth-modal"
+        className="p-0 auth-modal m-auto justify-content-center"
         centered
-        size={forgotPassword1 || forgotPassword2 ? '' : 'sm' }
+        // size={forgotPassword1 || forgotPassword2 ? '' : 'sm' }
+        style={{
+          borderRadius: "50px",
+          overflow: "hidden",
+          maxWidth: '450px',
+          margin: 'auto'
+        }}
         >
         <CModalBody className="p-0">
           <>

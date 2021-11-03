@@ -120,9 +120,9 @@ const Signin = () => {
 
   return (
     // backgroundImage: "url(img/login-bg.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'
-    <div className="c-app c-default-layout flex-row align-items-center bg-signin">
+    <div className="c-app flex-row align-items-center bg-signin">
       <CContainer>
-        <CRow className="justify-content-center">
+        <CRow>
           <CCol md="12">
             <CCardGroup className="m-auto" style={{
               borderRadius: "50px",
@@ -130,7 +130,7 @@ const Signin = () => {
               boxShadow:`${alpha("#6219D8", 0.1)} 0 0 0 20px`,
               maxWidth: '450px'
             }}>
-              <CCard className="p-3">
+              <CCard className="pt-3 pb-3">
                 <CCardBody>
                     <h2 className="text-center signin-header-title">Sign In</h2>
                     <h5 className="text-left signin-header-desc">

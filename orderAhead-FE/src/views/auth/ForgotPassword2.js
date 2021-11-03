@@ -13,7 +13,15 @@ import {
     makeStyles,
   } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import { InputAdornment } from '@material-ui/core';
 
+const useStyles = makeStyles(() => ({
+  noBorder: {
+    border: "none",
+    boxShadow: `${alpha("#E3EFFE", 0.9)} 3px 3px 1px 1px`,
+    borderRadius: '50px'
+  },
+}));
 const useStylesReddit = makeStyles((theme) => ({
   root: {
     border: "1px solid lightgray",
@@ -48,6 +56,8 @@ function RedditTextField(props) {
 
 const Signup = () => {
   const dispatch = useDispatch()
+  const classes = useStyles();
+
   const selectedUser = useSelector(state => state.selectedUser);
   const history = useHistory()
 
@@ -116,7 +126,7 @@ const Signup = () => {
   return (
     <>
       <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto">
-        <div className="float-right" style={{marginRight: '-20px'}}>
+        <div className="float-right" style={{marginRight: '-10px'}}>
           <CImg src={'img/icons8-close.png'} style={{cursor: 'pointer'}} onClick={() => onClose()}></CImg>
         </div>
         <h2 className="text-left signin-header-title">Forgot password?</h2>
@@ -125,7 +135,7 @@ const Signup = () => {
                 {
                     <RedditTextField
                         id="verify-code"
-                        label="Confirmation code"
+                        label=""
                         placeholder="Type the confirmation code."
                         value={confirmationCode}
                         helperText={errMessageForConfirmationCode && errMessageForConfirmationCode !== '' ? errMessageForConfirmationCode : '' }
@@ -134,7 +144,15 @@ const Signup = () => {
                             shrink: true,
                         }}
                         fullWidth
-                        variant="filled"
+                        InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <CImg src={'../img/email.png'} style={{width: '27px'}} />
+                                        </InputAdornment>
+                                      ),
+                                      classes:{notchedOutline:classes.noBorder}
+                                    }}
+                        variant="outlined"
                         onKeyDown={handleEnterKeyDown}
                         onBlur={() => {
                           if (!confirmationCode || confirmationCode === '') setErrMessageForConfirmationCode('Full name is required')
@@ -154,7 +172,7 @@ const Signup = () => {
                 {
                     <RedditTextField
                         id="password"
-                        label="Password"
+                        label=""
                         placeholder="Type your password"
                         value={password}
                         InputLabelProps={{
@@ -162,7 +180,15 @@ const Signup = () => {
                         }}
                         type="password"
                         fullWidth
-                        variant="filled"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <CImg src={'../img/password.png'} style={{width: '27px'}} />
+                            </InputAdornment>
+                          ),
+                          classes:{notchedOutline:classes.noBorder}
+                        }}
+                        variant="outlined"
                         onKeyDown={handleEnterKeyDown}
                         helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
                         error={errMessageForNewPassword && errMessageForNewPassword !== ''}
@@ -187,7 +213,7 @@ const Signup = () => {
                 {
                     <RedditTextField
                         id="confirm-password"
-                        label="Repeat new password"
+                        label=""
                         placeholder="Repeat new password"
                         value={confirmPassword}
                         InputLabelProps={{
@@ -195,7 +221,15 @@ const Signup = () => {
                         }}
                         type="password"
                         fullWidth
-                        variant="filled"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <CImg src={'../img/password.png'} style={{width: '27px'}} />
+                            </InputAdornment>
+                          ),
+                          classes:{notchedOutline:classes.noBorder}
+                        }}
+                        variant="outlined"
                         onKeyDown={handleEnterKeyDown}
                         helperText={errMessageForConfirmPassword && errMessageForConfirmPassword !== '' ? errMessageForConfirmPassword : '' }
                         error={errMessageForConfirmPassword && errMessageForConfirmPassword !== ''}
@@ -214,9 +248,9 @@ const Signup = () => {
                 }
             </div>
 
-            <div className="d-flex mt-1">
-                <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
-                    <h3>Reset your password</h3>
+            <div className="m-auto text-center">
+                <CButton className="signin-button mt-3 btn-pill" size="lg" color="info" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
+                  Reset your password
                 </CButton>
             </div>
       </CWidgetSimple>
