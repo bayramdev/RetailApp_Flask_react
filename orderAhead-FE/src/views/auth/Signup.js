@@ -6,7 +6,8 @@ import {
   CCardGroup,
   CCol,
   CContainer,
-  CRow
+  CRow,
+  CImg
 } from '@coreui/react'
 import { useDispatch } from 'react-redux';
 import { userService } from '../../controllers/_services';
@@ -17,7 +18,15 @@ import {
     makeStyles,
   } from '@material-ui/core/styles';
 import { useHistory, useParams } from 'react-router-dom';
+import { InputAdornment } from '@material-ui/core';
 
+const useStyles = makeStyles(() => ({
+  noBorder: {
+    border: "none",
+    boxShadow: `${alpha("#E3EFFE", 0.9)} 3px 3px 1px 1px`,
+    borderRadius: '50px'
+  },
+}));
 const useStylesReddit = makeStyles((theme) => ({
   root: {
     border: "1px solid lightgray",
@@ -53,7 +62,7 @@ function RedditTextField(props) {
 const Signup = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-
+  const classes = useStyles();
   const { code } = useParams();
 
   const handleEnterKeyDown = (e) => {
@@ -130,15 +139,19 @@ const Signup = () => {
   }, [code]);
 
   return (
-    <div className="c-app c-default-layout flex-row align-items-center" style={{backgroundImage: "url('../img/login-bg.jpg')", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+    <div className="c-app c-default-layout flex-row align-items-center bg-signin">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md="8">
-            <CCardGroup>
-              <CCard className="p-4">
+            <CCardGroup style={{
+                borderRadius: "50px",
+                overflow: "hidden",
+                boxShadow:`${alpha("#6219D8", 0.1)} 0 0 0 20px`,
+              }}>
+              <CCard className="p-3">
                 <CCardBody>
                   <div className="text-left pt-0 pb-0 mx-auto">
-                    <h2 className="text-left signin-header-title">Welcome<span className="text-success">({selectedRole})</span></h2>
+                    <h2 className="text-center signin-header-title">Welcome to <span className="text-success">{selectedRole}</span></h2>
                     {/* <h5 className="text-left signin-header-desc">
                         <div className="mt-1 text-left">
                           <h5 className="signin-header-desc">Already have an account? <span className="span-underline" onClick={() => { history.push("signin") }}>Sign in</span></h5>
@@ -149,8 +162,8 @@ const Signup = () => {
                             {
                                 <RedditTextField
                                     id="user-name"
-                                    label="Username"
-                                    placeholder="Type username"
+                                    label=""
+                                    placeholder="Username"
                                     value={username}
                                     helperText={errMessageForUsername && errMessageForUsername !== '' ? errMessageForUsername : '' }
                                     error={errMessageForUsername && errMessageForUsername !== ''}
@@ -159,7 +172,15 @@ const Signup = () => {
                                     }}
                                     onKeyDown={handleEnterKeyDown}
                                     fullWidth
-                                    variant="filled"
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <CImg src={'../img/user.png'} style={{width: '27px'}} />
+                                        </InputAdornment>
+                                      ),
+                                      classes:{notchedOutline:classes.noBorder}
+                                    }}
+                                    variant="outlined"
                                     onBlur={() => {
                                       if (!username || username === '') setErrMessageForUsername('Username is required')
                                       else setErrMessageForUsername('')
@@ -178,8 +199,8 @@ const Signup = () => {
                             {
                                 <RedditTextField
                                     id="email"
-                                    label="Email"
-                                    placeholder="Type your email"
+                                    label=""
+                                    placeholder="E-mail"
                                     value={email}
                                     helperText={errMessageForEmail && errMessageForEmail !== '' ? errMessageForEmail : '' }
                                     error={errMessageForEmail && errMessageForEmail !== ''}
@@ -187,7 +208,15 @@ const Signup = () => {
                                         shrink: true,
                                     }}
                                     fullWidth
-                                    variant="filled"
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <CImg src={'../img/email.png'} style={{width: '27px'}} />
+                                        </InputAdornment>
+                                      ),
+                                      classes:{notchedOutline:classes.noBorder}
+                                    }}
+                                    variant="outlined"
                                     onKeyDown={handleEnterKeyDown}
                                     onBlur={() => {
                                       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -211,15 +240,23 @@ const Signup = () => {
                             {
                                 <RedditTextField
                                     id="password"
-                                    label="Password"
-                                    placeholder="Type your password"
+                                    label=""
+                                    placeholder="Password"
                                     value={password}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
                                     type="password"
                                     fullWidth
-                                    variant="filled"
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <CImg src={'../img/password.png'} style={{width: '27px'}} />
+                                        </InputAdornment>
+                                      ),
+                                      classes:{notchedOutline:classes.noBorder}
+                                    }}
+                                    variant="outlined"
                                     helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
                                     error={errMessageForNewPassword && errMessageForNewPassword !== ''}
                                     onKeyDown={handleEnterKeyDown}
@@ -244,15 +281,23 @@ const Signup = () => {
                             {
                                 <RedditTextField
                                     id="confirm-password"
-                                    label="Repeat new password"
-                                    placeholder="Repeat new password"
+                                    label=""
+                                    placeholder="Confirm password"
                                     value={confirmPassword}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
                                     type="password"
                                     fullWidth
-                                    variant="filled"
+                                    InputProps={{
+                                      startAdornment: (
+                                        <InputAdornment position="start">
+                                          <CImg src={'../img/password.png'} style={{width: '27px'}} />
+                                        </InputAdornment>
+                                      ),
+                                      classes:{notchedOutline:classes.noBorder}
+                                    }}
+                                    variant="outlined"
                                     helperText={errMessageForConfirmPassword && errMessageForConfirmPassword !== '' ? errMessageForConfirmPassword : '' }
                                     error={errMessageForConfirmPassword && errMessageForConfirmPassword !== ''}
                                     onKeyDown={handleEnterKeyDown}
@@ -279,9 +324,9 @@ const Signup = () => {
                             }}>Privacy Policy</span></h5>
                         </div> */}
 
-                        <div className="d-flex mt-1">
-                            <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={isSubmitting}>
-                                <h3>SIGN UP</h3>
+                        <div className="m-auto text-center">
+                            <CButton className="signin-button mt-3 btn-pill" size="lg" color="info" onClick={() => onSubmit()} disabled={isSubmitting}>
+                              SIGN UP
                             </CButton>
                         </div>
                   </div>        

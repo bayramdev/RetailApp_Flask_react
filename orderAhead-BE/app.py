@@ -77,7 +77,12 @@ def logIn():
     confirm = content.get("confirm")
 
     if not (email or password):
-        return jsonify({"status": False, "message": "Please input the email and password."})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Please input the email and password."}),
+            status=401,
+            mimetype='application/json'
+        )
+        return response
 
     result = user_controller.getUserByEmail(email)
 
@@ -163,7 +168,12 @@ def logIn():
 def register():
     # Receives the data in JSON format in a HTTP POST request
     if not request.is_json:
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     content = request.get_json()
     code = content.get("code")
@@ -171,13 +181,23 @@ def register():
     email = content.get("email")
     password = content.get("password")
 
-    if not (username, email, password, code):
-        return jsonify({"status": False, "message": "Input error!"})
+    if not (username or email or password or code):
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     role_info = link_controller.getLinkByCode(code)
 
     if not role_info:
-        return jsonify({"status": False, "message": "Invalid Access"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Invalid Access"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password, role_info['level'], role_info['role'])
 
@@ -194,13 +214,23 @@ def register():
 def forgotPasswordToConfirmEmail():
     # Receives the data in JSON format in a HTTP POST request
     if not request.is_json:
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     content = request.get_json()
     email = content.get("email")
 
     if not email:
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     result = user_controller.getUserByEmail(email)
     if result:
@@ -248,20 +278,35 @@ def forgotPasswordToConfirmEmail():
 def forgotPassword():
     # Receives the data in JSON format in a HTTP POST request
     if not request.is_json:
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     content = request.get_json()
     code = content.get("code")
     email = content.get("email")
     password = content.get("password")
 
-    if not (email, password, code):
-        return jsonify({"status": False, "message": "Input error!"})
+    if not (email or password or code):
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     result = user_controller.getUserByEmail(email)
 
     if not result or result['verif_code'] != code:
-        return jsonify({"status": False, "message": "Email or Verification code is incorrect."})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Email or Verification code is incorrect"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     user_controller.updatePasswordByEmail(email=email, password=password)
 
@@ -282,7 +327,12 @@ def verifyCode():
     verifyCode = query_parameters.get('verifyCode')
 
     if not (email or verifyCode):
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     result = user_controller.getUserByEmail(email)
 
@@ -313,7 +363,12 @@ def getUserById():
     id = query_parameters.get('id')
 
     if not id:
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     results = user_controller.getUserById(id)
 
@@ -341,7 +396,12 @@ def update_entry(update_id):
     update_id = int(update_id)
 
     if not (update_id or first_name or last_name or phone_number):
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     user_controller.updateNameAndPhoneById(first_name, last_name, phone_number, update_id)
 
@@ -365,8 +425,13 @@ def update_for_admin(update_id):
     is_active = content.get("is_active")
     update_id = int(update_id)
 
-    if not (update_id, first_name, last_name, phone_number, is_active):
-        return jsonify({"status": False, "message": "Input error!"})
+    if not (update_id or first_name or last_name or phone_number or is_active):
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     user_controller.updateNameAndPhoneAndActiveById(first_name, last_name, phone_number, is_active, update_id)
 
@@ -388,7 +453,12 @@ def update_mfa(update_id):
     update_id = int(update_id)
 
     if not (update_id or mfa):
-        return jsonify({"status": False, "message": "Input error!"})
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     user_controller.updateMFAById(mfa, update_id)
 
@@ -411,8 +481,13 @@ def update_new_password(update_id):
 
     update_id = int(update_id)
 
-    if not (update_id, oldPassword, password):
-        return jsonify({"status": False, "message": "Input error!"})
+    if not (update_id or oldPassword or password):
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
 
     result = user_controller.getUserById(update_id)
 

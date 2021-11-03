@@ -413,39 +413,40 @@
   }
 }
 
+.bg-signin {
+  background-image: radial-gradient( #4404ac 5%, #6219D8 5%, #9633FF 90%)
+}
 .signin-header-title {
   font-size: 26px;
   line-height: 32px;
-  margin-top: 20px;
   color: #404b51;
   font-weight: 600;
+  font-family: 'PoppinsR' !important;
 }
 .signin-header-desc {
-  color: #7d7e7e;
+  color: #29d4fa !important;
   margin-top: 12px;
   margin-bottom: 20px;
   font-weight: 400;
+  font-family: 'PoppinsR' !important;
 }
 .span-underline {
-  text-decoration: underline;
+  // text-decoration: underline;
   cursor: pointer;
-  color: rgb(152, 2, 172);
 }
 .span-underline:hover {
-  color: #494949;
+  color: #5ADEFD;
 }
 .signin-button {
-  width: 100%;
-  background-color: red;
-  color: white;
-  border: none;
-  font-size: 20px;
+  background-color: #9633FF; // radial-gradient( #4404ac 5%, #6219D8 5%, #9633FF 90%);
+  font-size: 22px;
+  font-family: 'PoppinsR' !important;
+  padding: 10px 20px;
+  min-width: 200px;
 }
 
 .signin-button:hover {
-  background-color: white;
-  color: red;
-  border: 1px solid red;
+  background-color: radial-gradient( #3c0f85 5%, #622db8 5%, #923feb 90%)
 }
 
 .copy-button {

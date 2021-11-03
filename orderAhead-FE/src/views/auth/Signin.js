@@ -6,7 +6,8 @@ import {
   CCardGroup,
   CCol,
   CContainer,
-  CRow
+  CRow,
+  CImg
 } from '@coreui/react'
 import { useDispatch } from 'react-redux'
 import { userService } from '../../controllers/_services/user.service';
@@ -17,12 +18,21 @@ import {
     alpha,
     makeStyles,
   } from '@material-ui/core/styles';
+import { InputAdornment } from '@material-ui/core';
 
   const AuthDialog = React.lazy(() => import('../../views/auth/AuthDialog'));
+  const useStyles = makeStyles(() => ({
+    noBorder: {
+      border: "none",
+      boxShadow: `${alpha("#E3EFFE", 0.9)} 3px 3px 1px 1px`,
+      borderRadius: '50px'
+    },
+  }));
   const useStylesReddit = makeStyles((theme) => ({
     root: {
       border: "1px solid lightgray",
       overflow: 'hidden',
+      borderRadius: 10,
       backgroundColor: '#fcfcfb',
       fontWeight: '400',
       lineHeight: '18px',
@@ -36,7 +46,7 @@ import {
       '&$focused': {
         backgroundColor: '#fff',
         boxShadow: `${alpha("#24242f", 0.25)} 0 0 0 1px`,
-        borderRadius: 2,
+        borderRadius: 10,
         borderColor: "#24242f",
         borderBottom: "1px solid black",
         color: "black"
@@ -54,6 +64,8 @@ import {
 const Signin = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+
+  const classes = useStyles();
 
   dispatch({type: 'set', darkMode: false})
   
@@ -107,25 +119,30 @@ const Signin = () => {
   }
 
   return (
-    <div className="c-app c-default-layout flex-row align-items-center" style={{backgroundImage: "url(img/login-bg.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+    // backgroundImage: "url(img/login-bg.jpg)", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'
+    <div className="c-app c-default-layout flex-row align-items-center bg-signin">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md="8">
-            <CCardGroup>
-              <CCard className="p-4">
+            <CCardGroup style={{
+              borderRadius: "50px",
+              overflow: "hidden",
+              boxShadow:`${alpha("#6219D8", 0.1)} 0 0 0 20px`,
+            }}>
+              <CCard className="p-3">
                 <CCardBody>
-                    <h2 className="text-left signin-header-title">Login<span className="text-success">.</span></h2>
+                    <h2 className="text-center signin-header-title">Sign In</h2>
                     <h5 className="text-left signin-header-desc">
-                    {/* <div className="mt-1 text-left mb-0">
-                      <h5 className="signin-header-desc">Doesn't have an account yet? <span className="span-underline" onClick={() => { history.push("signup") }}>Sign Up</span></h5>
-                    </div> */}
-                </h5>
+                      {/* <div className="mt-1 text-left mb-0">
+                        <h5 className="signin-header-desc">Doesn't have an account yet? <span className="span-underline" onClick={() => { history.push("signup") }}>Sign Up</span></h5>
+                      </div> */}
+                    </h5>
                     <div className="d-flex mt-3">
                         {
                             <RedditTextField
                                 id="email"
-                                label="Email Address"
-                                placeholder="you@example.com"
+                                label=""
+                                placeholder="E-mail"
                                 value={email}
                                 helperText={errMessageForEmail && errMessageForEmail !== '' ? errMessageForEmail : '' }
                                 error={errMessageForEmail && errMessageForEmail !== ''}
@@ -133,7 +150,15 @@ const Signin = () => {
                                     shrink: true,
                                 }}
                                 fullWidth
-                                variant="filled"
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <CImg src={'img/email.png'} style={{width: '27px'}} />
+                                    </InputAdornment>
+                                  ),
+                                  classes:{notchedOutline:classes.noBorder}
+                                }}
+                                variant="outlined"
                                 onKeyDown={handleEnterKeyDown}
                                 onBlur={() => {
                                   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -157,15 +182,23 @@ const Signin = () => {
                         {
                             <RedditTextField
                                 id="password"
-                                label="Password"
-                                placeholder="Enter your password"
+                                label=""
+                                placeholder="Password"
                                 value={password}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 type="password"
                                 fullWidth
-                                variant="filled"
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <CImg src={'img/password.png'} style={{width: '22px'}} />
+                                    </InputAdornment>
+                                  ),
+                                  classes:{notchedOutline:classes.noBorder}
+                                }}
+                                variant="outlined"
                                 helperText={errMessageForNewPassword && errMessageForNewPassword !== '' ? errMessageForNewPassword : '' }
                                 error={errMessageForNewPassword && errMessageForNewPassword !== ''}
                                 onKeyDown={handleEnterKeyDown}
@@ -187,16 +220,20 @@ const Signin = () => {
                     </div> */}
 
                     <div className="mt-3 text-right p-0">
-                      <h5 className="text-right signin-header-desc p-0 m-0"><span className="span-underline" onClick={() => {
-                        dispatch({type: 'set', openSignin: false})
-                        dispatch({type: 'set', openSignup: false})
-                        dispatch({type: 'set', forgotPassword1: true})
-                      }}>Forgot password?</span></h5>
+                      <h5 className="text-right signin-header-desc p-0 m-0">
+                        <span className="span-underline" onClick={() => {
+                            dispatch({type: 'set', openSignin: false})
+                            dispatch({type: 'set', openSignup: false})
+                            dispatch({type: 'set', forgotPassword1: true})
+                          }}>
+                          Forgot password?
+                        </span>
+                      </h5>
                     </div>
 
-                    <div className="d-flex mt-3">
-                        <CButton block className="button-exchange p-2" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
-                            <h3>LOGIN</h3>
+                    <div className="m-auto text-center">
+                        <CButton className="signin-button mt-3 btn-pill" size="lg" color="info" onClick={() => onSubmit()} disabled={submitButtonDisabled}>
+                            Sign In
                         </CButton>
                     </div>
                 </CCardBody>
