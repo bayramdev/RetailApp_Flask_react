@@ -142,11 +142,12 @@ const Signup = () => {
     <div className="c-app c-default-layout flex-row align-items-center bg-signin">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md="8">
-            <CCardGroup style={{
+          <CCol md="12">
+            <CCardGroup className="m-auto" style={{
                 borderRadius: "50px",
                 overflow: "hidden",
                 boxShadow:`${alpha("#6219D8", 0.1)} 0 0 0 20px`,
+                maxWidth: '450px'
               }}>
               <CCard className="p-3">
                 <CCardBody>
@@ -330,10 +331,6 @@ const Signup = () => {
                             </CButton>
                         </div>
                   </div>        
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{width: '44%', backgroundImage: "url('../img/logo.jpg')", backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
-                <CCardBody className="text-center">
                 </CCardBody>
               </CCard>
             </CCardGroup>
