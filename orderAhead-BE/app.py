@@ -102,17 +102,17 @@ def logIn():
                         if not LOCAL:
                             mail.send(msg)
 
-                        # else:
-                        #     # server = smtplib.SMTP("localhost", 10255)
-                        #     # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
-                        #     # server.quit()
-                        #
-                        #     msg = Message(subject="Welcome to Order ahead",
-                        #                   sender=SENDER_EMAIL,
-                        #                   recipients=[email],  # replace with your email for testing
-                        #                   body="Verification code:\n {}".format(verif_code))
-                        #
-                        #     mail.send(msg)
+                        else:
+                            # server = smtplib.SMTP("localhost", 10255)
+                            # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
+                            # server.quit()
+
+                            msg = Message(subject="Welcome to Order ahead",
+                                          sender=SENDER_EMAIL,
+                                          recipients=[email],  # replace with your email for testing
+                                          body="Verification code:\n {}".format(verif_code))
+
+                            mail.send(msg)
 
                     # MFA with phone
                     else:
@@ -239,25 +239,24 @@ def forgotPasswordToConfirmEmail():
 
         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
         msg.body = "If you forgot the password, please input the verification code:\n {}".format(verif_code)
-        print(verif_code)
         if not LOCAL:
             mail.send(msg)
-        # else:
-        #     # server = smtplib.SMTP("localhost", 10255)
-        #     # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
-        #     # server.quit()
-        #     # server = SMTPServer()
-        #     # server.start()
-        #     # try:
-        #     #     send_email(SENDER_EMAIL, email, "If you forgot the password, please input the verification code:\n {}".format(verif_code))
-        #     # finally:
-        #     #     server.stop()
-        #     msg = Message(subject="Welcome to Order ahead",
-        #                   sender=SENDER_EMAIL,
-        #                   recipients=[email],  # replace with your email for testing
-        #                   body="If you forgot the password, please input the verification code:\n {}".format(verif_code))
-        #
-        #     mail.send(msg)
+        else:
+            # server = smtplib.SMTP("localhost", 10255)
+            # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
+            # server.quit()
+            # server = SMTPServer()
+            # server.start()
+            # try:
+            #     send_email(SENDER_EMAIL, email, "If you forgot the password, please input the verification code:\n {}".format(verif_code))
+            # finally:
+            #     server.stop()
+            msg = Message(subject="Welcome to Order ahead",
+                          sender=SENDER_EMAIL,
+                          recipients=[email],  # replace with your email for testing
+                          body="If you forgot the password, please input the verification code:\n {}".format(verif_code))
+
+            mail.send(msg)
 
         response = app.response_class(
             response=json.dumps({"status": True}),
@@ -594,16 +593,16 @@ def sendLink():
     msg.body = "Please input the following URL to sign up:\n " + code
     if not LOCAL:
         mail.send(msg)
-    # else:
-    #     # server = smtplib.SMTP("localhost", 10255)
-    #     # server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
-    #     # server.quit()
-    #     msg = Message(subject="Welcome to Order ahead",
-    #                   sender=SENDER_EMAIL,
-    #                   recipients=[sendEmail],  # replace with your email for testing
-    #                   body="Please input the following URL to sign up:\n " + code)
-    #
-    #     mail.send(msg)
+    else:
+        # server = smtplib.SMTP("localhost", 10255)
+        # server.sendmail(SENDER_EMAIL, [sendEmail], msg.as_string())
+        # server.quit()
+        msg = Message(subject="Welcome to Order ahead",
+                      sender=SENDER_EMAIL,
+                      recipients=[sendEmail],  # replace with your email for testing
+                      body="Please input the following URL to sign up:\n " + code)
+
+        mail.send(msg)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully sent"}),
