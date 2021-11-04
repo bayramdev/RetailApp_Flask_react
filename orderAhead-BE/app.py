@@ -23,12 +23,12 @@ LOCAL = True
 app = Flask(__name__)
 
 mail_settings = {
-    "MAIL_SERVER": 'smtp.gmail.com',
-    "MAIL_PORT": 465,
-    "MAIL_USE_TLS": False,
-    "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'your@gmail.com',
-    "MAIL_PASSWORD": 'password'
+    "MAIL_SERVER": os.getenv('MAIL_SERVER', 'smtp.gmail.com'),
+    "MAIL_PORT": os.getenv('MAIL_PORT', 465),
+    "MAIL_USE_TLS": os.getenv('MAIL_USE_TLS', False),
+    "MAIL_USE_SSL": os.getenv('MAIL_USE_SSL', True),
+    "MAIL_USERNAME": os.getenv('MAIL_USERNAME', 'your@gmail.com'),
+    "MAIL_PASSWORD": os.getenv('MAIL_PASSWORD', 'password'),
 }
 
 app.config.update(mail_settings)
