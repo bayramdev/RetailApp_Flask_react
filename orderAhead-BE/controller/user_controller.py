@@ -35,6 +35,23 @@ def saveUserByUsernameAndEmailAndPassword(userName, email, password, level, role
     conn.commit()
 
 
+def addCustomer(customer_data):
+    print('++addCustomer+++++')
+    # Save the data in db
+    db_path = os.path.join('db', db_name)
+    conn = sqlite3.connect(db_path)
+
+    column_names = ','.join(customer_data.keys())
+    column_values = (', '.join('"' + str(item) + '"' for item in customer_data.values()))
+
+    query = f'INSERT INTO users ({column_names}) \
+                  VALUES ({column_values});'
+
+    cur = conn.cursor()
+    cur.execute(query)
+    conn.commit()
+
+
 def getUserById(id):
     query = 'SELECT id, first_name, password, last_name, is_active, is_superuser, role, email, phone_number, username, mfa FROM users WHERE'
     to_filter = []
