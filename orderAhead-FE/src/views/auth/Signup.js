@@ -80,6 +80,9 @@ const Signup = () => {
       "username": username,
       "email": email,
       "password": password,
+      "fullname": fullname,
+      "medid": medid,
+      "birthdate": birthdate,
     })
     .then(
         user => {

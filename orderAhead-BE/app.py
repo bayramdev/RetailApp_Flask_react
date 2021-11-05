@@ -199,7 +199,25 @@ def register():
         )
         return response
 
-    user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password, role_info['level'], role_info['role'])
+    if role_info['role'] == 'Customer':
+        fullname = content.get("fullname")
+        medid = content.get("medid")
+        birthdate = content.get("birthdate")
+
+        customer_data = {
+            'username': username,
+            'email': email,
+            'password': common.generate_hash(password),
+            'is_superuser': role_info['level'],
+            'role': role_info['role'],
+            'fullname': fullname,
+            'med_id': medid,
+            'birth_date': birthdate,
+        }
+
+        user_controller.addCustomer(customer_data)
+    else:
+        user_controller.saveUserByUsernameAndEmailAndPassword(username, email, password, role_info['level'], role_info['role'])
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully registered"}),
