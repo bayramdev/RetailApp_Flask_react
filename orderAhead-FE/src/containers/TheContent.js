@@ -17,7 +17,7 @@ const loading = (
 )
 
 const TheContent = (props) => {
-  const isFullwidth = true
+  const isFullwidth = false
   const boxLayoutClass = (isFullwidth)?'':' main-padding'
 
   return (

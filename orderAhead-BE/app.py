@@ -99,6 +99,7 @@ def logIn():
                     if result['mfa'] == 'email':
                         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
                         msg.body = "Verification code:\n {}".format(verif_code)
+                        print(msg.body)
                         if not LOCAL:
                             mail.send(msg)
 

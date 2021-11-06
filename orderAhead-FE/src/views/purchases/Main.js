@@ -33,9 +33,6 @@ const Main = () => {
 
 const styles = {
   main: {
-    paddingLeft: '40px',
-    paddingRight: '40px',
-    marginTop: '60px',
     color: '#000000',
   },
   main__heading: {
