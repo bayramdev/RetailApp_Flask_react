@@ -6,7 +6,7 @@ const PurchaseItem = (props) => {
     qty: 1,
     name: '<item name>',
     category: 'Northwoods Wellness',
-    listPrice: 0,
+    price: 0,
     tax: 0,
     total: 0,
   }
@@ -26,7 +26,7 @@ const PurchaseItem = (props) => {
       <div class="purchase-item__right">
         <div class="purchase-item__price">
           <div class="purchase-item__label">List Price</div>
-          <div class="purchase-item__value">{formatPrice(item.listPrice)}</div>
+          <div class="purchase-item__value">{formatPrice(item.price)}</div>
         </div>
         <div class="purchase-item__tax">
           <div class="purchase-item__label">Tax</div>

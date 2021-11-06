@@ -17,7 +17,7 @@ const PurchaseGroup = (props) => {
     items: [],
   }
 
-  const purchase = {...defaults, ...props}
+  const purchase = {...defaults, ...props.data}
 
   return (
     <div className={'purchase-group'+ ((isExpanded)?' purchase-group--expanded':'')}>
@@ -43,7 +43,8 @@ const PurchaseGroup = (props) => {
 
       {isExpanded && (
         <div class="purchase-group__content">
-          {purchase.items.map((item) => <PurchaseItem data={item} />)}
+          {purchase.items.length > 0 && purchase.items.map((item) => <PurchaseItem data={item} />)}
+          {purchase.items.length == 0 && <div>There is no items</div>}
         </div>
         // purchase-group__content
       )}

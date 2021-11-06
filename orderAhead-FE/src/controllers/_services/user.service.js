@@ -225,14 +225,12 @@ function handleResponse(response) {
 * Get last purchases by date
 */
 function getLastPurchasesByDate(userId) {
-    alert('getLastPurchasesByDate:'+userId)
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userId)
     };
 
-    return fetch(`${serverURL}/lastPurchases`, requestOptions).then(handleResponse);
+    return fetch(`${serverURL}/lastPurchases/${userId}`, requestOptions).then(handleResponse);
 }
