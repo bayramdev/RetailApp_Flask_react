@@ -10,6 +10,8 @@ import { icons } from './assets/icons'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import '@fortawesome/fontawesome-free/js/all.js'
+
 
 React.icons = icons
 
@@ -18,7 +20,7 @@ ReactDOM.render(
     <Provider store={store}>
       <App/>
     </Provider>
-  </React.StrictMode>, 
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

@@ -4,8 +4,10 @@
 // Import CoreUI styles
 @import "~@coreui/coreui-pro/scss/coreui.scss";
 
+@import "purchase";
+
 // If you want to add something do it here
 @import "custom";
 
-@import "popup"
 
+@import "popup";

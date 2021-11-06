@@ -130,3 +130,8 @@ def deleteAccount(user_id):
     cur = conn.cursor()
     cur.execute("delete from users where id=?", (user_id,))
     conn.commit()
+
+
+def get_last_purchases_by_date(user_id):
+    print('+++++get_last_purchases_by_date++++++++++')
+    return []

@@ -653,6 +653,19 @@ def confirmCodeBeforeSignup():
         )
         return response
 
+@app.route('/lastPurchases', methods=['GET', 'POST'])
+@cross_origin()
+def getLastPurchasesByDate():
+    print('++++++getLastPurchasesByDate')
+    purchases = user_controller.get_last_purchases_by_date()
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent", "data": purchases}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):
