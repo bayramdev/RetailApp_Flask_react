@@ -8,16 +8,20 @@ import { CContainer, CFade } from '@coreui/react'
 
 // routes config
 import routes from '../routes'
-  
+import { useFullwidth } from '../contexts/ThemeContext'
+
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
   </div>
 )
 
-const TheContent = () => {
+const TheContent = (props) => {
+  const isFullwidth = false
+  const boxLayoutClass = (isFullwidth)?'':' main-padding'
+
   return (
-    <main className="c-main main-padding">
+    <main className={'c-main'+boxLayoutClass}>
       <CContainer fluid>
         <Suspense fallback={loading}>
           <Switch>

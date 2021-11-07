@@ -1,6 +1,7 @@
 import sqlite3
 import os
 import common
+from models.user import User
 
 db_name = os.getenv('DB_NAME', 'order.db')
 
@@ -53,7 +54,7 @@ def addCustomer(customer_data):
 
 
 def getUserById(id):
-    query = 'SELECT id, first_name, password, last_name, is_active, is_superuser, role, email, phone_number, username, mfa FROM users WHERE'
+    query = 'SELECT id, first_name, password, last_name, is_active, is_superuser, role, email, phone_number, username, mfa, fullname, med_id, birth_date FROM users WHERE'
     to_filter = []
 
     if id:
@@ -130,3 +131,14 @@ def deleteAccount(user_id):
     cur = conn.cursor()
     cur.execute("delete from users where id=?", (user_id,))
     conn.commit()
+
+
+def get_last_purchases_by_date(user_id):
+    print('+++++get_last_purchases_by_date++++++++++', user_id)
+    result = getUserById(user_id)
+    if result['role'] != 'Customer' or result['med_id'] == None:
+        print('This user is not a customer or Medical ID is not exist.', result['med_id'])
+        return []
+
+    user = User(result['med_id'])
+    return user.get_last_purchases_by_date()

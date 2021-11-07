@@ -20,7 +20,9 @@ export const userService = {
     createLinkForSignup,
     getAllLinks,
     sendLink,
-    confirmCodeBeforeSignup
+    confirmCodeBeforeSignup,
+
+    getLastPurchasesByDate,
 };
 
 function login(email, password, confirm) {
@@ -216,4 +218,19 @@ function handleResponse(response) {
 
         return data;
     });
+}
+
+
+/*
+* Get last purchases by date
+*/
+function getLastPurchasesByDate(userId) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return fetch(`${serverURL}/lastPurchases/${userId}`, requestOptions).then(handleResponse);
 }

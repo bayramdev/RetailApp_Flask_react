@@ -30,7 +30,7 @@ const TheHeader = () => {
   const user = useSelector(state => state.user)
 
   const [toggle, setToggle] = useState(false);
-  
+
   useEffect(() => {
     if (localUser) {
       userService.getById(parseInt(localUser))
@@ -72,8 +72,8 @@ const TheHeader = () => {
 
   return (
     <>
-    <CHeader colorScheme="dark" className="header">
-  
+    <CHeader colorscheme="dark" className="header">
+
       <CHeaderNav >
         <CHeaderNavItem >
           <CHeaderNavLink onClick={onClickLogo}>
@@ -94,7 +94,7 @@ const TheHeader = () => {
         </CHeaderNavItem>
       </CHeaderNav>
 
-      <CHeaderNav className="px-3">
+      <CHeaderNav  className="px-3">
         {/* <CToggler
           inHeader
           className="ml-3 d-md-down-none"
@@ -108,13 +108,13 @@ const TheHeader = () => {
         <TheHeaderDropdownTasks/>
         <TheHeaderDropdownMssg/>
         <TheHeaderDropdown/> */}
-        
+
         <CDropdown variant="btn-group" className={isLogin ? 'm-0 pt-0' : 'd-none'} toggle={toggle}
           onFocus={() => setToggle(!toggle)}
           onBlur={() => setToggle(!toggle)}>
             <CDropdownToggle className="m-0 pt-0 p-0 dropdown-toggle-exchange" color="success" caret={false}>
-                {fullName} 
-                { !toggle ? 
+                {fullName}
+                { !toggle ?
                     <CImg src={'img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
                 :
                     <CImg src={'img/icons8-white-collapse-arrow-24.png'} alt="Search" height={24}></CImg>

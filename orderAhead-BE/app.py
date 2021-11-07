@@ -99,6 +99,7 @@ def logIn():
                     if result['mfa'] == 'email':
                         msg = Message('Welcome to Order Ahead', sender=SENDER_EMAIL, recipients=email)
                         msg.body = "Verification code:\n {}".format(verif_code)
+                        print(msg.body)
                         if not LOCAL:
                             mail.send(msg)
 
@@ -653,6 +654,18 @@ def confirmCodeBeforeSignup():
         )
         return response
 
+@app.route('/lastPurchases/<int:user_id>', methods=['GET', 'POST'])
+@cross_origin()
+def getLastPurchasesByDate(user_id):
+    purchases = user_controller.get_last_purchases_by_date(user_id)
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent", "data": purchases}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -662,4 +675,4 @@ def page_not_found(e):
 # A method that runs the application server.
 if __name__ == "__main__":
     # Threaded option to enable multiple instances for multiple user access support
-    app.run(debug=False, threaded=True, port=os.getenv('PORT'))
+    app.run(debug=True, threaded=True, port=os.getenv('PORT'))
