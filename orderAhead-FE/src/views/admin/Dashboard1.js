@@ -4,7 +4,8 @@ import SalesByDayOfWeek from '../../components/chart/SalesByDayOfWeek'
 import SalesByWeekInYear from '../../components/chart/SalesByWeekInYear'
 import SalesByWeekInYearAndCategory from '../../components/chart/SalesByWeekInYearAndCategory'
 
-import Datatable from '../../components/Datatable'
+import DatatableCategory from '../../components/datatable/DatatableCategory'
+import DatatableProductType from '../../components/datatable/DatatableProductType'
 
 const Dashboard1 = () => {
   return (
@@ -12,7 +13,10 @@ const Dashboard1 = () => {
       <h1>Dashboard 1</h1>
 
       <div class="row">
-        <div class="col-4">Column 1</div>
+        <div class="col-4">
+          <DatatableCategory />
+          <DatatableProductType />
+        </div>
         <div class="col-8">
           <div class="row">
             <div class="col-6">
