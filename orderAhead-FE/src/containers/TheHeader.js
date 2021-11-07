@@ -120,7 +120,7 @@ const TheHeader = () => {
         <TheHeaderDropdownMssg/>
         <TheHeaderDropdown/> */}
 
-        <CDropdown variant="btn-group" className={isLogin ? 'm-0 pt-0' : 'd-none'} toggle={toggle}
+        <CDropdown variant="btn-group" className={isLogin ? 'm-0 pt-0' : 'd-none'} toggle={toggle.toString()}
           onFocus={() => setToggle(!toggle)}
           onBlur={() => setToggle(!toggle)}>
             <CDropdownToggle className="m-0 pt-0 p-0 dropdown-toggle-exchange" color="success" caret={false}>

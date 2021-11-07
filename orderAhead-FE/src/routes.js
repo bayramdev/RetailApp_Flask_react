@@ -19,10 +19,10 @@ const routes = [
   { path: '/setting', name: 'Setting', component: PersionalSetting },
   { path: '/users', name: 'Users', component: AdminUsers },
   { path: '/links', name: 'Link Manage', component: AdminLinkManage},
-  { path: '/dashboard-1', name: 'Dashboard 1', component: AdminDashboard1},
-  { path: '/dashboard-2', name: 'Dashboard 2', component: AdminDashboard2},
-  { path: '/dashboard-3', name: 'Dashboard 3', component: AdminDashboard3},
-  { path: '/dashboard-4', name: 'Dashboard 4', component: AdminDashboard4},
+  { path: '/dashboard-1', name: 'Dashboard 1', component: AdminDashboard1, fullwidth: true,},
+  { path: '/dashboard-2', name: 'Dashboard 2', component: AdminDashboard2, fullwidth: true,},
+  { path: '/dashboard-3', name: 'Dashboard 3', component: AdminDashboard3, fullwidth: true,},
+  { path: '/dashboard-4', name: 'Dashboard 4', component: AdminDashboard4, fullwidth: true,},
 ];
 
 export default routes;
