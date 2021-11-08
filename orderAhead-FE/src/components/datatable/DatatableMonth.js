@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react'
+import Datatable from '../Datatable'
 
-const DatatableMonth = () => {
+
+const DatatableMonth = (props) => {
   return (
-    <div>
-      DatatableMonth
-    </div>
-  );
-};
+    <>
+      <Datatable {...props} />
+    </>
+  )
+}
 
 export default DatatableMonth;

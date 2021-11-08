@@ -6,38 +6,37 @@ import SalesByWeekInYearAndCategory from '../../components/chart/SalesByWeekInYe
 
 import DatatableCategory from '../../components/datatable/DatatableCategory'
 import DatatableProductType from '../../components/datatable/DatatableProductType'
+import ChartProvider from '../../contexts/ChartContext'
 
 const Dashboard1 = () => {
   return (
-    <>
+    <ChartProvider>
       <h1>Dashboard 1</h1>
 
-      <div class="row">
-        <div class="col-4">
+      <div className="row">
+        <div className="col-4">
           <DatatableCategory />
-          <DatatableProductType />
         </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-6">
-              <SalesByWeekInYear />
-            </div>
-            <div class="col-6">
-              <SalesByWeekInYearAndCategory />
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-6">
-              <SalesByDayOfWeek />
-            </div>
-            <div class="col-6">
-              <SalesByCategory />
-            </div>
-          </div>
+        <div className="col-4">
+          <SalesByWeekInYear />
+        </div>
+        <div className="col-4">
+          <SalesByWeekInYearAndCategory />
         </div>
       </div>
-    </>
+
+      <div className="row">
+        <div className="col-4">
+          <DatatableProductType />
+        </div>
+        <div className="col-4">
+          <SalesByDayOfWeek />
+        </div>
+        <div className="col-4">
+          <SalesByCategory />
+        </div>
+      </div>
+    </ChartProvider>
   )
 }
 

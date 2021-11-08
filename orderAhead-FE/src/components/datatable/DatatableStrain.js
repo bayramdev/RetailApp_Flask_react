@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react'
+import Datatable from '../Datatable'
 
-const DatatableStrain = () => {
+
+const DatatableStrain = (props) => {
   return (
-    <div>
-      DatatableStrain
-    </div>
-  );
-};
+    <>
+      <Datatable {...props} />
+    </>
+  )
+}
 
 export default DatatableStrain;

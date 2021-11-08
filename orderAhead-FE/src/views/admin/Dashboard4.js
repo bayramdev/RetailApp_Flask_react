@@ -4,36 +4,37 @@ import LbsSoldByMonthAndProfile from '../../components/chart/LbsSoldByMonthAndPr
 import DatatableMonth from '../../components/datatable/DatatableMonth'
 import DatatableProfile from '../../components/datatable/DatatableProfile'
 import DatatableStrain from '../../components/datatable/DatatableStrain'
+import ChartProvider from '../../contexts/ChartContext'
 
 const Dashboard4 = () => {
   return (
-    <>
+    <ChartProvider>
       <h1>Dashboard4</h1>
 
-      <div class="row">
-        <div class="col-4">
+      <div className="row">
+        <div className="col-4">
           <DatatableProfile />
         </div>
-        <div class="col-8">
+        <div className="col-8">
           <LbsSoldByMonthAndBrand />
         </div>
       </div>
-      <div class="row">
-        <div class="col-4">
-          <div class="row">
-            <div class="col-4">
+      <div className="row">
+        <div className="col-4">
+          <div className="row">
+            <div className="col-4">
               <DatatableMonth />
             </div>
-            <div class="col-8">
+            <div className="col-8">
               <DatatableStrain />
             </div>
           </div>
         </div>
-        <div class="col-8">
+        <div className="col-8">
           <LbsSoldByMonthAndProfile />
         </div>
       </div>
-    </>
+    </ChartProvider>
   )
 }
 
