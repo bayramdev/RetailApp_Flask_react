@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Datatable from '../Datatable'
+import { dashboardServices } from '../../controllers/_services/dashboard.service'
 
 const DatatableCategory = (props) => {
-  useEffect(() => {
 
-  }, [])
-
-  const [datatable, setDatatable] = React.useState({
-    columns: [
+  const hearderColumns = useMemo(() => {
+    return [
       {
         label: 'Category',
         field: 'category',
-        width: 100,
       },
       {
         label: 'Sales',
@@ -19,18 +16,27 @@ const DatatableCategory = (props) => {
       },
       {
         label: 'Units Sold',
-        field: 'units_sold',
-        width: 100,
+        field: 'units',
       },
       {
         label: 'gms. sold',
         field: 'gms_sold',
-        width: 100,
       },
-    ],
-    rows: [
-    ],
-  });
+    ]
+  })
+
+  const [datatable, setDatatable] = useState({
+    columns: hearderColumns,
+    rows: [],
+  })
+  useEffect(() => {
+    dashboardServices.loadDatatableCategory().then((response) => {
+      setDatatable({
+        columns: hearderColumns,
+        rows: response.data
+      })
+    })
+  }, [])
 
   return (
     <>
