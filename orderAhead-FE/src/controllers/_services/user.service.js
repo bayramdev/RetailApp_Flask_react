@@ -1,6 +1,8 @@
 import { authHeader } from '../_helpers';
+import { useConfig } from "../../config";
 
-const serverURL = 'http://localhost:5000';
+const config = useConfig()
+const serverURL = config.serverUrl
 
 export const userService = {
     login,
