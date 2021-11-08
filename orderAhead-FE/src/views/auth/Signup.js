@@ -19,6 +19,10 @@ import {
   } from '@material-ui/core/styles';
 import { useHistory, useParams } from 'react-router-dom';
 import { InputAdornment } from '@material-ui/core';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 const useStyles = makeStyles(() => ({
   noBorder: {
@@ -410,9 +414,9 @@ const Signup = () => {
                               </div>
 
                               {/* Birth Date */}
-                              <div className="d-flex mt-3">
+                              {/* <div className="d-flex mt-3">
                                   <RedditTextField
-                                      id="birthdate"
+                                      id="birthdate2"
                                       label=""
                                       placeholder="BirthDate"
                                       value={birthdate}
@@ -442,8 +446,35 @@ const Signup = () => {
                                       }}
                                       onChange={(e) => {
                                         setBirthDate(e.target.value); }}
+                                  >
+
+                                  </RedditTextField>
+
+
+                              </div> */}
+
+                              <div className="d-flex mt-3">
+
+                                <div class="MuiInputBase-root MuiOutlinedInput-root Mui-error Mui-error MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedStart MuiOutlinedInput-adornedStart">
+                                  <div class="MuiInputAdornment-root MuiInputAdornment-positionStart"><img class="" src={'../img/user.png'} style={{width: '27px'}} /></div>
+                                  <DatePicker
+                                    id="birthdate"
+                                    selected={birthdate}
+                                    popperPlacement="top-end"
+                                    dateFormat="dd/MM/yyyy"
+                                    onChange={(date) => {setBirthDate(date); }}
+                                    style={{
+                                      backgroundColor: 'red'
+                                    }}
+                                    placeholderText="Birth date"
                                   />
+                                  <fieldset aria-hidden="true" class="PrivateNotchedOutline-root-4 MuiOutlinedInput-notchedOutline makeStyles-noBorder-1" style={{paddingLeft: '8px'}}>
+                                  <legend class="PrivateNotchedOutline-legend-5" style={{width: '0.01px'}}><span>​</span></legend></fieldset>
+                                </div>
+
                               </div>
+
+
                             </>
                           )
                         }
