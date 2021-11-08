@@ -17,6 +17,7 @@ from flask_mail import Mail, Message
 import smtplib
 from smtp_client import send_email
 from smtp_server import SMTPServer
+from models.datatable_factory import DatatableFactory
 
 LOCAL = True
 # Init app
@@ -660,6 +661,24 @@ def getLastPurchasesByDate(user_id):
     purchases = user_controller.get_last_purchases_by_date(user_id)
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully sent", "data": purchases}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+@app.route('/loadDatatable/<data_type>', methods=['GET'])
+@cross_origin()
+def loadDatatable(data_type):
+    factory = DatatableFactory()
+    instance = factory.create(data_type)
+
+    data = []
+    if instance:
+        data = instance.load_data()
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
         status=200,
         mimetype='application/json'
     )

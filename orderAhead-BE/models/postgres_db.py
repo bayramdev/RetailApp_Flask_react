@@ -14,13 +14,13 @@ class PostgresDB:
     if self.conn is not None:
       self.conn.close()
 
-  def fetchone(self, sql):
+  def fetchone(self, sql, mapping = None):
     cur = self.conn.cursor()
     cur.execute(sql)
     result = cur.fetchone()
     cur.close()
 
-    return result
+    return self.build_object(result, mapping)
 
   def iter_row(self, cursor, size=10):
     while True:
@@ -30,15 +30,25 @@ class PostgresDB:
         for row in rows:
             yield row
 
-  def fetchall(self, sql):
+  def fetchall(self, sql, mapping = None):
     cur = self.conn.cursor()
     cur.execute(sql)
-    result = cur.fetchone()
 
     result = []
-    for row in self.iter_row(cur, 10):
-      result.append(row)
+    for row in self.iter_row(cur):
+      obj = self.build_object(row, mapping)
+      result.append(obj)
 
     cur.close()
 
     return result
+
+
+  def build_object(self, row, mapping):
+    if mapping == None:
+      return row
+
+    return mapping(row)
+
+    # keys = mapping.keys()
+    # values = mapping.values()
