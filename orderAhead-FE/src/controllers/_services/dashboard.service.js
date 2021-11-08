@@ -1,5 +1,7 @@
-const serverURL = 'http://localhost:5000'
+import { useConfig } from "../../config";
 
+const config = useConfig()
+const serverURL = config.serverUrl
 
 export const dashboardServices = {
   loadDatatableBrand,
