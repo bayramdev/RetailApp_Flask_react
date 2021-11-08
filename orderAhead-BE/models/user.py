@@ -15,6 +15,7 @@ class User:
 
     def get_all_receipts(self, customer_id):
       sql = f'SELECT "Transaction Date", "Receipt Total", "Employee Name", "Receipt ID" FROM "Sales_Daily" WHERE "Customer ID" = \'{customer_id}\';'
+      print(sql)
       result = db.fetchall(sql)
 
       receipt_list = []
@@ -29,6 +30,8 @@ class User:
         receipt['items'] = self.get_items_by_receipt(receipt_id)
 
         receipt_list.append(receipt)
+
+      print('done query')
 
       return receipt_list
 

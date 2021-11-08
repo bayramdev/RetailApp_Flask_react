@@ -11,8 +11,10 @@ const Main = () => {
     if (!userId) return
     setLoading(true)
     userService.getLastPurchasesByDate(userId).then(result => {
-      if (!result.data || result.data.length == 0)
+      if (!result.data || result.data.length == 0) {
+        setLoading(false)
         return
+      }
 
       setGroups(result.data)
       setLoading(false)

@@ -2,7 +2,8 @@ import React, { Suspense } from 'react'
 import {
   Redirect,
   Route,
-  Switch
+  Switch,
+  useLocation
 } from 'react-router-dom'
 import { CContainer, CFade } from '@coreui/react'
 
@@ -16,12 +17,22 @@ const loading = (
   </div>
 )
 
+
 const TheContent = (props) => {
-  const isFullwidth = false
-  const boxLayoutClass = (isFullwidth)?'':' main-padding'
+  const location = useLocation()
+  const sanitizeTitle = (value) => value.replace(/^\/|\/$/g, '').replace('/', '-')
+  const pageClass = sanitizeTitle(location.pathname)
+
+  let boxLayoutClass = ' main-padding'
+
+  let fullwidthClasses = routes.filter(route => route.fullwidth)
+
+  fullwidthClasses = fullwidthClasses.map((route, idx) => sanitizeTitle(route.path))
+  if (fullwidthClasses.includes(pageClass))
+    boxLayoutClass = ' fullwidth'
 
   return (
-    <main className={'c-main'+boxLayoutClass}>
+    <main className={'c-main route-'+pageClass+boxLayoutClass}>
       <CContainer fluid>
         <Suspense fallback={loading}>
           <Switch>

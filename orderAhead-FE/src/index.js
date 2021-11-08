@@ -1,6 +1,12 @@
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import 'react-app-polyfill/stable';
 import './polyfill'
+
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
