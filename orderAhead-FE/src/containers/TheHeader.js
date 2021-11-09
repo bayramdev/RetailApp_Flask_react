@@ -70,6 +70,8 @@ const TheHeader = () => {
     history.push('/home')
   }
 
+  const shouldShowDashboard = isLogin && (['Employee', 'Wholesaler', 'Retailer'].includes(user.role) || isAdmin)
+
   return (
     <>
     <CHeader colorscheme="dark" className="header">
@@ -83,7 +85,7 @@ const TheHeader = () => {
       </CHeaderNav>
 
       <CHeaderNav className="mr-auto">
-        <CDropdown variant="btn-group">
+        {shouldShowDashboard && <CDropdown variant="btn-group">
             <CDropdownToggle className="m-0 pt-0 p-0 dropdown-toggle-exchange" color="success" caret={false}>Dashboard
               <CImg src={'img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
             </CDropdownToggle>
@@ -93,7 +95,7 @@ const TheHeader = () => {
               <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('dashboard-3')}>Dashboard 3</CDropdownItem>
               <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('dashboard-4')}>Dashboard 4</CDropdownItem>
             </CDropdownMenu>
-        </CDropdown>
+        </CDropdown>}
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/users" className={currPath === '/users' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>User Manage</CHeaderNavLink>
         </CHeaderNavItem>
