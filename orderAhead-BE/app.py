@@ -691,6 +691,10 @@ def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found</p>", 404
 
 
+#Provide routes for api flowhub
+import flowhub.api
+
+
 # A method that runs the application server.
 if __name__ == "__main__":
     # Threaded option to enable multiple instances for multiple user access support
