@@ -1,6 +1,6 @@
 export const useConfig = () => {
   return {
-    serverUrl: 'http://localhost:5000',
+    serverUrl: process.env.REACT_APP_BACKEND_URL,
   }
 }
 
