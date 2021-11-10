@@ -9,7 +9,7 @@ class User(object):
     'first_name', 'last_name', 'email', 'role', 'med_id', 'address_1', 'address_2', 'city', 'zip', 'phone_number', 'last_purchase_date']
   def __init__(self, user_id = 0):
     self.id = user_id
-    print(self.id)
+
 
     if int(user_id) > 0:
       self.load_data()
@@ -20,8 +20,6 @@ class User(object):
     result = SqlLite_DB.fetchone(sql)
     if result:
       self.data = { field: result[field] for field in self.allow_fields }
-    print('self.data')
-    print(self.data)
 
 
   def save(self):
