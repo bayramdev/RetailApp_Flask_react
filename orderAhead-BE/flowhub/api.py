@@ -1,7 +1,8 @@
-from __main__ import app
-from flask import jsonify, request
+# from __main__ import app
+from flask import Flask, jsonify, request
 import requests
 import os
+from config import app
 
 
 '''
@@ -22,7 +23,8 @@ headers = {'Clientid':  client, 'Key': key}
 
 @app.route("/test", methods=["GET"])
 def test():
-  print('xinchao')
+  print('xinchao2')
+  print(__name__)
   return 'hello'
 
 #----------------ORDER----------------
