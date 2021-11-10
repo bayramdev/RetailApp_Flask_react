@@ -428,7 +428,6 @@ def update_entry(update_id):
     is_valid = True
     for field in allow_fields:
         value = content.get(field['key'])
-        print(field['key'], value)
 
         if not value and field['required']:
             is_valid = False
@@ -622,8 +621,6 @@ def sendLink():
         return jsonify({"status": False, "message": "Input error!"})
 
     content = request.get_json()
-
-    print(content)
 
     code = content.get("code")
     label = content.get("label")
