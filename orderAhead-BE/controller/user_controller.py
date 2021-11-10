@@ -1,7 +1,7 @@
 import sqlite3
 import os
 import common
-from models.user import User
+from models.customer import Customer
 
 db_name = os.getenv('DB_NAME', 'order.db')
 
@@ -140,5 +140,5 @@ def get_last_purchases_by_date(user_id):
         print('This user is not a customer or Medical ID is not exist.', result['med_id'])
         return []
 
-    user = User(result['med_id'])
-    return user.get_last_purchases_by_date()
+    customer = Customer.create_by_medical_id(result['med_id'])
+    return customer.get_last_purchases_by_date()

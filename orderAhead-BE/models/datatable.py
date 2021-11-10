@@ -1,4 +1,4 @@
-from .postgres_db import PostgresDB
+from .postgres_db import Postgres_DB
 
 
 class Datatable:
@@ -6,10 +6,7 @@ class Datatable:
   def load_data(self):
     sql = self.build_sql()
 
-    db = PostgresDB()
-    db.connect()
-    result = db.fetchall(sql, self.mapping)
-    db.close()
+    result = Postgres_DB.fetchall(sql, self.mapping)
 
 
     return result

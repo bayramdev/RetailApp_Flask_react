@@ -18,6 +18,7 @@ import smtplib
 from smtp_client import send_email
 from smtp_server import SMTPServer
 from models.datatable_factory import DatatableFactory
+from models.user import User
 from config import app
 
 LOCAL = True
@@ -391,7 +392,10 @@ def getUserById():
         )
         return response
 
-    results = user_controller.getUserById(id)
+    user = User(id)
+    results = user.data
+    results['id'] = id
+    # results = user_controller.getUserById(id)
 
     return jsonify(results)
 
@@ -410,13 +414,27 @@ def users_all():
 def update_entry(update_id):
 
     content = request.get_json()
-    first_name = content.get("first_name")
-    last_name = content.get("last_name")
-    phone_number = content.get("phone_number")
+    allow_fields = [
+        {'key': 'first_name', 'required': True},
+        {'key': 'last_name', 'required': True},
+        {'key': 'phone_number', 'required': False},
+        {'key': 'address_1', 'required': False},
+        {'key': 'address_2', 'required': False},
+        {'key': 'city', 'required': False},
+        {'key': 'zip', 'required': False},
+        {'key': 'last_purchase_date', 'required': False},
+    ]
 
-    update_id = int(update_id)
+    is_valid = True
+    for field in allow_fields:
+        value = content.get(field['key'])
+        print(field['key'], value)
 
-    if not (update_id or first_name or last_name or phone_number):
+        if not value and field['required']:
+            is_valid = False
+            break
+
+    if not is_valid or not update_id:
         response = app.response_class(
             response=json.dumps({"status": False, "message": "Input error!"}),
             status=404,
@@ -424,7 +442,12 @@ def update_entry(update_id):
         )
         return response
 
-    user_controller.updateNameAndPhoneById(first_name, last_name, phone_number, update_id)
+
+    user = User(update_id)
+    for field in allow_fields:
+        value = content.get(field['key'])
+        setattr(user, field['key'], value)
+    user.save()
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully updated"}),
@@ -694,6 +717,7 @@ def page_not_found(e):
 
 #Provide routes for api flowhub
 import flowhub.api
+import test
 
 
 # A method that runs the application server.

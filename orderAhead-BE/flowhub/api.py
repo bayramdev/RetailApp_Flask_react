@@ -21,12 +21,6 @@ baseCustomerUrl= 'https://api.flowhub.co/v1/customers'
 headers = {'Clientid':  client, 'Key': key}
 
 
-@app.route("/test", methods=["GET"])
-def test():
-  print('xinchao2')
-  print(__name__)
-  return 'hello'
-
 #----------------ORDER----------------
 @app.route("/orders/findByCustomerId", methods=["GET"])
 def findOrderByCustomer():
