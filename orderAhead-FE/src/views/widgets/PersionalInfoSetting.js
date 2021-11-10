@@ -46,109 +46,117 @@ const useStylesReddit = makeStyles((theme) => ({
 
 function RedditTextField(props) {
     const classes = useStylesReddit();
-  
+
     return <TextField InputProps={{ classes, disableUnderline: true }} {...props} />;
   }
 
 const PersionalInfoSetting = () => {
  const dispatch = useDispatch()
- const history = useHistory()
- 
+
  const [isSubmitting, setIsSubmitting] = useState(false)
  const [firstName, setFirstName] = useState()
  const [lastName, setLastName] = useState()
+ const [medId, setMedId] = useState('')
+ const [address1, setAddress1] = useState('')
+ const [address2, setAddress2] = useState('')
+ const [city, setCity] = useState('')
+ const [zip, setZip] = useState('')
  const [phoneNumber, setPhoneNumber] = useState()
- const [email, setEmail] = useState()
+ const [lastPurchaseDate, setLastPurchaseDate] = useState('')
 
  const user = useSelector(state => state.user)
- 
+
+
+//  # Med ID, Address 1, Address 2, City, Zip, Phone Number, Last Purchase Date
+ const fields = [
+    {id: 'first-name', jsonName: 'first_name', label: 'First Name', value: firstName, updateValueFunc: setFirstName},
+    {id: 'last-name', jsonName: 'last_name', label: 'Last Name', value: lastName, updateValueFunc: setLastName},
+    {id: 'medical-id', jsonName: 'med_id', label: 'Med ID', value: medId, updateValueFunc: setMedId},
+    {id: 'address-1', jsonName: 'address_1', label: 'Address 1', value: address1, updateValueFunc: setAddress1},
+    {id: 'address-2', jsonName: 'address_2', label: 'Address 2', value: address2, updateValueFunc: setAddress2},
+    {id: 'city', jsonName: 'city', label: 'City', value: city, updateValueFunc: setCity},
+    {id: 'zip', jsonName: 'zip', label: 'Zip', value: zip, updateValueFunc: setZip},
+    {id: 'phone-number', jsonName: 'phone_number', label: 'Phone Number', value: phoneNumber, updateValueFunc: setPhoneNumber},
+    {type: 'date', id: 'last-purchase-date', jsonName: 'last_purchase_date', label: 'Last Purchase Date', value: lastPurchaseDate, updateValueFunc: setLastPurchaseDate},
+]
+
  useEffect(() => {
     if (localStorage.getItem('userId') && user) {
-        setFirstName(user.first_name)
-        setLastName(user.last_name)
-        setPhoneNumber(user.phone_number)
-        setEmail(user.email)
+        console.log('user');
+        console.log(user);
+        fields.forEach(field => {
+            field.updateValueFunc(user[field.jsonName])
+        })
     }
  }, [user]);
-  
+
   const onSubmit = () => {
       if (user) {
-          const newUser = {
-              ...user,
-              "first_name": firstName,
-              "last_name": lastName,
-              "phone_number": phoneNumber
-          }
-          setIsSubmitting(true);
-          userService.update(newUser).then(
-              result => {
-                  console.log(result)
-                  dispatch({type: 'set', user: newUser})
-                  successNotification("Updated your profile successfully", 3000)
-                  setIsSubmitting(false)
-              },
-              error => {
-                  warningNotification(error, 3000)
-                  setIsSubmitting(false)
-              }
-          )
+        let updateFields ={}
+        fields.forEach(field => {
+            updateFields[field.jsonName] = field.value
+        })
+
+
+        const newUser = {
+            ...user,
+            ...updateFields
+        }
+        setIsSubmitting(true);
+        userService.update(newUser).then(
+            result => {
+                console.log(result)
+                dispatch({type: 'set', user: newUser})
+                successNotification("Updated your profile successfully", 3000)
+                setIsSubmitting(false)
+            },
+            error => {
+                warningNotification(error, 3000)
+                setIsSubmitting(false)
+            }
+        )
       }
   }
+
+
   // render
   return (
 
     <CCard color="transparent" className="d-box-shadow1 d-border">
         <CCardBody className="card-setting m-0">
 
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="first-name"
-                        label="First name"
-                        placeholder="First name"
-                        value={firstName}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        variant="filled"
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                }
-            </div>
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="last-name"
-                        label="Last name"
-                        placeholder="Last name"
-                        value={lastName}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        variant="filled"
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                }
-            </div>
-
-            <div className="d-flex mt-3">
-                {
-                    <RedditTextField
-                        id="phone-number"
-                        label="Phone number"
-                        placeholder="Phone number"
-                        value={phoneNumber}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        fullWidth
-                        variant="filled"
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                }
-            </div>
+            {fields.map((field) => {
+                if (field.type == 'date')
+                    return <div className="d-flex mt-3">
+                        <RedditTextField
+                            id={field.id}
+                            label={field.label}
+                            placeholder={field.label}
+                            value={field.value}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            fullWidth
+                            variant="filled"
+                            onChange={(e) => field.updateValueFunc(e.target.value)}
+                        />
+                    </div>
+                else
+                    return <div className="d-flex mt-3">
+                        <RedditTextField
+                            id={field.id}
+                            label={field.label}
+                            placeholder={field.label}
+                            value={field.value}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            fullWidth
+                            variant="filled"
+                            onChange={(e) => field.updateValueFunc(e.target.value)}
+                        />
+                    </div>
+            })}
 
             <div className="d-flex mt-0 float-right">
                 <CButton className="button-exchange" onClick={() => onSubmit()} disabled={isSubmitting}>
