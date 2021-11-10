@@ -24,10 +24,11 @@ class User(object):
 
   def save(self):
     if self.id > 0:
-      pairs = [f'{field}="{value}"' if value is not None else f'{field}=NULL' for field, value in self.data.items()]
+      pairs = [f'{field}=\'{value}\'' if value is not None else f'{field}=NULL' for field, value in self.data.items()]
       set_sql = ','.join(pairs)
 
       sql = f'UPDATE users SET {set_sql} WHERE id = {self.id}'
+      print(sql)
       SqlLite_DB.query(sql)
     else:
       print('TODO: insert user')
