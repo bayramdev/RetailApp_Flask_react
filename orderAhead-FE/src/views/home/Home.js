@@ -12,6 +12,8 @@ const Home = () => {
   dispatch({type: 'set', darkMode: true})
 
   const user = useSelector(state => state.user)
+  console.log('user')
+  console.log(user)
 
   if (!localStorage.getItem('userId') || !user) {
     dispatch({type: 'set', darkMode: true})
@@ -25,7 +27,9 @@ const Home = () => {
 
   return (
     <>
-      <PurchaseByDates />
+      {user && user.role == 'Customer' &&
+        <PurchaseByDates />
+      }
     </>
   )
 }
