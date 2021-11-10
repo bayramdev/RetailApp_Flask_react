@@ -18,10 +18,11 @@ import smtplib
 from smtp_client import send_email
 from smtp_server import SMTPServer
 from models.datatable_factory import DatatableFactory
+from config import app
 
 LOCAL = True
 # Init app
-app = Flask(__name__)
+# app = Flask('RetailApp')
 
 mail_settings = {
     "MAIL_SERVER": os.getenv('MAIL_SERVER', 'smtp.gmail.com'),
