@@ -29,8 +29,8 @@ mail_settings = {
     "MAIL_PORT": os.getenv('MAIL_PORT', 465),
     "MAIL_USE_TLS": os.getenv('MAIL_USE_TLS', False),
     "MAIL_USE_SSL": os.getenv('MAIL_USE_SSL', True),
-    "MAIL_USERNAME": os.getenv('MAIL_USERNAME', 'your@gmail.com'),
-    "MAIL_PASSWORD": os.getenv('MAIL_PASSWORD', 'password'),
+    "MAIL_USERNAME": os.getenv('MAIL_USERNAME', 'bigmlpiter@gmail.com'),
+    "MAIL_PASSWORD": os.getenv('MAIL_PASSWORD', 'lwkxryjyflksuwni'),
 }
 
 app.config.update(mail_settings)
