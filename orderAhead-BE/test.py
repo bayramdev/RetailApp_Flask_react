@@ -1,18 +1,18 @@
 from config import app
 from models.user import User
+from models.product import Product
+from models.category import Category
 
 @app.route("/test", methods=["GET"])
 def test():
-  print('ddddddddddddddddddddddddddddd')
-  print(__name__)
+  # p = Product("'02877385")
+  list_cats = Category.get_list()
+  print(list_cats)
+  for cat in list_cats: print(cat.name)
+  cat = Category('Edible')
+  print('---------------------------------*************************')
+  products = cat.get_products()
+  for product in products:
+    print(product.data)
 
-  user = User(1)
-
-  print('user.first_name')
-  print(user.first_name)
-  # print('user.data')
-  print(user.id)
-  user.first_name = 'Mr. Hao'
-  user.save()
-
-  return 'hello'
+  return 'Please check log on python console'

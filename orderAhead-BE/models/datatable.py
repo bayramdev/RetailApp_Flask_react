@@ -6,8 +6,7 @@ class Datatable:
   def load_data(self):
     sql = self.build_sql()
 
-    result = Postgres_DB.fetchall(sql, self.mapping)
-
+    result = Postgres_DB.fetchall(sql, (), self.mapping)
 
     return result
 
