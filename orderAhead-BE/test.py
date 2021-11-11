@@ -2,6 +2,7 @@ from config import app
 from models.user import User
 from models.product import Product
 from models.category import Category
+from models.brand import Brand
 
 @app.route("/test", methods=["GET"])
 def test():
@@ -9,7 +10,7 @@ def test():
   list_cats = Category.get_list()
   print(list_cats)
   for cat in list_cats: print(cat.name)
-  cat = Category('Edible')
+  cat = Brand('Warren\'s Cannabis Creations')
   print('---------------------------------*************************')
   products = cat.get_products()
   for product in products:

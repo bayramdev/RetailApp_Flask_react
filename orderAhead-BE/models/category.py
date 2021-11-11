@@ -3,6 +3,7 @@ from models.base import Base
 from models.product import Product
 
 class Category(Base):
+  column_name = "Category"
   def __init__(self, name):
     self.name = name
 
@@ -15,8 +16,10 @@ class Category(Base):
   def build_category(cls, record):
     return cls(record[0])
 
-  def get_products(self, options = {}):
+  def get_products(self, options = {'limit': 10, 'offset': 0}):
     select_fields = Product.get_select_fields()
-    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "Category" = %s LIMIT 10 OFFSET 0'
+    limit = options['limit']
+    offset = options['offset']
+    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s LIMIT {limit} OFFSET {offset}'
 
     return Postgres_DB.fetchall(sql, (self.name, ), Product.build_product)
