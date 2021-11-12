@@ -23,3 +23,11 @@ class Category(Base):
     sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s LIMIT {limit} OFFSET {offset}'
 
     return Postgres_DB.fetchall(sql, (self.name, ), Product.build_product)
+
+  def top_products(self, options = {'limit': 10, 'offset': 0}):
+    select_fields = Product.get_select_fields()
+    limit = options['limit']
+    offset = options['offset']
+    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s LIMIT {limit} OFFSET {offset}'
+
+    return Postgres_DB.fetchall(sql, (self.name, ), Product.build_product)

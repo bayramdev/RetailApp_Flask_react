@@ -28,7 +28,8 @@ const TheContent = (props) => {
   let fullwidthClasses = routes.filter(route => route.fullwidth)
 
   fullwidthClasses = fullwidthClasses.map((route, idx) => sanitizeTitle(route.path))
-  if (fullwidthClasses.includes(pageClass))
+
+  if (-1 !== fullwidthClasses.some(item => pageClass.indexOf(pageClass)))
     boxLayoutClass = ' fullwidth'
 
   return (
