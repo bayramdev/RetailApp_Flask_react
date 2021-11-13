@@ -1,18 +1,32 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import OsTopNav from './order-system/OsTopNav'
 import OsHome from './order-system/OsHome'
+import routes from './order-system/routes'
 import { CFade } from '@coreui/react'
+import { Suspense } from 'react'
 
 
 const OrderSystem = ({ match }) => {
-  console.log(match.path)
+
   return (
-    <div>
-      <h1 className="text-center">ONLINE ORDERING</h1>
+    <>
+      <h1 className="text-center">Online System</h1>
       <OsTopNav />
-      <Route path={`${match.path}/test`} render={props => <OsHome {...props} />} />
-    </div>
+      <div className="mt-3">
+        {routes.map((route, idx) => {
+          return route.component && (
+            <Route
+              key={idx}
+              path={match.url + route.path}
+              render={props => (
+                <route.component {...props} />
+              )} />
+          )
+        })}
+        <Redirect from="/" to={`${match.url}/home`}></Redirect>
+      </div>
+    </>
   )
 }
 

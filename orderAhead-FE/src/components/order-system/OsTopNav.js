@@ -1,24 +1,23 @@
-import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle, CHeader, CHeaderNav, CHeaderNavItem, CHeaderNavLink, CImg } from '@coreui/react'
 import React from 'react'
+import { useRouteMatch, Link } from 'react-router-dom'
+import routes from './routes'
 
 const OsTopNav = () => {
+  const {url} = useRouteMatch()
+
+  const OsItem = (props) => (<div className="os-header__item">{props.children}</div>)
+  const OsLink = (props) => (<Link className="os-header__link" to={props.to}>{props.children}</Link>)
+  const OsItemLink = (props) => (<OsItem><OsLink to={props.to}>{props.children}</OsLink></OsItem>)
+
   return (
     <>
-      <CHeader colorscheme="light">
-        <CHeaderNav>
-          <CHeaderNavItem>
-            <CHeaderNavLink>Home</CHeaderNavLink>
-            <CDropdown variant="btn-group">
-                <CDropdownToggle className="m-0 pt-0 p-0" caret={false}>
-                  <span>Categories</span>
-                </CDropdownToggle>
-                <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
-                  <CDropdownItem>Dashboard 1</CDropdownItem>
-                </CDropdownMenu>
-            </CDropdown>
-          </CHeaderNavItem>
-        </CHeaderNav>
-      </CHeader>
+      <div className="os-header">
+        <nav className="os-header__nav">
+          <OsItemLink to={`${url}/home`}>Home</OsItemLink>
+          <OsItemLink to={`${url}/products`}>Categories</OsItemLink>
+          <OsItemLink to={`${url}/brands`}>Brand</OsItemLink>
+        </nav>
+      </div>
     </>
   )
 }
