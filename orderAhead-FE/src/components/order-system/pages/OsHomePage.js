@@ -1,11 +1,11 @@
 import React from 'react';
 
-const OsBrand = () => {
+const OsHomePage = () => {
   return (
     <div>
-      OsBrand
+      OsHome
     </div>
   );
 };
 
-export default OsBrand;
+export default OsHomePage;

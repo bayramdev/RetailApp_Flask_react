@@ -1,19 +1,16 @@
 import React from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import OsTopNav from './order-system/OsTopNav'
-import OsHome from './order-system/OsHome'
 import routes from './order-system/routes'
-import { CFade } from '@coreui/react'
-import { Suspense } from 'react'
 
 
 const OrderSystem = ({ match }) => {
 
   return (
-    <>
-      <h1 className="text-center">Online System</h1>
+    <div class="order-system">
+      <h1 className="order-system__heading text-center">Online System</h1>
       <OsTopNav />
-      <div className="mt-3">
+      <div className="order-system__content">
         {routes.map((route, idx) => {
           return route.component && (
             <Route
@@ -26,7 +23,7 @@ const OrderSystem = ({ match }) => {
         })}
         <Redirect from="/" to={`${match.url}/home`}></Redirect>
       </div>
-    </>
+    </div>
   )
 }
 

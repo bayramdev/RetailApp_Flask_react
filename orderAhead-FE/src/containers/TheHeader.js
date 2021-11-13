@@ -47,7 +47,7 @@ const TheHeader = () => {
         )
     }
     else {
-      history.push("signin")
+      history.push("/signin")
     }
   }, [localUser])
 
@@ -63,7 +63,7 @@ const TheHeader = () => {
     dispatch({type: 'set', isAdmin: false})
     dispatch({type: 'set', user: {}})
     dispatch({type: 'refresh'})
-    history.push("signin")
+    history.push("/signin")
   }
 
   const onClickLogo = () => {
