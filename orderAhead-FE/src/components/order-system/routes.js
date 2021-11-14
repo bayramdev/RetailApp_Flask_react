@@ -5,7 +5,7 @@ import OsProductPage from './pages/OsProductPage'
 import OsCheckoutPage from './pages/OsCheckoutPage'
 
 const routes = [
-  { path: '/', name: 'Home', component: OsHomePage, exact: true },
+  { path: '', name: 'Home', component: OsHomePage, exact: true },
   { path: '/products', name: 'Category', component: OsCategoryPage },
   { path: '/product', name: 'Product', component: OsProductPage },
   { path: '/brands', name: 'Brand', component: OsBrandPage },

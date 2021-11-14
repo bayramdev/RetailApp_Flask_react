@@ -103,6 +103,9 @@ const TheHeader = () => {
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && !isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/order" className={currPath === '/order' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Order</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className={isLogin && !isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/setting" className={currPath === '/setting' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Setting</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>

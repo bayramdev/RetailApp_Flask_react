@@ -32,7 +32,7 @@ const OsTopNav = () => {
         <div className="os-container">
           <div className="os-header__inner">
             <nav className="os-header__nav os-topnav">
-              <OsItemLink to={`${url}/home`}>Home</OsItemLink>
+              <OsItemLink to={`${url}`}>Home</OsItemLink>
               <OsItemDropdown title="Categories">
                 <OsItemLink to={`${url}/products`}>Category1</OsItemLink>
                 <OsItemLink to={`${url}/products`}>Category2</OsItemLink>
