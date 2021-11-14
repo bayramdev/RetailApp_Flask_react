@@ -36,7 +36,7 @@ const OsMinicart = () => {
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
           >
-            <OsCartPopup />
+            <OsCartPopup closeDrawer={() => toggleDrawer(anchor, false)} />
           </Drawer>
         </div>
       </React.Fragment>
