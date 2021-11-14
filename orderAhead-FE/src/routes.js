@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import OrderSystem from './components/OrderSystem';
 
 const Home = lazy(() => import('./views/home/Home'));
 const Terms = lazy(() => import('./views/dashboard/Terms'))
@@ -23,6 +24,7 @@ const routes = [
   { path: '/dashboard-2', name: 'Dashboard 2', component: AdminDashboard2, fullwidth: true,},
   { path: '/dashboard-3', name: 'Dashboard 3', component: AdminDashboard3, fullwidth: true,},
   { path: '/dashboard-4', name: 'Dashboard 4', component: AdminDashboard4, fullwidth: true,},
+  { path: '/order', exact: false, name: 'Order', component: OrderSystem, fullwidth: true,},
 ];
 
 export default routes;

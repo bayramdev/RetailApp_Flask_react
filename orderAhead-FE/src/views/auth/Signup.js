@@ -94,7 +94,7 @@ const Signup = () => {
             successNotification(user.message, 3000);
             // dispatch({type: 'set', openEmailVerification: false})
             setIsSubmitting(false);
-            history.push("signin")
+            history.push("/signin")
           } else {
             warningNotification(user.message, 3000);
             setIsSubmitting(false);

@@ -2,7 +2,7 @@ import psycopg2
 
 params = {
   'host': "52.191.3.0",
-  'database': "web_db",
+  'database': "postgres",
   'user': "postgres",
   'password': "N^cfZkujmn3dIjMjVHd"
 }
@@ -13,10 +13,10 @@ class Postgres_DB:
     return conn
 
   @classmethod
-  def fetchone(self, sql, mapping = None):
+  def fetchone(self, sql, params = (), mapping = None):
     conn = self.connect()
     cur = conn.cursor()
-    cur.execute(sql)
+    cur.execute(sql, params)
     result = cur.fetchone()
     cur.close()
     conn.close()
@@ -33,10 +33,10 @@ class Postgres_DB:
             yield row
 
   @classmethod
-  def fetchall(self, sql, mapping = None):
+  def fetchall(self, sql, params = (), mapping = None):
     conn = self.connect()
     cur = conn.cursor()
-    cur.execute(sql)
+    cur.execute(sql, params)
 
     result = []
     for row in self.iter_row(cur):
@@ -54,6 +54,3 @@ class Postgres_DB:
       return row
 
     return mapping(row)
-
-    # keys = mapping.keys()
-    # values = mapping.values()
