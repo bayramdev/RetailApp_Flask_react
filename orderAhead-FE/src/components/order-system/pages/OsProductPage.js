@@ -1,12 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import OsIconCart from '../icons/OsIconCart';
 import OsIconLeft from '../icons/OsIconLeft';
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import OsAddToCart from '../parts/OsAddToCart';
 
 
 const OsProductPage = () => {
@@ -21,55 +16,30 @@ const OsProductPage = () => {
   const tags = ['Hybrid']
   const productDesc = 'Dried cannabis flower is primarily ingested via inhalation. Activation time is roughly about 5 minutes and can last up to a few hours.'
 
-  const [age, setAge] = React.useState('');
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
   return (
     <>
       <div className="os-container">
         <div className="os-layout os-layout--1column">
           <div className="os-layout__main">
             <Link to="/order/brands"><OsIconLeft /> Back</Link>
-            <div class="os-product">
-              <div class="os-product__photo">
+            <div class="os-product row">
+              <div class="os-product__photo col-5">
                 <img src={photoUrl} />
               </div>
-              <div class="os-product__details">
+              <div class="os-product__details col-7">
                 <div class="os-product__brand">{brand}</div>
                 <div class="os-product__name">{productName}</div>
                 <div class="os-product__options os-product-option-list">
                   {options.map(option =>
-                    <div class="os-product-option">
-                      <div class="os-product-option__weight">{option.weight}</div>
-                      <div class="os-product-option__price">{option.price}</div>
+                    <div class="os-product-option os-product-item-button">
+                      <div class="os-product-option__weight os-product-item-button__weight">{option.weight}</div>
+                      <div class="os-product-option__price os-product-item-button__price">{option.price}</div>
                     </div>
                   )}
                 </div>
-                <div class="os-product__addtocart os-addtocart">
-                  <div class="os-addtocart__qty">
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={age}
-                        label="Age"
-                        onChange={handleChange}
-                      >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-                  <div class="os-addtocart__button-wrapper">
-                    <button class="os-addtocart__button">
-                      <OsIconCart></OsIconCart>
-                      <span>Add to cart</span>
-                    </button>
-                  </div>
+                <div class="os-product__addtocart">
+                  <OsAddToCart />
                 </div>
                 <div class="os-product__note">{note}</div>
                 <div class="os-product__tags">

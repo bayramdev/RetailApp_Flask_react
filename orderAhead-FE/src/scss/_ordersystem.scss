@@ -12,6 +12,8 @@ $color__category_bg: #f2f6f8;
 $color__white: #ffffff;
 $color__category_shop: #afb1b2;
 $color__active: #f58f51;
+$color__blue: #0b99e6;
+$color__brand: #969ea5;
 
 $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
@@ -349,3 +351,75 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
     font-weight: bold;
   }
 }
+
+/* Product page */
+.os-product {}
+.os-product__photo {}
+.os-product__details {}
+.os-product__brand {
+    color: $color__brand;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 15px;
+    text-transform: uppercase;
+}
+.os-product__name {
+    color: $color__item_name;
+    font-size: 40px;
+    line-height: 120%;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+.os-product__options {
+  display: flex;
+  margin-top: 18px;
+  margin-bottom: 20px;
+}
+.os-product-option {
+  background: $color__white;
+  margin-right: 10px;
+  border: 1px solid $color__border;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.os-product-option__weight {}
+.os-product-option__price {}
+.os-product__addtocart {}
+
+.os-addtocart {
+  display: flex;
+}
+.os-addtocart__qty {
+  width: 98px;
+  margin-right: 15px;
+  fieldset {
+    border-radius: 27.5px;
+  }
+}
+.os-addtocart__button-wrapper {
+}
+.os-addtocart__button {
+  background: $color__blue;
+  color: $color__white;
+  border: none;
+  display: flex;
+  justify-content: center;
+  border-radius: 27.5px;
+
+  height: 53px;
+  width: 166px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  white-space: nowrap;
+  padding: 0px 21px 0px 23px !important;
+  text-transform: uppercase;
+  font-weight: bold;
+  .os-icon {
+    margin-right: 10px;
+  }
+}
+.os-product__note {}
+.os-product__tags {}
+.os-product-tag {}
+.os-product__desc {}

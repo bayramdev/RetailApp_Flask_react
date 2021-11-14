@@ -14,6 +14,7 @@ const OrderSystem = ({ match }) => {
         {routes.map((route, idx) => {
           return route.component && (
             <Route
+              exact={route.exact}
               key={idx}
               path={match.url + route.path}
               render={props => (
@@ -21,7 +22,7 @@ const OrderSystem = ({ match }) => {
               )} />
           )
         })}
-        <Redirect from="/" to={`${match.url}/home`}></Redirect>
+        {/* <Redirect exact="true" from="/" to={`${match.url}/home`}></Redirect> */}
       </div>
     </div>
   )
