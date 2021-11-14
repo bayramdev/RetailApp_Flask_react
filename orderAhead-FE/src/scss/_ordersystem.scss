@@ -353,6 +353,11 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 
 /* Product page */
+.os-goback {
+  color: $color__blue!important;
+  font-size: 14px;
+  font-weight: bold;
+}
 .os-product {}
 .os-product__photo {}
 .os-product__details {}
@@ -381,11 +386,25 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   border: 1px solid $color__border;
   cursor: pointer;
   margin-bottom: 15px;
+  &:hover,
+  &--active {
+    border-color: $color__blue;
+    color: $color__blue;
+  }
 }
 .os-product-option__weight {}
 .os-product-option__price {}
-.os-product__addtocart {}
-
+.os-product__addtocart {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+#os-qty-select {
+  text-align: center;
+}
+[aria-labelledby="os-qty-label"] li {
+  justify-content: center!important;
+}
 .os-addtocart {
   display: flex;
 }
@@ -415,11 +434,49 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   padding: 0px 21px 0px 23px !important;
   text-transform: uppercase;
   font-weight: bold;
+
+  &:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.15) 0px, rgba(0, 0, 0, 0.15) 0px);
+  }
   .os-icon {
     margin-right: 10px;
   }
 }
-.os-product__note {}
-.os-product__tags {}
-.os-product-tag {}
+.os-product__note {
+  margin-bottom: 35px;
+  font-size: 12px;
+  color: $color__brand;
+}
+.os-horz-line {
+  border-top: 1px solid $color__strain_bg;
+  height: 1px;
+  max-width: 100%;
+  display: block;
+  margin-bottom: 38px;
+}
+.os-product__tags {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.os-product-tag {
+  border-radius: 61px;
+  background-color: rgb(242, 246, 248);
+  margin: 0px 10px 10px 0px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  width: fit-content;
+
+  span {
+    display: inline-block;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: rgb(69, 78, 80);
+    font-size: 13px;
+    padding: 14px 18px;
+  }
+}
 .os-product__desc {}

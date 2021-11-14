@@ -22,7 +22,7 @@ const OsProductPage = () => {
       <div className="os-container">
         <div className="os-layout os-layout--1column">
           <div className="os-layout__main">
-            <Link to="/order/brands"><OsIconLeft /> Back</Link>
+            <Link className="os-goback" to="/order/brands"><OsIconLeft /> Back</Link>
             <div class="os-product row">
               <div class="os-product__photo col-5">
                 <img src={photoUrl} />
@@ -42,9 +42,10 @@ const OsProductPage = () => {
                   <OsAddToCart />
                 </div>
                 <div class="os-product__note">{note}</div>
+                <div class="os-horz-line" />
                 <div class="os-product__tags">
                   {tags.map(tag =>
-                    <div class="os-product-tag">{tag.name}</div>
+                    <div class="os-product-tag"><span>{tag}</span></div>
                   )}
                 </div>
                 <div class="os-product__desc">

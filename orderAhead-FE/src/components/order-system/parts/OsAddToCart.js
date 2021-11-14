@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 const OsAddToCart = () => {
-  const [qty, setQty] = React.useState('');
+  const [qty, setQty] = React.useState(1);
 
   const handleChange = (event) => {
     setQty(event.target.value);
@@ -48,6 +48,7 @@ const OsAddToCart = () => {
             id="os-qty-select"
             value={qty}
             label="Qty"
+            displayEmpty
             onChange={handleChange}
           >
             {qtys.map(qty => <MenuItem value={qty}>{qty}</MenuItem>)}
