@@ -1,5 +1,6 @@
 import csv
 from .postgre_model import Postgres_DB
+import datetime
 
 PROPERTIES_OF_TABLE = [
     {
@@ -108,7 +109,7 @@ def write_multiple_line(csv_file, table_name):
         sql = f'INSERT INTO "{table_name}" ('
         for inH_, header in enumerate(headers):
             if inH_ >= len(headers) - 1:
-                sql += f'"{header}") VALUES '
+                sql += f'"{header}", "insert_datetime") VALUES '
             else:
                 sql += f'"{header}", '
 
@@ -130,9 +131,9 @@ def write_multiple_line(csv_file, table_name):
                 content = str(column).replace('\'', '\\''')
                 if idc_ >= len(headers) - 1:
                     if content != "":
-                        sql += f'\'{content}\' '
+                        sql += f'\'{content}\', \'{str(datetime.datetime.now())}\' '
                     else:
-                        sql += f'DEFAULT '
+                        sql += f'DEFAULT, \'{str(datetime.datetime.now())}\' '
                 else:
                     if content != "":
                         sql += f'\'{content}\', '
