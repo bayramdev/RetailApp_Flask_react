@@ -28,13 +28,15 @@ const TheContent = (props) => {
   let fullwidthClasses = routes.filter(route => route.fullwidth)
 
   fullwidthClasses = fullwidthClasses.map((route, idx) => sanitizeTitle(route.path))
-  if (fullwidthClasses.includes(pageClass))
+
+
+  if (fullwidthClasses.some(item => -1 !== pageClass.indexOf(item)))
     boxLayoutClass = ' fullwidth'
 
   return (
     <main className={'c-main route-'+pageClass+boxLayoutClass}>
       <CContainer fluid>
-        <Suspense fallback={loading}>
+        {/* <Suspense fallback={loading}> */}
           <Switch>
             {routes.map((route, idx) => {
               return route.component && (
@@ -52,7 +54,7 @@ const TheContent = (props) => {
             })}
             <Redirect from="/" to="/home" />
           </Switch>
-        </Suspense>
+        {/* </Suspense> */}
       </CContainer>
     </main>
   )
