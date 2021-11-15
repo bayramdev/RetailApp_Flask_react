@@ -102,6 +102,9 @@ const TheHeader = () => {
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
         </CHeaderNavItem>
+        <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/db-manage" className={currPath === '/db-manage' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>DB Manage</CHeaderNavLink>
+        </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && !isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/order" className={currPath === '/order' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Order</CHeaderNavLink>
         </CHeaderNavItem>
@@ -139,6 +142,7 @@ const TheHeader = () => {
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
                 <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('users')}>User Manage</CDropdownItem>
                 <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('links')}>Link Manage</CDropdownItem>
+                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('db-manage')}>DB Manage</CDropdownItem>
                 <CDropdownItem className={isLogin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('setting')}>Setting</CDropdownItem>
                 <CDropdownItem className="dropdown-toggle-menuitem" onClick={logout}>Log out</CDropdownItem>
             </CDropdownMenu>
