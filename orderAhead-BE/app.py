@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, jsonify
 import os
 import common
-from controller import user_controller, link_controller
+from controller import user_controller, link_controller, db_controller
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -15,8 +15,6 @@ from flask_cors import cross_origin
 from flask_mail import Mail, Message
 
 import smtplib
-from smtp_client import send_email
-from smtp_server import SMTPServer
 from models.datatable_factory import DatatableFactory
 from models.user import User
 from config import app
@@ -24,6 +22,9 @@ from config import app
 LOCAL = True
 # Init app
 # app = Flask('RetailApp')
+UPLOAD_FOLDER = './public/uploads'
+ALLOWED_EXTENSIONS = set([ 'csv'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mail_settings = {
     "MAIL_SERVER": os.getenv('MAIL_SERVER', 'smtp.gmail.com'),
@@ -105,7 +106,6 @@ def logIn():
                         print(msg.body)
                         if not LOCAL:
                             mail.send(msg)
-
                         else:
                             # server = smtplib.SMTP("localhost", 10255)
                             # server.sendmail(SENDER_EMAIL, [email], msg.as_string())
@@ -706,6 +706,124 @@ def loadDatatable(data_type):
     return response
 
 
+@app.route('/getTableList', methods=['GET'])
+@cross_origin()
+def getTableList():
+    result = db_controller.get_table_list()
+
+    if not result or len(result) == 0:
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Database doesn\'t exist."}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent", "data": result}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+@app.route('/getDataInfoByTableName', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def getDataInfoByTableName():
+    # Receives the data in JSON format in a HTTP POST request
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+    table_name = content.get("name")
+
+    if not (table_name):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    result = db_controller.get_all_data_by_name(table_name)
+
+    columns = db_controller.get_column_names_per_table(table_name)
+
+    return jsonify({"status": True, "data": result, "columns": columns})
+
+
+@app.route('/uploadFile', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def uploadCSVFile():
+    # Receives the data in JSON format in a HTTP POST request
+    if request.method == 'POST':
+        file = request.files['csv']
+        if file.filename == '':
+            return jsonify({"status": False, "message": "No selected file"})
+
+        # if os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)):
+        #     return jsonify({"status": False, "message": "Already uploaded"})
+
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        file.close()
+
+        table_name = db_controller.get_table_name_from_csv(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+        if table_name == '':
+            return jsonify({"status": False, "message": "Responding table no exist."})
+
+        try:
+            db_controller.write_multiple_line(os.path.join(app.config['UPLOAD_FOLDER'], file.filename), table_name)
+        except Exception:
+            return jsonify({"status": False, "message": "Unfortunatelly failed. Please confirm the CSV file."})
+
+        return jsonify({"status": True, "message": "Successfully inserted \"" + table_name + "\"", "table": table_name})
+    else:
+        return jsonify({"status": False, "message": "Request error"})
+
+@app.route('/downloadCSV', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def downloadCSV():
+    # Receives the data in JSON format in a HTTP POST request
+    if request.method == 'POST':
+        if not request.is_json:
+            return jsonify({"status": False, "message": "Input error!"})
+
+        content = request.get_json()
+        table_name = content.get("name")
+
+        if not (table_name):
+            return jsonify({"status": False, "message": "Input error!"})
+
+        result = db_controller.get_all_data_by_name(table_name)
+
+        columns = db_controller.get_column_names_per_table(table_name)
+
+        # output = io.StringIO()
+        # writer = csv.writer(output)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], "output.csv")
+
+        column_str = ','.join(columns)
+        # line = [column_str]
+        # writer.writerow(line)
+        length_columns = len(columns)
+
+        with open(file_path, 'w') as f:
+            f.writelines(column_str)
+            f.write('\n')
+
+            for row in result:
+                line_str = ''
+                for id_c in range(length_columns):
+                    line_str += str(row[id_c]) + ','
+                f.writelines(line_str[:-1])
+                f.write('\n')
+            # writer.writerow([line_str[:-1]])
+
+        with open(file_path) as f:
+            data = f.read()
+
+        return {"data": data}
+
+        # output.seek(0)
+
+        # return Response(output, mimetype="text/csv",
+        #                 headers={"Content-Disposition": "attachment;filename=report.csv"})
 
 @app.errorhandler(404)
 def page_not_found(e):
