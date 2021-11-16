@@ -2,7 +2,7 @@ import psycopg2
 
 params = {
   'host': "52.191.3.0",
-  'database': "postgres",
+  'database': "web_db",
   'user': "postgres",
   'password': "N^cfZkujmn3dIjMjVHd"
 }
