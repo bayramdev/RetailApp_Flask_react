@@ -2,7 +2,7 @@ from models.postgres_db import Postgres_DB
 from models.base import Base
 from models.product import Product
 import json
-from common import sanitize_title
+from common import sanitize_title, sanitize_handle
 
 class Category(Base):
   column_name = "Category"
@@ -55,4 +55,4 @@ class Category(Base):
     if self.name in image_urls:
       thumbnail = image_urls[self.name]
 
-    return {'name':self.name, 'thumbnail': thumbnail, 'link': self.get_link()}
+    return {'name':self.name, 'thumbnail': thumbnail, 'link': self.get_link(), 'handle':sanitize_handle(self.name)}

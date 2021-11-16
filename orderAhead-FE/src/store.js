@@ -18,6 +18,7 @@ const initialState = {
   brands: [],
   isLoading: false,
   currentCategory: false,
+  cartItems: [],
 }
 
 const changeState = (state = initialState, { type, ...rest }) => {

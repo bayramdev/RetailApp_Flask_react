@@ -20,3 +20,12 @@ export const range = (start, stop, step) => {
 
   return result;
 };
+
+
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+})
+
+export const formatPrice = value => formatter.format(value)

@@ -1,6 +1,7 @@
 from passlib.hash import pbkdf2_sha256 as sha256
 from random import randint
 import urllib
+from slugify import slugify
 
 
 def generate_hash(password):
@@ -23,3 +24,6 @@ def get_verification_code():
 
 def sanitize_title(text):
     return urllib.parse.quote(text, safe='')
+
+def sanitize_handle(text):
+    return slugify(text)
