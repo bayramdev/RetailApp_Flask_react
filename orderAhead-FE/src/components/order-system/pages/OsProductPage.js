@@ -23,32 +23,32 @@ const OsProductPage = () => {
         <div className="os-layout os-layout--1column">
           <div className="os-layout__main">
             <Link className="os-goback" to="/order/brands"><OsIconLeft /> Back</Link>
-            <div class="os-product row">
-              <div class="os-product__photo col-5">
+            <div className="os-product row">
+              <div className="os-product__photo col-5">
                 <img src={photoUrl} />
               </div>
-              <div class="os-product__details col-7">
-                <div class="os-product__brand">{brand}</div>
-                <div class="os-product__name">{productName}</div>
-                <div class="os-product__options os-product-option-list">
+              <div className="os-product__details col-7">
+                <div className="os-product__brand">{brand}</div>
+                <div className="os-product__name">{productName}</div>
+                <div className="os-product__options os-product-option-list">
                   {options.map(option =>
-                    <div class="os-product-option os-product-item-button">
-                      <div class="os-product-option__weight os-product-item-button__weight">{option.weight}</div>
-                      <div class="os-product-option__price os-product-item-button__price">{option.price}</div>
+                    <div className="os-product-option os-product-item-button">
+                      <div className="os-product-option__weight os-product-item-button__weight">{option.weight}</div>
+                      <div className="os-product-option__price os-product-item-button__price">{option.price}</div>
                     </div>
                   )}
                 </div>
-                <div class="os-product__addtocart">
+                <div className="os-product__addtocart">
                   <OsAddToCart />
                 </div>
-                <div class="os-product__note">{note}</div>
-                <div class="os-horz-line" />
-                <div class="os-product__tags">
+                <div className="os-product__note">{note}</div>
+                <div className="os-horz-line" />
+                <div className="os-product__tags">
                   {tags.map(tag =>
-                    <div class="os-product-tag"><span>{tag}</span></div>
+                    <div className="os-product-tag"><span>{tag}</span></div>
                   )}
                 </div>
-                <div class="os-product__desc">
+                <div className="os-product__desc">
                   {productDesc}
                 </div>
               </div>

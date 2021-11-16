@@ -1,5 +1,6 @@
 from passlib.hash import pbkdf2_sha256 as sha256
 from random import randint
+import urllib
 
 
 def generate_hash(password):
@@ -19,3 +20,6 @@ def dict_factory(cursor, row):
 
 def get_verification_code():
     return randint(1000000, 9999999)
+
+def sanitize_title(text):
+    return urllib.parse.quote(text, safe='')

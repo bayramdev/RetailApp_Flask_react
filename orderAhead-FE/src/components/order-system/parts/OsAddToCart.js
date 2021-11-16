@@ -17,8 +17,8 @@ const OsAddToCart = () => {
 
 
   return (
-    <div class="os-addtocart">
-      <div class="os-addtocart__qty">
+    <div className="os-addtocart">
+      <div className="os-addtocart__qty">
         <FormControl fullWidth>
           <InputLabel id="os-qty-label">Qty</InputLabel>
           <Select
@@ -33,8 +33,8 @@ const OsAddToCart = () => {
           </Select>
         </FormControl>
       </div>
-      <div class="os-addtocart__button-wrapper">
-        <button class="os-addtocart__button">
+      <div className="os-addtocart__button-wrapper">
+        <button className="os-addtocart__button">
           <OsIconCart></OsIconCart>
           <span>Add to cart</span>
         </button>

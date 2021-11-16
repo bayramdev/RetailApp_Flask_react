@@ -1,5 +1,5 @@
 from .postgres_db import Postgres_DB
-
+from common import sanitize_title
 from models.base import Base
 
 class Product(Base):
@@ -63,3 +63,18 @@ class Product(Base):
     product.build_data(db_record)
 
     return product
+
+  def get_link(self):
+    link = '/order/product?sku=' + sanitize_title(self.sku)
+    return link
+
+  def toJSON(self):
+    return {
+      'sku': self.sku,
+      'name': self.product_name,
+      'thumbnail': self.img_url,
+      'price': self.price,
+      'brand': self.brand,
+      'strain': 'Strain',
+      'link': self.get_link(),
+    }

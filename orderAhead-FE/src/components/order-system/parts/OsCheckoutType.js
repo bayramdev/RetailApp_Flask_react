@@ -9,10 +9,10 @@ import Button from '@mui/material/Button';
 
 const OsCheckoutType = () => {
   return (
-    <div class="os-checkout-group">
-      <div class="os-checkout-group__caption">Type</div>
-      <div class="os-checkout-group__body">
-        <div class="os-checkout-group__border">
+    <div className="os-checkout-group">
+      <div className="os-checkout-group__caption">Type</div>
+      <div className="os-checkout-group__body">
+        <div className="os-checkout-group__border">
           <FormControl component="fieldset">
             <RadioGroup
               aria-label="gender"
