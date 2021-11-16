@@ -6,7 +6,7 @@ import OsCheckoutPage from './pages/OsCheckoutPage'
 
 const routes = [
   { path: '', name: 'Home', component: OsHomePage, exact: true },
-  { path: '/products', name: 'Category', component: OsCategoryPage },
+  { path: '/products/:category', name: 'Category', component: OsCategoryPage },
   { path: '/product', name: 'Product', component: OsProductPage },
   { path: '/brands', name: 'Brand', component: OsBrandPage },
   { path: '/checkout', name: 'Checkout', component: OsCheckoutPage },

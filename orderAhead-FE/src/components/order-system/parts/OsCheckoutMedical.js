@@ -22,14 +22,14 @@ const OsCheckoutMedical = () => {
     color: theme.palette.text.secondary,
   }));
   return (
-    <div class="os-checkout-group">
-      <div class="os-checkout-group__caption">Medical</div>
-      <div class="os-checkout-group__body">
-        <div class="os-checkout-group__border">
+    <div className="os-checkout-group">
+      <div className="os-checkout-group__caption">Medical</div>
+      <div className="os-checkout-group__body">
+        <div className="os-checkout-group__border">
           <FormGroup>
             <FormControlLabel control={<Checkbox defaultChecked />} label="I have a state issued medical card" />
           </FormGroup>
-          <div class="os-checkout-group__note">Your card will be verified upon pickup, and your order total has been adjusted!</div>
+          <div className="os-checkout-group__note">Your card will be verified upon pickup, and your order total has been adjusted!</div>
 
           <Grid container rowSpacing={3}>
             <Grid item xs={12}>

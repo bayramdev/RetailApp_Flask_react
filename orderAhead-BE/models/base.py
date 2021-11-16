@@ -1,3 +1,4 @@
+import json
 class Base(object):
   data = {}
   allow_fields = {}
@@ -17,3 +18,5 @@ class Base(object):
   @classmethod
   def get_select_fields(self):
     return ', '.join([f'"{field_name}"' for field_name in self.allow_fields.values()])
+
+

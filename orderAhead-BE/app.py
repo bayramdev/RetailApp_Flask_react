@@ -832,6 +832,7 @@ def page_not_found(e):
 
 #Provide routes for api flowhub
 import flowhub.api
+import models.ordersystem
 import test
 
 

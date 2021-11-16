@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import OsTopNav from './order-system/OsTopNav'
 import routes from './order-system/routes'
-
+import { osServices } from '../controllers/_services/ordersystem.service';
+import { useDispatch } from 'react-redux';
 
 const OrderSystem = ({ match }) => {
+  const dispatch = useDispatch()
+  const setCategories = (data) => dispatch({type: 'set', categories: data})
+  const setBrands = (data) => dispatch({type: 'set', brands: data})
+
+  useEffect(() => {
+    dispatch({type: 'set', isLoading: true})
+    osServices.osLoadCategories().then((response) => {
+      setCategories(response.data)
+      dispatch({type: 'set', isLoading: false})
+    })
+    osServices.osLoadBrands().then((response) => {
+      setBrands(response.data)
+      dispatch({type: 'set', isLoading: false})
+    })
+  }, [])
 
   return (
-    <div class="order-system">
+    <div className="order-system">
       <h1 className="order-system__heading text-center">Online System</h1>
       <OsTopNav />
       <div className="order-system__content">

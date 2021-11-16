@@ -14,27 +14,27 @@ const PurchaseItem = (props) => {
   const item = {...defaults, ...props.data}
 
   return (
-    <div class="purchase-item">
-      <div class="purchase-item__left">
-        <div class="purchase-item__image">
+    <div className="purchase-item">
+      <div className="purchase-item__left">
+        <div className="purchase-item__image">
           <img src={'img/icon-item2.png'} />
         </div>
-        <div class="purchase-item__name">{item.qty} x {item.name}</div>
-        <div class="purchase-item__category">{item.category}</div>
+        <div className="purchase-item__name">{item.qty} x {item.name}</div>
+        <div className="purchase-item__category">{item.category}</div>
       </div>
 
-      <div class="purchase-item__right">
-        <div class="purchase-item__price">
-          <div class="purchase-item__label">List Price</div>
-          <div class="purchase-item__value">{formatPrice(item.price)}</div>
+      <div className="purchase-item__right">
+        <div className="purchase-item__price">
+          <div className="purchase-item__label">List Price</div>
+          <div className="purchase-item__value">{formatPrice(item.price)}</div>
         </div>
-        <div class="purchase-item__tax">
-          <div class="purchase-item__label">Tax</div>
-          <div class="purchase-item__value">{formatPrice(item.tax)}</div>
+        <div className="purchase-item__tax">
+          <div className="purchase-item__label">Tax</div>
+          <div className="purchase-item__value">{formatPrice(item.tax)}</div>
         </div>
-        <div class="purchase-item__total">
-          <div class="purchase-item__label">Total</div>
-          <div class="purchase-item__value">{formatPrice(item.total)}</div>
+        <div className="purchase-item__total">
+          <div className="purchase-item__label">Total</div>
+          <div className="purchase-item__value">{formatPrice(item.total)}</div>
         </div>
       </div>
     </div>
