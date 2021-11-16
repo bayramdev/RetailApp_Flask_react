@@ -7,6 +7,7 @@ export const osServices = {
   osLoadCategories,
   osLoadBrands,
   osLoadProducts,
+  osLoadProduct,
 };
 
 function handleResponse(response) {
@@ -49,4 +50,8 @@ function osLoadBrands() {
 
 function osLoadProducts(params) {
   return callApi('loadProducts', params)
+}
+
+function osLoadProduct(params) {
+  return callApi('loadProduct', params)
 }

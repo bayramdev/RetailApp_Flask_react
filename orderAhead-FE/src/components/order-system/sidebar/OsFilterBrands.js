@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import OsIconDown from '../icons/OsIconDown';
 import OsIconRight from '../icons/OsIconRight';
 import OsLoading from '../OsLoading';
@@ -10,6 +10,10 @@ const OsFilterBrands = () => {
   const handleClick = () => setCollapsed(!isCollapsed)
   const isLoading = useSelector(state=>state.isLoading)
   const brands = useSelector(state=>state.brands)
+  const {brand} = useParams()
+  const activeClass = (loopBrand) => {
+    return (loopBrand == brand)?' os-sidebar-list__item--active':''
+  }
 
   return (
     <div className="os-sidebar-widget">
@@ -23,7 +27,7 @@ const OsFilterBrands = () => {
         {isLoading && <OsLoading />}
         {!isLoading &&
         <ol className="os-sidebar-widget__list os-sidebar-list">
-          {brands.map(brand => <li className="os-sidebar-list__item"><Link className="os-sidebar-list__link" to={brand.link}>{brand.name}</Link></li>)}
+          {brands.map(brand => <li className={'os-sidebar-list__item' + activeClass(brand.name)}><Link className="os-sidebar-list__link" to={brand.link}>{brand.name}</Link></li>)}
         </ol>}
       </div>}
     </div>

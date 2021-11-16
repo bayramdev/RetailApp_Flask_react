@@ -38,7 +38,7 @@ class Product(Base):
   }
 
   def __init__(self, sku = ''):
-    self.sku = sku
+    self.id = sku
     self.data = {}
     if len(sku) > 0:
       self.load_data()
@@ -47,7 +47,7 @@ class Product(Base):
     select_fields = self.get_select_fields()
     sql = f'SELECT {select_fields} FROM "public"."Inventory" WHERE "SKU" = %s LIMIT 1 '
 
-    Postgres_DB.fetchone(sql, (self.sku, ), self.build_data)
+    Postgres_DB.fetchone(sql, (self.id, ), self.build_data)
 
   def build_data(self, db_record):
     self.data = {}
@@ -65,16 +65,20 @@ class Product(Base):
     return product
 
   def get_link(self):
-    link = '/order/product?sku=' + sanitize_title(self.sku)
+    link = '/order/product/' + self.sku
     return link
 
   def toJSON(self):
+    thumbnail = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
+    if self.img_url:
+      thumbnail = self.img_url
     return {
       'sku': self.sku,
       'name': self.product_name,
-      'thumbnail': self.img_url,
+      'thumbnail': thumbnail,
       'price': self.price,
       'brand': self.brand,
       'strain': 'Strain',
+      'desc': self.product_description,
       'link': self.get_link(),
     }

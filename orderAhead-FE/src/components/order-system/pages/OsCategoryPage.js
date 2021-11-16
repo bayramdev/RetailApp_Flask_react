@@ -29,7 +29,9 @@ const OsCategoryPage = (props) => {
       setProducts(response.data)
       setLoading(false)
     })
-  }, [])
+  }, [category])
+
+  console.log(category)
 
 
 
@@ -47,7 +49,7 @@ const OsCategoryPage = (props) => {
             {isLoading && <OsLoading />}
             {!isLoading &&
             <OsProductList>
-              {products.map(product => <OsProductItem data={product} />)}
+              {products.map(product => <OsProductItem key={product.sku} data={product} />)}
             </OsProductList>}
           </div>
         </div>
