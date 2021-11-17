@@ -1,6 +1,7 @@
 import csv
 from .postgre_model import Postgres_DB
 import datetime
+from dateutil.parser import parse
 
 PROPERTIES_OF_TABLE = [
     {
@@ -15,13 +16,18 @@ PROPERTIES_OF_TABLE = [
     },
     {
         "table_name": "Sales_by_item_Daily",
-        "column_1": "Cost Per Item",
+        "column_1": "Receipt Total",
         "column_2": "Tax in Dollars"
     },
     {
         "table_name": "ftp_files",
         "column_1": "filename",
         "column_2": "insert_datetime"
+    },
+    {
+        "table_name": "Drawer_activities_Daily",
+        "column_1": "Beginning Balance",
+        "column_2": "Drawer Total"
     },
     {
         "table_name": "manager CDD",
@@ -44,11 +50,6 @@ PROPERTIES_OF_TABLE = [
         "column_2": "Receipt ID"
     },
     {
-        "table_name": "Drawer_activities_Daily",
-        "column_1": "Drawer Name",
-        "column_2": "Drawer Total"
-    },
-    {
         "table_name": "Flower Tier Report",
         "column_1": "Price Profile Name",
         "column_2": "Strain Name"
@@ -57,7 +58,7 @@ PROPERTIES_OF_TABLE = [
 
 
 def get_table_list():
-    table_list =  Postgres_DB.get_table_list()
+    table_list = Postgres_DB.get_table_list()
     return table_list
 
 
@@ -72,7 +73,7 @@ def get_column_names_per_table(table_name):
 
 
 def get_table_name_from_csv(csv_file):
-    with open(csv_file, 'r') as f:
+    with open(csv_file, 'r', encoding="utf8") as f:
         d_reader = csv.DictReader(f)
 
         # get fieldnames from DictReader object and store in list
@@ -96,7 +97,7 @@ def get_table_name_from_csv(csv_file):
 
 
 def write_multiple_line(csv_file, table_name):
-    with open(csv_file, 'r') as f:
+    with open(csv_file, 'r', encoding="utf8") as f:
 
         # Get the Header
         d_reader = csv.DictReader(f)
@@ -106,17 +107,26 @@ def write_multiple_line(csv_file, table_name):
         # with the delimiter as
         csv_reader = csv.reader(f)
 
+        last_length = len(headers) - 1
+        if headers[len(headers) - 1] == "insert_datetime":
+            last_length = len(headers) - 2
+
         sql = f'INSERT INTO "{table_name}" ('
         for inH_, header in enumerate(headers):
-            if inH_ >= len(headers) - 1:
-                sql += f'"{header}", "insert_datetime") VALUES '
+            if inH_ > last_length:
+                continue
+            elif inH_ == last_length:
+                if table_name == "Inventory":
+                    sql += f'"{header}") VALUES '
+                else:
+                    sql += f'"{header}", "insert_datetime") VALUES '
             else:
                 sql += f'"{header}", '
 
         # loop to iterate through the rows of csv
         for row in csv_reader:
 
-            break_condition = False
+            break_condition = True
             for id_, c in enumerate(row):
                 if c != "":
                     break_condition = False
@@ -126,16 +136,29 @@ def write_multiple_line(csv_file, table_name):
             if break_condition:
                 break
             # adding the first row
+            today_str = str(datetime.datetime.now())
+
             sql += f'('
             for idc_, column in enumerate(row):
                 content = str(column).replace('\'', '\\''')
-                if idc_ >= len(headers) - 1:
-                    if content != "":
-                        sql += f'\'{content}\', \'{str(datetime.datetime.now())}\' '
+                if content.isdigit():
+                    content = int(content)
+
+                if idc_ > last_length:
+                    continue
+                elif idc_ == last_length:
+                    if content != "" and content != "None":
+                        if table_name == "Inventory":
+                            sql += f'\'{content}\' '
+                        else:
+                            sql += f'\'{content}\', \'{today_str}\' '
                     else:
-                        sql += f'DEFAULT, \'{str(datetime.datetime.now())}\' '
+                        if table_name == "Inventory":
+                            sql += f'DEFAULT '
+                        else:
+                            sql += f'DEFAULT, \'{today_str}\' '
                 else:
-                    if content != "":
+                    if content != "" and content != "None":
                         sql += f'\'{content}\', '
                     else:
                         sql += f'DEFAULT, '
@@ -145,3 +168,10 @@ def write_multiple_line(csv_file, table_name):
         Postgres_DB.copy_csv(sql[:-1] + f';')
 
         return headers
+
+
+def is_date(string):
+    if str(string).find(":") > -1 and str(string).find("/") > -1:
+        return True
+    else:
+        return False

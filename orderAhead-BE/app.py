@@ -765,17 +765,21 @@ def uploadCSVFile():
 
         table_name = db_controller.get_table_name_from_csv(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
 
+        print(table_name)
+
         if table_name == '':
             return jsonify({"status": False, "message": "Responding table no exist."})
 
         try:
             db_controller.write_multiple_line(os.path.join(app.config['UPLOAD_FOLDER'], file.filename), table_name)
-        except Exception:
+        except Exception as e:
+            print(e)
             return jsonify({"status": False, "message": "Unfortunatelly failed. Please confirm the CSV file."})
 
         return jsonify({"status": True, "message": "Successfully inserted \"" + table_name + "\"", "table": table_name})
     else:
         return jsonify({"status": False, "message": "Request error"})
+
 
 @app.route('/downloadCSV', methods=["POST"], strict_slashes=False)
 @cross_origin()
@@ -804,19 +808,22 @@ def downloadCSV():
         # writer.writerow(line)
         length_columns = len(columns)
 
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding="utf8") as f:
             f.writelines(column_str)
             f.write('\n')
 
             for row in result:
                 line_str = ''
-                for id_c in range(length_columns):
-                    line_str += str(row[id_c]) + ','
+                for id_c in row:
+                    if str(id_c).find(",") > -1:
+                        line_str += "\"" + str(id_c) + "\"" + ','
+                    else:
+                        line_str += str(id_c) + ','
                 f.writelines(line_str[:-1])
                 f.write('\n')
             # writer.writerow([line_str[:-1]])
 
-        with open(file_path) as f:
+        with open(file_path, encoding="utf8") as f:
             data = f.read()
 
         return {"data": data}
