@@ -16,8 +16,7 @@ export const dbManageService = {
 */
 function getTableNames() {
     const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
+        method: 'GET'
     };
 
     return fetch(`${serverURL}/getTableList`, requestOptions).then(handleResponse);
