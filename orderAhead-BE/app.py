@@ -11,7 +11,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
 )
-from flask_cors import cross_origin
+from flask_cors import cross_origin, CORS
 from flask_mail import Mail, Message
 
 import smtplib
@@ -19,6 +19,7 @@ from models.datatable_factory import DatatableFactory
 from models.user import User
 from config import app
 
+CORS(app)
 LOCAL = True
 # Init app
 # app = Flask('RetailApp')
