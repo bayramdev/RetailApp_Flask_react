@@ -9,16 +9,16 @@ import OsIconCash from '../icons/OsIconCash';
 
 const OsCheckoutPayment = () => {
   return (
-    <div class="os-checkout-group">
-      <div class="os-checkout-group__caption">Payment</div>
-      <div class="os-checkout-group__body">
-        <div class="os-checkout-group__border">
-          <div class="os-checkout-list">
-            <div class="os-checkout-list__summary">Payment will be made upon pickup. We accept the following payment methods:</div>
-            <div class="os-checkout-list__options">
-              <div class="os-checkout-list__item"><OsIconCash /> Cash</div>
-              <div class="os-checkout-list__item"><OsIconCash /> Check</div>
-              <div class="os-checkout-list__item"><OsIconCash /> Debit Card</div>
+    <div className="os-checkout-group">
+      <div className="os-checkout-group__caption">Payment</div>
+      <div className="os-checkout-group__body">
+        <div className="os-checkout-group__border">
+          <div className="os-checkout-list">
+            <div className="os-checkout-list__summary">Payment will be made upon pickup. We accept the following payment methods:</div>
+            <div className="os-checkout-list__options">
+              <div className="os-checkout-list__item"><OsIconCash /> Cash</div>
+              <div className="os-checkout-list__item"><OsIconCash /> Check</div>
+              <div className="os-checkout-list__item"><OsIconCash /> Debit Card</div>
             </div>
           </div>
         </div>

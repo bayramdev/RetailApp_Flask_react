@@ -1,3 +1,4 @@
+import json
 class Base(object):
   data = {}
   allow_fields = {}
@@ -6,6 +7,8 @@ class Base(object):
     if name in self.data.keys():
       return self.data[name]
     else:
+      print('name')
+      print(name)
       return super().__getattr__(name)
 
   def __setattr__(self, name, value):
@@ -17,3 +20,5 @@ class Base(object):
   @classmethod
   def get_select_fields(self):
     return ', '.join([f'"{field_name}"' for field_name in self.allow_fields.values()])
+
+

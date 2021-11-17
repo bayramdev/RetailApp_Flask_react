@@ -1,10 +1,10 @@
 import React from 'react';
-import OsWidgetCategories from '../widgets/OsWidgetCategories';
+import OsWidegetSliderCategories from '../widgets/OsWidegetSliderCategories';
 
 const OsHomePage = () => {
   return (
     <div>
-      <OsWidgetCategories />
+      <OsWidegetSliderCategories />
     </div>
   );
 };

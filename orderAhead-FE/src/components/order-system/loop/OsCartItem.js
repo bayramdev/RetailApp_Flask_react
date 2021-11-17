@@ -1,47 +1,86 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import {range} from '../ultility'
+import {range, formatPrice} from '../ultility'
 import OsIconRemove from '../icons/OsIconRemove';
+import { useDispatch, useSelector } from 'react-redux';
 
-const OsCartItem = () => {
+const OsCartItem = (props) => {
   const [qty, setQty] = React.useState(1);
-  const imageUrl = 'https://images.dutchie.com/3ab388bd90bd1b60d85d4d22eed7c9b2?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=81&w=81&q=75&dpr=1'
+  const [option, setOption] = React.useState('1/4 oz');
   const qtys = range(1, 8)
 
+  const handleUpdateOption = (event) => {
+    setOption(event.target.value);
+  };
+
+
+  const cartItem = props.data
+  const dispatch = useDispatch()
+  const items = useSelector(state => state.cartItems)
+
+  const handleRemove = (event) => {
+    let updatedItems = items.filter(item => item.product.sku !== cartItem.product.sku)
+    dispatch({type:'set', cartItems: updatedItems})
+  };
+
+  const handleUpdate = (event) => {
+    setQty(event.target.value);
+    let updatedItems = items.map(item => {
+      if (item.product.sku == cartItem.product.sku) {
+        item.qty = event.target.value
+      }
+      return item
+    })
+    dispatch({type:'set', cartItems: updatedItems})
+  };
+
+
+  const options = ['1/8 oz','1/4 oz','1/2 oz','1 oz',]
+
+  useEffect(() => {
+    setQty(cartItem.qty)
+  }, [])
+
+  const subTotal = cartItem.qty*cartItem.product.price
+  const subTotalPrice = formatPrice(subTotal)
+
+
   return (
-	  <div class="os-cart-product-item">
-	    <div class="os-cart-product-item__image">
-        <img src={imageUrl} />
+	  <div className="os-cart-product-item">
+	    <div className="os-cart-product-item__image">
+        <img src={cartItem.product.thumbnail} class="w-100" width="100%" />
       </div>
-	    <div class="os-cart-product-item__details">
-	      <div class="os-cart-product-item__name">Purple Punch</div>
-	      <div class="os-cart-product-item__brand">Green Fellas</div>
-	      <div class="os-cart-product-item__actions">
-	        <div class="os-cart-product-item__weight">
+	    <div className="os-cart-product-item__details">
+	      <div className="os-cart-product-item__name">{cartItem.product.name}</div>
+	      <div className="os-cart-product-item__brand">{cartItem.product.brand}</div>
+	      <div className="os-cart-product-item__actions">
+	        <div className="os-cart-product-item__weight">
             <Select
-              value={qty}
-              label="Qty"
+              value={option}
+              label="Option"
               className="os-cart-item-weight"
+              onChange={handleUpdateOption}
             >
-              {qtys.map(qty => <MenuItem value={qty}>{qty}</MenuItem>)}
+              {options.map(option => <MenuItem value={option}>{option}</MenuItem>)}
             </Select>
           </div>
           <div className="os-seprator"></div>
-	        <div class="os-cart-product-item__remove"><OsIconRemove />&nbsp;Remove</div>
+	        <div className="os-cart-product-item__remove" onClick={handleRemove}><OsIconRemove />&nbsp;Remove</div>
 	      </div>
 	    </div>
-	    <div class="os-cart-product-item__options">
-	      <div class="os-cart-product-item__qty">
+	    <div className="os-cart-product-item__options">
+	      <div className="os-cart-product-item__qty">
             <Select
               className="os-cart-item-qty"
               value={qty}
               label="Qty"
+              onChange={handleUpdate}
             >
               {qtys.map(qty => <MenuItem value={qty}>{qty}</MenuItem>)}
             </Select>
         </div>
-	      <div class="os-cart-product-item__price">$175.00</div>
+	      <div className="os-cart-product-item__price">{subTotalPrice}</div>
 	    </div>
 	  </div>
 

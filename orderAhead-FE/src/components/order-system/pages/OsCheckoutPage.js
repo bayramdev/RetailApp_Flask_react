@@ -4,11 +4,11 @@ import OsCheckoutForm from '../parts/OsCheckoutForm';
 
 const OsCheckoutPage = () => {
   return (
-    <div class="os-layout">
-      <div class="os-container">
-        <div class="row">
-          <div class="col-8"><OsCheckoutForm /></div>
-          <div class="col-4"><OsCheckoutConfirmation /></div>
+    <div className="os-layout">
+      <div className="os-container">
+        <div className="row">
+          <div className="col-8"><OsCheckoutForm /></div>
+          <div className="col-4"><OsCheckoutConfirmation /></div>
         </div>
       </div>
     </div>

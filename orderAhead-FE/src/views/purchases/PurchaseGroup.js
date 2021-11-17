@@ -24,7 +24,7 @@ const PurchaseGroup = (props) => {
       <div className="purchase-group__header d-flex justify-content-between" onClick={handleToggleClicked}>
         <div className="purchase-group__left d-flex align-items-center">
           <div className='purchase-group__toggle'>
-            <i class="fas fa-chevron-up"></i><i class="fas fa-chevron-down"></i>
+            <i className="fas fa-chevron-up"></i><i className="fas fa-chevron-down"></i>
           </div>
           {/* /.purchase-group__toggle */}
           <div className="purchase-group__info">
@@ -34,7 +34,7 @@ const PurchaseGroup = (props) => {
           {/* /.purchase-group__info */}
         </div>
         {/* /.purchase-group__left */}
-        <div class="purchase-group__right">
+        <div className="purchase-group__right">
           Receipt ID:&nbsp;<strong>{purchase.receipt_id}</strong>
         </div>
         {/* /.purchase-group__right */}
@@ -42,7 +42,7 @@ const PurchaseGroup = (props) => {
       {/* /.purchase-group__header */}
 
       {isExpanded && (
-        <div class="purchase-group__content">
+        <div className="purchase-group__content">
           {purchase.items.length > 0 && purchase.items.map((item) => <PurchaseItem data={item} />)}
           {purchase.items.length == 0 && <div>There is no items</div>}
         </div>

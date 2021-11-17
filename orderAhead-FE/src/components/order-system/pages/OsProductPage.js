@@ -1,20 +1,36 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {Link, useHistory, useParams} from 'react-router-dom';
 import OsIconLeft from '../icons/OsIconLeft';
 import OsAddToCart from '../parts/OsAddToCart';
+import { osServices } from '../../../controllers/_services/ordersystem.service';
+import OsLoading from '../OsLoading';
+import {formatPrice} from '../ultility'
 
-
-const OsProductPage = () => {
-  const photoUrl = 'https://images.dutchie.com/2827033aae533a185698f0bd5f0a764f?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
-  const brand = 'BEST FRIEND FARMS'
-  const productName = 'Shart'
+const OsProductPage = (props) => {
   const options = [
     {weight: '1/8 oz', price: '$35.00'},
     {weight: '1/4 oz', price: '$65.00'},
   ]
   const note = '*Cannabis tax will be added at checkout.'
   const tags = ['Hybrid']
-  const productDesc = 'Dried cannabis flower is primarily ingested via inhalation. Activation time is roughly about 5 minutes and can last up to a few hours.'
+
+  const [isLoading, setLoading] = useState(false)
+  const [product, setProduct] = useState({})
+  let { sku } = useParams();
+
+  const history = useHistory()
+
+  useEffect(() => {
+    setLoading(true)
+    const params = {
+      sku: sku,
+    }
+
+    osServices.osLoadProduct(params).then((response) => {
+      setProduct(response.data)
+      setLoading(false)
+    })
+  }, [])
 
 
   return (
@@ -22,37 +38,43 @@ const OsProductPage = () => {
       <div className="os-container">
         <div className="os-layout os-layout--1column">
           <div className="os-layout__main">
-            <Link className="os-goback" to="/order/brands"><OsIconLeft /> Back</Link>
-            <div class="os-product row">
-              <div class="os-product__photo col-5">
-                <img src={photoUrl} />
+            <Link className="os-goback" onClick={ () => {
+                /* go back from *EditCover* to *Cover* */
+                history.goBack();
+            }}><OsIconLeft /> Back</Link>
+
+            {isLoading && <div className="mt-1"><OsLoading /></div>}
+            {!isLoading &&
+            <div className="os-product row">
+              <div className="os-product__photo col-5">
+                <img src={product.thumbnail} width="100%" />
               </div>
-              <div class="os-product__details col-7">
-                <div class="os-product__brand">{brand}</div>
-                <div class="os-product__name">{productName}</div>
-                <div class="os-product__options os-product-option-list">
+              <div className="os-product__details col-7">
+                <div className="os-product__brand">{product.brand}</div>
+                <div className="os-product__name">{product.name}</div>
+                <div className="os-product__options os-product-option-list">
                   {options.map(option =>
-                    <div class="os-product-option os-product-item-button">
-                      <div class="os-product-option__weight os-product-item-button__weight">{option.weight}</div>
-                      <div class="os-product-option__price os-product-item-button__price">{option.price}</div>
+                    <div className="os-product-option os-product-item-button">
+                      <div className="os-product-option__weight os-product-item-button__weight">{option.weight}</div>
+                      <div className="os-product-option__price os-product-item-button__price">{formatPrice(product.price)}</div>
                     </div>
                   )}
                 </div>
-                <div class="os-product__addtocart">
-                  <OsAddToCart />
+                <div className="os-product__addtocart">
+                  <OsAddToCart data={product} />
                 </div>
-                <div class="os-product__note">{note}</div>
-                <div class="os-horz-line" />
-                <div class="os-product__tags">
+                <div className="os-product__note">{note}</div>
+                <div className="os-horz-line" />
+                <div className="os-product__tags">
                   {tags.map(tag =>
-                    <div class="os-product-tag"><span>{tag}</span></div>
+                    <div className="os-product-tag"><span>{tag}</span></div>
                   )}
                 </div>
-                <div class="os-product__desc">
-                  {productDesc}
+                <div className="os-product__desc">
+                  {product.desc}
                 </div>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
       </div>

@@ -6,16 +6,16 @@ import OsCheckoutSummary from '../parts/OsCheckoutSummary'
 
 const OsCheckoutForm = () => {
   return (
-    <div class="os-checkout-form">
-      <div class="os-checkout-form__header">
-        <div class="os-checkout-form__heading">Checkout</div>
+    <div className="os-checkout-form">
+      <div className="os-checkout-form__header">
+        <div className="os-checkout-form__heading">Checkout</div>
       </div>
-      <div class="os-checkout-form__section">
+      <div className="os-checkout-form__section">
         <OsCheckoutType />
         <OsCheckoutPayment />
         <OsCheckoutMedical />
       </div>
-      <div class="os-checkout-form__section">
+      <div className="os-checkout-form__section">
         <OsCheckoutSummary />
       </div>
     </div>

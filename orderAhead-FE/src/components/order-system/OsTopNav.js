@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useRouteMatch, Link } from 'react-router-dom'
 import OsIconDrop from './icons/OsIconDrop'
 import OsMinicart from './OsMinicart'
+import OsLoading from './OsLoading'
 
 const OsTopNav = () => {
   const {url} = useRouteMatch()
+  const categories = useSelector(state => state.categories)
+  const brands = useSelector(state => state.brands)
+  const isLoading = useSelector(state => state.isLoading)
 
   const OsItem = (props) => (<div className="os-header__item os-topnav__item">{props.children}</div>)
   const OsLink = (props) => (<Link className="os-header__link os-topnav__link" to={props.to}>{props.children}</Link>)
@@ -16,7 +21,7 @@ const OsTopNav = () => {
     }
     return (
       <div className="os-header__item os-topnav__item os-header-dropdown">
-        <a className="os-header__link os-topnav__link os-header-dropdown__link" href="javascript:void(0)" onClick={handlePopup}>
+        <a className="os-header__link os-topnav__link os-header-dropdown__link" onClick={handlePopup}>
           {props.title} <OsIconDrop />
         </a>
         {isPopup && <div className="os-header-dropdown__content">
@@ -34,10 +39,17 @@ const OsTopNav = () => {
             <nav className="os-header__nav os-topnav">
               <OsItemLink to={`${url}`}>Home</OsItemLink>
               <OsItemDropdown title="Categories">
-                <OsItemLink to={`${url}/products`}>Category1</OsItemLink>
-                <OsItemLink to={`${url}/products`}>Category2</OsItemLink>
+                {isLoading && <OsLoading />}
+                {!isLoading && categories.map(category =>
+                  <OsItemLink to={`${category.link}`}>{category.name}</OsItemLink>
+                )}
               </OsItemDropdown>
-              <OsItemLink to={`${url}/brands`}>Brand</OsItemLink>
+              <OsItemDropdown title="Brands">
+                {isLoading && <OsLoading />}
+                {!isLoading && brands.map(brand =>
+                  <OsItemLink to={`${brand.link}`}>{brand.name}</OsItemLink>
+                )}
+              </OsItemDropdown>
             </nav>
             <OsMinicart />
           </div>

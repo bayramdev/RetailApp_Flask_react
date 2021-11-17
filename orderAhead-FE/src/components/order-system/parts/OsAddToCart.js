@@ -5,8 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {range} from '../ultility'
+import { useDispatch, useSelector } from 'react-redux';
 
-const OsAddToCart = () => {
+const OsAddToCart = (props) => {
   const [qty, setQty] = React.useState(1);
 
   const handleChange = (event) => {
@@ -14,11 +15,35 @@ const OsAddToCart = () => {
   };
 
   const qtys = range(1, 8)
+  const product = props.data
+  const dispatch = useDispatch()
 
+  const cartItems = useSelector(state => state.cartItems)
+  let updateCartItems = [...cartItems]
+
+  const handleAddToCart = () => {
+
+    const exist = updateCartItems.some(item => item.product.sku == product.sku)
+
+    if (!exist) {
+      let cartItem = {}
+      cartItem.product = product
+      cartItem.qty = qty
+      updateCartItems.push(cartItem)
+    } else {
+      updateCartItems.map(item => {
+        if (item.product.sku == product.sku) {
+          item.qty += qty
+        }
+        return item
+      })
+    }
+    dispatch({type: 'set', cartItems: updateCartItems})
+  }
 
   return (
-    <div class="os-addtocart">
-      <div class="os-addtocart__qty">
+    <div className="os-addtocart">
+      <div className="os-addtocart__qty">
         <FormControl fullWidth>
           <InputLabel id="os-qty-label">Qty</InputLabel>
           <Select
@@ -33,8 +58,8 @@ const OsAddToCart = () => {
           </Select>
         </FormControl>
       </div>
-      <div class="os-addtocart__button-wrapper">
-        <button class="os-addtocart__button">
+      <div className="os-addtocart__button-wrapper">
+        <button className="os-addtocart__button" onClick={handleAddToCart}>
           <OsIconCart></OsIconCart>
           <span>Add to cart</span>
         </button>

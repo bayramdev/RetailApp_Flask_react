@@ -13,7 +13,12 @@ const initialState = {
   openAddPayment: false,
   forgotPassword1: false,
   forgotPassword2: false,
-  user: {}
+  user: {},
+  categories: [],
+  brands: [],
+  isLoading: false,
+  currentCategory: false,
+  cartItems: [],
 }
 
 const changeState = (state = initialState, { type, ...rest }) => {
