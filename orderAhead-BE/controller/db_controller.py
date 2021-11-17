@@ -1,7 +1,6 @@
 import csv
 from .postgre_model import Postgres_DB
 import datetime
-from dateutil.parser import parse
 
 PROPERTIES_OF_TABLE = [
     {
@@ -168,10 +167,3 @@ def write_multiple_line(csv_file, table_name):
         Postgres_DB.copy_csv(sql[:-1] + f';')
 
         return headers
-
-
-def is_date(string):
-    if str(string).find(":") > -1 and str(string).find("/") > -1:
-        return True
-    else:
-        return False
