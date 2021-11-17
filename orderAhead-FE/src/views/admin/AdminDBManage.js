@@ -6,7 +6,8 @@ import {
     CCol,
     CRow,
     CButton,
-    CSelect
+    CSelect,
+    CPagination
 } from '@coreui/react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -14,6 +15,8 @@ import { dbManageService } from '../../controllers/_services/dbmanage.service';
 import { errorNotification, warningNotification, successNotification } from '../../controllers/_helpers';
 import useTable from './../widgets/useTable';
 import TableFooter from './../widgets/TableFooter';
+
+import 'spinkit/spinkit.min.css';
 
 const DBManage = () => {
   const dispatch = useDispatch()
@@ -59,6 +62,8 @@ const DBManage = () => {
 
   const onSelectTable = (tablename) => {
     setSelectedTable(tablename)
+
+    setTableData([])
 
     dbManageService.getDataInfoByTableName(tablename)
         .then(
@@ -123,6 +128,10 @@ const DBManage = () => {
     }
   };
 
+  const setCurrentPage = (page) => {
+    setPage(page)
+  }
+
   return (
     <>
       <CRow>
@@ -175,11 +184,24 @@ const DBManage = () => {
               </table>
             }
             { Object.assign([], tableData).length === 0 && 
-              <h3 className="text-muted m-3 pt-3 text-center">NO DATA</h3>
+              // <h3 className="text-muted m-3 pt-3 text-center">NO DATA</h3>
+              <div className="sk-wave text-muted m-auto text-center">
+                <div className="sk-wave-rect"></div>
+                <div className="sk-wave-rect"></div>
+                <div className="sk-wave-rect"></div>
+                <div className="sk-wave-rect"></div>
+                <div className="sk-wave-rect"></div>
+              </div>
             }
             </CCardBody>
             { columnsInfo && tableData && 
-              <TableFooter range={range} slice={slice} setPage={setPage} page={page} lastPage={parseInt(tableData.length / 10) + 1  } />
+              // <TableFooter range={range} slice={slice} setPage={setPage} page={page} lastPage={parseInt(tableData.length / 10) + 1  } />
+              <CPagination
+                align="end"
+                activePage={page}
+                pages={parseInt(tableData.length / 10) + 1 }
+                onActivePageChange={setCurrentPage}
+              />
             }
           </CCard>
         </CCol>
