@@ -110,12 +110,15 @@ def write_multiple_line(csv_file, table_name):
         if headers[len(headers) - 1] == "insert_datetime":
             last_length = len(headers) - 2
 
+        is_insert_datetime = False
         sql = f'INSERT INTO "{table_name}" ('
         for inH_, header in enumerate(headers):
+            if table_name == "Inventory" and header == "insert_datetime":
+                is_insert_datetime = True
             if inH_ > last_length:
                 continue
             elif inH_ == last_length:
-                if table_name == "Inventory":
+                if table_name == "Inventory" and is_insert_datetime:
                     sql += f'"{header}") VALUES '
                 else:
                     sql += f'"{header}", "insert_datetime") VALUES '
@@ -147,12 +150,12 @@ def write_multiple_line(csv_file, table_name):
                     continue
                 elif idc_ == last_length:
                     if content != "" and content != "None":
-                        if table_name == "Inventory":
+                        if table_name == "Inventory" and is_insert_datetime:
                             sql += f'\'{content}\' '
                         else:
                             sql += f'\'{content}\', \'{today_str}\' '
                     else:
-                        if table_name == "Inventory":
+                        if table_name == "Inventory" and is_insert_datetime:
                             sql += f'DEFAULT '
                         else:
                             sql += f'DEFAULT, \'{today_str}\' '
