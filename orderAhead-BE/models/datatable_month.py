@@ -16,7 +16,7 @@ class DatatableMonth(Datatable):
     ]
 
   def build_sql(self):
-    sql = 'SELECT "Product Type", COUNT("Receipt ID") AS "Sales", SUM("Quantity Sold") AS Units FROM "Sales_by_item_Daily" GROUP BY "Product Type";'
+    sql = 'SELECT "Product Type", COUNT("Receipt ID") AS "Sales", SUM("Quantity Sold") AS Units FROM "Sales_by_item" GROUP BY "Product Type";'
     return sql
 
   def field_names(self):
