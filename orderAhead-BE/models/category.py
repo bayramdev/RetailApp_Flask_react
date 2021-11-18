@@ -11,7 +11,7 @@ class Category(Base):
 
   @classmethod
   def get_list(cls, options={}):
-    sql = f'SELECT DISTINCT "{cls.column_name}" FROM "Inventory";'
+    sql = f'SELECT DISTINCT "{cls.column_name}" FROM "Inventory" WHERE "Room" = \'Sales Floor\';'
     return Postgres_DB.fetchall(sql, (), cls.build_category)
 
   @classmethod
@@ -22,7 +22,7 @@ class Category(Base):
     select_fields = Product.get_select_fields()
     limit = options['limit']
     offset = options['offset']
-    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s LIMIT {limit} OFFSET {offset}'
+    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s AND "Room" = \'Sales Floor\' LIMIT {limit} OFFSET {offset}'
 
     return Postgres_DB.fetchall(sql, (self.name, ), Product.build_product)
 
@@ -30,7 +30,7 @@ class Category(Base):
     select_fields = Product.get_select_fields()
     limit = options['limit']
     offset = options['offset']
-    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s LIMIT {limit} OFFSET {offset}'
+    sql = f'SELECT {select_fields} FROM "Inventory" WHERE "{self.column_name}" = %s AND "Room" = \'Sales Floor\' LIMIT {limit} OFFSET {offset}'
 
     return Postgres_DB.fetchall(sql, (self.name, ), Product.build_product)
 
