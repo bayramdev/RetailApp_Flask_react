@@ -117,7 +117,7 @@ def logIn():
                                           recipients=[email],  # replace with your email for testing
                                           body="Verification code:\n {}".format(verif_code))
 
-                            # mail.send(msg)
+                            mail.send(msg)
 
                     # MFA with phone
                     else:
