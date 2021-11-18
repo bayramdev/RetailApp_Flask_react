@@ -9,12 +9,12 @@ PROPERTIES_OF_TABLE = [
         "column_2": "Batch ID"
     },
     {
-        "table_name": "Sales_Daily",
+        "table_name": "Sales",
         "column_1": "Employee Name",
         "column_2": "Current Loyalty Points"
     },
     {
-        "table_name": "Sales_by_item_Daily",
+        "table_name": "Sales_by_item",
         "column_1": "Receipt Total",
         "column_2": "Tax in Dollars"
     },
@@ -24,7 +24,7 @@ PROPERTIES_OF_TABLE = [
         "column_2": "insert_datetime"
     },
     {
-        "table_name": "Drawer_activities_Daily",
+        "table_name": "Drawer_activities",
         "column_1": "Beginning Balance",
         "column_2": "Drawer Total"
     },
@@ -44,7 +44,7 @@ PROPERTIES_OF_TABLE = [
         "column_2": "Loyalty Member"
     },
     {
-        "table_name": "Discounts_Daily",
+        "table_name": "Discounts",
         "column_1": "Discount Applied by",
         "column_2": "Receipt ID"
     },

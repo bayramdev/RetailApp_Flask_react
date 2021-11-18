@@ -20,7 +20,7 @@ class Customer:
 
 
     def get_all_receipts(self):
-      sql = f'SELECT "Transaction Date", "Receipt Total", "Employee Name", "Receipt ID" FROM "Sales_Daily" WHERE "Customer ID" = \'{self.customer_id}\';'
+      sql = f'SELECT "Transaction Date", "Receipt Total", "Employee Name", "Receipt ID" FROM "Sales" WHERE "Customer ID" = \'{self.customer_id}\';'
       print(sql)
       result = Postgres_DB.fetchall(sql)
 
@@ -42,7 +42,7 @@ class Customer:
       return receipt_list
 
     def get_items_by_receipt(self, receipt_id):
-      sql = f'SELECT "Quantity Sold", "Product Name", "Category", "Price", "Tax in Dollars", "Receipt Total" FROM "Sales_by_item_Daily" WHERE "Receipt ID" = \'{receipt_id}\';'
+      sql = f'SELECT "Quantity Sold", "Product Name", "Category", "Price", "Tax in Dollars", "Receipt Total" FROM "Sales_by_item" WHERE "Receipt ID" = \'{receipt_id}\';'
       print(sql)
       result = Postgres_DB.fetchall(sql)
 
