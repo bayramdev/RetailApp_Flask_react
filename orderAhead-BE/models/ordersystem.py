@@ -7,7 +7,9 @@ from config import app
 from models.datatable_factory import DatatableFactory
 from models.category import Category
 from models.brand import Brand
+from models.product_type import ProductType
 from models.product import Product
+from models.product_search import ProductSearch
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
 @cross_origin()
@@ -39,6 +41,26 @@ def os_loadBrands():
     )
     return response
 
+@app.route('/ordersystem/loadTypes', methods=['GET', 'POST'])
+@cross_origin()
+def os_loadTypes():
+    content = request.get_json()
+    category_name = content.get("category")
+    brand_name = content.get("brand")
+    type_name = content.get("type")
+
+    type_list = ProductType.get_list({'category': category_name, 'brand': brand_name})
+    data = []
+    for xtype in type_list:
+      data.append(xtype.toJSON())
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
 @app.route('/ordersystem/loadProducts', methods=['GET', 'POST'])
 @cross_origin()
 def os_loadProducts():
@@ -48,11 +70,18 @@ def os_loadProducts():
   content = request.get_json()
   category_name = content.get("category")
   brand_name = content.get("brand")
+  type_name = content.get("type")
 
-  if category_name:
-    product_list = Category(category_name).get_products()
-  elif brand_name:
-    product_list = Brand(brand_name).get_products()
+  # if category_name:
+  #   product_list = Category(category_name).get_products()
+  # elif brand_name:
+  #   product_list = Brand(brand_name).get_products()
+  # elif type_name:
+  #   product_list = ProductType(type_name).get_products()
+
+  search = ProductSearch({'category': category_name, 'brand': brand_name, 'type': type_name})
+  product_list = search.get_products()
+
   data = []
   for product in product_list:
     data.append(product.toJSON())

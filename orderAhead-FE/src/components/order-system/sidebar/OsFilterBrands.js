@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import OsIconDown from '../icons/OsIconDown';
 import OsIconRight from '../icons/OsIconRight';
 import OsLoading from '../OsLoading';
+import QueryString from 'query-string'
 
 const OsFilterBrands = () => {
   const [isCollapsed, setCollapsed] = useState(false)
   const handleClick = () => setCollapsed(!isCollapsed)
   const isLoading = useSelector(state=>state.isLoading)
   const brands = useSelector(state=>state.brands)
-  const {brand} = useParams()
+  const {search} = useLocation()
+
+  const params = QueryString.parse(search)
   const activeClass = (loopBrand) => {
-    return (loopBrand == brand)?' os-sidebar-list__item--active':''
+    return (params.brand && loopBrand == params.brand)?' os-sidebar-list__item--active':''
   }
 
   return (

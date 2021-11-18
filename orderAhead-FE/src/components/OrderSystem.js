@@ -1,14 +1,19 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, useLocation } from 'react-router-dom'
 import OsTopNav from './order-system/OsTopNav'
 import routes from './order-system/routes'
 import { osServices } from '../controllers/_services/ordersystem.service';
 import { useDispatch } from 'react-redux';
+import QueryString from 'query-string'
 
 const OrderSystem = ({ match }) => {
   const dispatch = useDispatch()
   const setCategories = (data) => dispatch({type: 'set', categories: data})
   const setBrands = (data) => dispatch({type: 'set', brands: data})
+  const setTypes = (data) => dispatch({type: 'set', types: data})
+
+  const {search} = useLocation()
+  const params = QueryString.parse(search)
 
   useEffect(() => {
     dispatch({type: 'set', isLoading: true})
@@ -21,6 +26,13 @@ const OrderSystem = ({ match }) => {
       dispatch({type: 'set', isLoading: false})
     })
   }, [])
+
+  useEffect(() => {
+    osServices.osLoadTypes(params).then((response) => {
+      setTypes(response.data)
+      dispatch({type: 'set', isLoading: false})
+    })
+  }, [search])
 
   return (
     <div className="order-system">
