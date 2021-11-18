@@ -60,10 +60,14 @@ const DBManage = () => {
     )
   }, [user]);
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const onSelectTable = (tablename) => {
     setSelectedTable(tablename)
 
     setTableData([])
+
+    setIsLoading(true)
 
     dbManageService.getDataInfoByTableName(tablename)
         .then(
@@ -74,9 +78,11 @@ const DBManage = () => {
             } else {
               errorNotification(info.message, 3000)    
             }
+            setIsLoading(false)
         },
         error => {
           errorNotification(error.message, 3000)
+          setIsLoading(false)
         }
     )
   }
@@ -183,8 +189,10 @@ const DBManage = () => {
                 </tbody>
               </table>
             }
-            { Object.assign([], tableData).length === 0 && 
-              // <h3 className="text-muted m-3 pt-3 text-center">NO DATA</h3>
+            { Object.assign([], tableData).length === 0 && !isLoading &&
+              <h3 className="text-muted m-3 pt-3 text-center">NO DATA</h3>
+            }
+            { Object.assign([], tableData).length === 0 && isLoading &&
               <div className="sk-wave text-muted m-auto text-center">
                 <div className="sk-wave-rect"></div>
                 <div className="sk-wave-rect"></div>
