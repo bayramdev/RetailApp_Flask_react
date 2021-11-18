@@ -7,6 +7,7 @@ export const osServices = {
   osLoadCategories,
   osLoadBrands,
   osLoadProducts,
+  osLoadTypes,
   osLoadProduct,
 };
 
@@ -46,6 +47,9 @@ function osLoadCategories() {
 
 function osLoadBrands() {
   return callApi('loadBrands')
+}
+function osLoadTypes(params) {
+  return callApi('loadTypes', params)
 }
 
 function osLoadProducts(params) {

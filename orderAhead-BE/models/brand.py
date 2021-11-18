@@ -6,5 +6,5 @@ class Brand(Category):
   column_name = "Brand"
 
   def get_link(self):
-    link = '/order/brands/' + sanitize_title(self.name)
+    link = '/order/products?brand=' + sanitize_title(self.name)
     return link

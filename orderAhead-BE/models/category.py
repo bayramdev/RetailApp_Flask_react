@@ -11,7 +11,7 @@ class Category(Base):
 
   @classmethod
   def get_list(cls, options={}):
-    sql = f'SELECT DISTINCT "{cls.column_name}" FROM "Inventory" WHERE "Room" = \'Sales Floor\';'
+    sql = f'SELECT DISTINCT "{cls.column_name}" FROM "Inventory" WHERE "{cls.column_name}" IS NOT NULL AND "Room" = \'Sales Floor\';'
     return Postgres_DB.fetchall(sql, (), cls.build_category)
 
   @classmethod
@@ -35,7 +35,7 @@ class Category(Base):
     return Postgres_DB.fetchall(sql, (self.name, ), Product.build_product)
 
   def get_link(self):
-    link = '/order/products/' + sanitize_title(self.name)
+    link = '/order/products?category=' + sanitize_title(self.name)
     return link
 
   def toJSON(self):

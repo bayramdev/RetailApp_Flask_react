@@ -41,13 +41,13 @@ const OsTopNav = () => {
               <OsItemDropdown title="Categories">
                 {isLoading && <OsLoading />}
                 {!isLoading && categories.map(category =>
-                  <OsItemLink to={`${category.link}`}>{category.name}</OsItemLink>
+                  <OsItemLink key={category.handle} to={`${category.link}`}>{category.name}</OsItemLink>
                 )}
               </OsItemDropdown>
               <OsItemDropdown title="Brands">
                 {isLoading && <OsLoading />}
                 {!isLoading && brands.map(brand =>
-                  <OsItemLink to={`${brand.link}`}>{brand.name}</OsItemLink>
+                  <OsItemLink key={brand.handle} to={`${brand.link}`}>{brand.name}</OsItemLink>
                 )}
               </OsItemDropdown>
             </nav>
