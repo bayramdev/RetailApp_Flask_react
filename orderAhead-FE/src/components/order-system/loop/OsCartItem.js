@@ -19,7 +19,7 @@ const OsCartItem = (props) => {
   const items = useSelector(state => state.cartItems)
 
   const handleRemove = (event) => {
-    let updatedItems = items.filter(item => item.product.sku !== cartItem.product.sku)
+    let updatedItems = items.filter(item => !(item.product.sku == cartItem.product.sku && (!item.tierInfo || item.tierInfo == cartItem.tierInfo)))
     dispatch({type:'set', cartItems: updatedItems})
   };
 
@@ -35,7 +35,6 @@ const OsCartItem = (props) => {
   };
 
 
-  const options = ['1/8 oz','1/4 oz','1/2 oz','1 oz',]
 
   useEffect(() => {
     setQty(cartItem.qty)

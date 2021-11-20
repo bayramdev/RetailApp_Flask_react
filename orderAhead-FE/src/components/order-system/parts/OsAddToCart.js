@@ -28,7 +28,7 @@ const OsAddToCart = (props) => {
 
   const handleAddToCart = () => {
 
-    const exist = updateCartItems.some(item => item.product.sku == product.sku && item.tierInfo.name == selectedTier.name)
+    const exist = updateCartItems.some(item => item.product.sku == product.sku && (!item.tierInfo || item.tierInfo.name == selectedTier.name))
 
     if (!exist) {
       let cartItem = {}
