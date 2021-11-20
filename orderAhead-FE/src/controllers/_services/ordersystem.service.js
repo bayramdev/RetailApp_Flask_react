@@ -38,24 +38,26 @@ const callApi = (path, params) => {
     requestOptions.body = JSON.stringify(params)
   }
 
-  return fetch(`${serverURL}/ordersystem/${path}`, requestOptions).then(handleResponse);
+  return fetch(`${serverURL}/${path}`, requestOptions).then(handleResponse);
 }
 
+
+
 function osLoadCategories() {
-  return callApi('loadCategories')
+  return callApi('ordersystem/loadCategories')
 }
 
 function osLoadBrands() {
-  return callApi('loadBrands')
+  return callApi('ordersystem/loadBrands')
 }
 function osLoadTypes(params) {
-  return callApi('loadTypes', params)
+  return callApi('ordersystem/loadTypes', params)
 }
 
 function osLoadProducts(params) {
-  return callApi('loadProducts', params)
+  return callApi('ordersystem/loadProducts', params)
 }
 
 function osLoadProduct(params) {
-  return callApi('loadProduct', params)
+  return callApi('ordersystem/loadProduct', params)
 }

@@ -4,13 +4,9 @@ import OsIconLeft from '../icons/OsIconLeft';
 import OsAddToCart from '../parts/OsAddToCart';
 import { osServices } from '../../../controllers/_services/ordersystem.service';
 import OsLoading from '../OsLoading';
-import {formatPrice} from '../ultility'
+
 
 const OsProductPage = (props) => {
-  const options = [
-    {weight: '1/8 oz', price: '$35.00'},
-    {weight: '1/4 oz', price: '$65.00'},
-  ]
   const note = '*Cannabis tax will be added at checkout.'
   const tags = ['Hybrid']
 
@@ -19,6 +15,7 @@ const OsProductPage = (props) => {
   let { sku } = useParams();
 
   const history = useHistory()
+
 
   useEffect(() => {
     setLoading(true)
@@ -31,6 +28,7 @@ const OsProductPage = (props) => {
       setLoading(false)
     })
   }, [])
+
 
 
   return (
@@ -52,17 +50,7 @@ const OsProductPage = (props) => {
               <div className="os-product__details col-7">
                 <div className="os-product__brand">{product.brand}</div>
                 <div className="os-product__name">{product.name}</div>
-                <div className="os-product__options os-product-option-list">
-                  {options.map(option =>
-                    <div className="os-product-option os-product-item-button">
-                      <div className="os-product-option__weight os-product-item-button__weight">{option.weight}</div>
-                      <div className="os-product-option__price os-product-item-button__price">{formatPrice(product.price)}</div>
-                    </div>
-                  )}
-                </div>
-                <div className="os-product__addtocart">
-                  <OsAddToCart data={product} />
-                </div>
+                <OsAddToCart data={product} />
                 <div className="os-product__note">{note}</div>
                 <div className="os-horz-line" />
                 <div className="os-product__tags">
