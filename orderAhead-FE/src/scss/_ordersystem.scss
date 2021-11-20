@@ -1065,3 +1065,10 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
     margin-top: 35px;
   }
 }
+
+.os-product-item__actions {
+  display: flex;
+}
+.os-product-item__button {
+  margin-left: 10px;
+}

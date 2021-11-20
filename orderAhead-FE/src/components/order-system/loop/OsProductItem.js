@@ -2,6 +2,7 @@ import React from 'react';
 import OsButtonAdd from './OsButtonAdd';
 import {useHistory, Link, useLocation} from 'react-router-dom';
 import QueryString from 'query-string'
+import { useSelector } from 'react-redux';
 
 const OsProductItem = (props) => {
   const history = useHistory();
@@ -27,6 +28,8 @@ const OsProductItem = (props) => {
   typeLink += typeLinkItems.join('&')
 
 
+  const tierPrices = product.tier_prices
+
   return (
       <div className={className}>
         <div className={`${className}__info`} onClick={gotoProduct}>
@@ -43,7 +46,10 @@ const OsProductItem = (props) => {
           </div>
         </div>
         <div className={`${className}__actions`}>
-          <OsButtonAdd className={`${className}__button`} data={product} />
+          {product.is_flower &&
+            tierPrices.map(tierPrice => <OsButtonAdd className={`${className}__button`} data={product} tierInfo={tierPrice} />)
+          }
+          {!product.is_flower && <OsButtonAdd className={`${className}__button`} data={product} />}
         </div>
       </div>
   );

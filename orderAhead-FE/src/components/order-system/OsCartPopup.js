@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import OsIconClose from './icons/OsIconClose';
 import OsCartItem from './loop/OsCartItem';
 import OsIconCartEmpty from './icons/OsIconCartEmpty'
-import { formatPrice } from './ultility';
+import { formatPrice, getCartItemPrice } from './ultility';
 
 const OsCartPopup = (props) => {
   const history = useHistory()
@@ -13,7 +13,7 @@ const OsCartPopup = (props) => {
   const isCartEmpty = items.length == 0
   let total = 0
 
-  items.forEach(item => total += item.product.price*item.qty)
+  items.forEach(item => total += getCartItemPrice(item)*item.qty)
 
 
 

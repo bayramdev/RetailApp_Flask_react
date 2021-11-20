@@ -1,3 +1,4 @@
+import json
 from config import app
 from models.user import User
 from models.product import Product
@@ -7,13 +8,23 @@ from models.brand import Brand
 @app.route("/test", methods=["GET"])
 def test():
   # p = Product("'02877385")
-  list_cats = Category.get_list()
-  print(list_cats)
-  for cat in list_cats: print(cat.name)
-  cat = Brand('Warren\'s Cannabis Creations')
-  print('---------------------------------*************************')
-  products = cat.get_products()
-  for product in products:
-    print(product.data)
+  # list_cats = Category.get_list()
+  # print(list_cats)
+  # for cat in list_cats: print(cat.name)
+  # cat = Brand('Warren\'s Cannabis Creations')
+  # print('---------------------------------*************************')
+  # products = cat.get_products()
+  # for product in products:
+  #   print(product.data)
+  print('xinchao')
+  information = Product.get_all_tier_information()
+  information2 = Product.get_product_tier_information('8Chirpyq2f')
+  f = open('D:\\Temp\\text.txt', 'w')
+  f.write(json.dumps(information))
+  f.close()
+
+  f = open('D:\\Temp\\text2.txt', 'w')
+  f.write(json.dumps(information2))
+  f.close()
 
   return 'Please check log on python console'

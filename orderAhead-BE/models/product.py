@@ -1,8 +1,10 @@
 from .postgres_db import Postgres_DB
 from common import sanitize_title
 from models.base import Base
+from flowhub.api import findAllInventoryNonZero
 
 class Product(Base):
+  FLOWER_CAT = 'Flower - Prepackaged'
   allow_fields = {
     'sku': 'SKU',
     'batch_id': 'Batch ID',
@@ -37,9 +39,32 @@ class Product(Base):
     'product_description': 'product_description',
   }
 
+  all_tier_information = None
+
+  @classmethod
+  def get_all_tier_information(cls):
+    if cls.all_tier_information is None:
+      cls.all_tier_information = []
+      response = findAllInventoryNonZero()
+      data = response['data']
+      if len(data) > 0:
+        cls.all_tier_information = list(filter(lambda x: len(x['weightTierInformation'])>0, data))
+
+    return cls.all_tier_information
+
+  @classmethod
+  def get_product_tier_information(cls, product_sku):
+    all_tier_information = cls.get_all_tier_information()
+    tier_information = list(filter(lambda x: x['sku'] == product_sku, all_tier_information))
+    if len(tier_information) > 0:
+      return tier_information[0]['weightTierInformation']
+    else:
+      return []
+
   def __init__(self, sku = ''):
     self.id = sku
     self.data = {}
+    self.tier_prices = []
     if len(sku) > 0:
       self.load_data()
 
@@ -54,6 +79,9 @@ class Product(Base):
     for index, field in enumerate(self.allow_fields.keys()):
       # setattr(self, field, db_record[index])
       self.data[field] = db_record[index]
+
+
+    self.tier_prices = Product.get_product_tier_information(self.data['sku'])
 
     return self.data
 
@@ -72,19 +100,24 @@ class Product(Base):
     link = '/order/type/' + self.product_type
     return link
 
+  def in_flower_cat(self):
+    return self.category == self.FLOWER_CAT
+
   def toJSON(self):
     thumbnail = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
     if self.img_url:
       thumbnail = self.img_url
     return {
       'sku': self.sku,
-      'name': self.product_name,
+      'name': self.strain_name if self.in_flower_cat() else self.product_name,
       'thumbnail': thumbnail,
       'price': self.price,
       'brand': self.brand,
       'type': self.product_type,
-      'strain': 'Strain',
+      'strain': self.strain_name,
       'desc': self.product_description,
       'link': self.get_link(),
-      'type_link': self.get_type_link(),
+      'type_link': self.product_type,
+      'is_flower': self.in_flower_cat(),
+      'tier_prices': self.tier_prices,
     }

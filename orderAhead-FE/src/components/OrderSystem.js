@@ -11,6 +11,7 @@ const OrderSystem = ({ match }) => {
   const setCategories = (data) => dispatch({type: 'set', categories: data})
   const setBrands = (data) => dispatch({type: 'set', brands: data})
   const setTypes = (data) => dispatch({type: 'set', types: data})
+  const setTierPrices = (data) => dispatch({type: 'set', tierPrices: data})
 
   const {search} = useLocation()
   const params = QueryString.parse(search)
@@ -25,6 +26,13 @@ const OrderSystem = ({ match }) => {
       setBrands(response.data)
       dispatch({type: 'set', isLoading: false})
     })
+
+    // osServices.osLoadTierPrices().then((response) => {
+    //   let result = response.data
+
+    //   let tierPrices = result.filter(value => value.weightTierInformation.length>0)
+    //   setTierPrices(tierPrices)
+    // })
   }, [])
 
   useEffect(() => {

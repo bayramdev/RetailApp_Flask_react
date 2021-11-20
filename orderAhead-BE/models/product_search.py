@@ -16,7 +16,10 @@ class ProductSearch:
 
     sql = f'SELECT {select_fields} FROM "Inventory" WHERE {sqlCondition} AND "Room" = \'Sales Floor\' LIMIT {limit} OFFSET {offset}'
 
-    return Postgres_DB.fetchall(sql, wherePart['params'], Product.build_product)
+    product_list = Postgres_DB.fetchall(sql, wherePart['params'], Product.build_product)
+    product_list = filter(lambda x: x.price is not None or len(x.tier_prices) > 0, product_list)
+
+    return product_list
 
   def createSearchCondition(self):
     sql = []

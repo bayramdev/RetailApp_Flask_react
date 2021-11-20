@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import {range, formatPrice} from '../ultility'
+import {range, formatPrice, getCartItemPrice, getCartItemOption} from '../ultility'
 import OsIconRemove from '../icons/OsIconRemove';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,7 +13,6 @@ const OsCartItem = (props) => {
   const handleUpdateOption = (event) => {
     setOption(event.target.value);
   };
-
 
   const cartItem = props.data
   const dispatch = useDispatch()
@@ -42,8 +41,14 @@ const OsCartItem = (props) => {
     setQty(cartItem.qty)
   }, [])
 
-  const subTotal = cartItem.qty*cartItem.product.price
+  // const subTotal = cartItem.qty * getCartItemPrice(cartItem)
+  const subTotal = cartItem.qty * getCartItemPrice(cartItem)
   const subTotalPrice = formatPrice(subTotal)
+
+  console.log('cartItem')
+  console.log(getCartItemPrice(cartItem))
+  console.log(cartItem)
+  console.log(subTotal)
 
 
   return (
@@ -56,14 +61,7 @@ const OsCartItem = (props) => {
 	      <div className="os-cart-product-item__brand">{cartItem.product.brand}</div>
 	      <div className="os-cart-product-item__actions">
 	        <div className="os-cart-product-item__weight">
-            <Select
-              value={option}
-              label="Option"
-              className="os-cart-item-weight"
-              onChange={handleUpdateOption}
-            >
-              {options.map(option => <MenuItem value={option}>{option}</MenuItem>)}
-            </Select>
+            {getCartItemOption(cartItem)}
           </div>
           <div className="os-seprator"></div>
 	        <div className="os-cart-product-item__remove" onClick={handleRemove}><OsIconRemove />&nbsp;Remove</div>
