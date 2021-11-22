@@ -47,13 +47,13 @@ import { InputAdornment } from '@material-ui/core';
     },
     focused: {},
   }));
-  
+
   function RedditTextField(props) {
     const classes = useStylesReddit();
-  
+
     return <TextField InputProps={{ classes, disableUnderline: true }} {...props} />;
   }
-  
+
 const ForgotPassword = () => {
   const dispatch = useDispatch()
   const classes = useStyles();
@@ -102,7 +102,7 @@ const ForgotPassword = () => {
     <>
       <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto">
         <div className="float-right" style={{marginRight: '-10px'}}>
-          <CImg src={'img/icons8-close.png'} style={{cursor: 'pointer'}} onClick={() => onClose()}></CImg>
+          <CImg src={'/img/icons8-close.png'} style={{cursor: 'pointer'}} onClick={() => onClose()}></CImg>
         </div>
         <h2 className="text-left signin-header-title">Forgot password?</h2>
         <h5 className="text-left signin-header-desc">Please confirm your email.</h5>

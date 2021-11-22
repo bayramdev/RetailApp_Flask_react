@@ -87,7 +87,7 @@ const TheHeader = () => {
       <CHeaderNav className="mr-auto">
         {shouldShowDashboard && <CDropdown variant="btn-group">
             <CDropdownToggle className="m-0 pt-0 p-0 dropdown-toggle-exchange" color="success" caret={false}>Dashboard
-              <CImg src={'img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
+              <CImg src={'/img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
             </CDropdownToggle>
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
               <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('dashboard-1')}>Dashboard 1</CDropdownItem>
@@ -134,9 +134,9 @@ const TheHeader = () => {
             <CDropdownToggle className="m-0 pt-0 p-0 dropdown-toggle-exchange" color="success" caret={false}>
                 {fullName}
                 { !toggle ?
-                    <CImg src={'img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
+                    <CImg src={'/img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
                 :
-                    <CImg src={'img/icons8-white-collapse-arrow-24.png'} alt="Search" height={24}></CImg>
+                    <CImg src={'/img/icons8-white-collapse-arrow-24.png'} alt="Search" height={24}></CImg>
                 }
             </CDropdownToggle>
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">

@@ -54,13 +54,13 @@ import { InputAdornment } from '@material-ui/core';
     },
     focused: {},
   }));
-  
+
   function RedditTextField(props) {
     const classes = useStylesReddit();
-  
+
     return <TextField InputProps={{ classes, disableUnderline: true }} {...props} />;
   }
-  
+
 const Signin = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -68,7 +68,7 @@ const Signin = () => {
   const classes = useStyles();
 
   dispatch({type: 'set', darkMode: false})
-  
+
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
 
@@ -101,7 +101,7 @@ const Signin = () => {
               if (result.is_superuser === 1) {
                 dispatch({type: 'set', isAdmin: true})
                 history.push('users')
-              } 
+              }
               else history.push('home')
             }
             else {
@@ -154,7 +154,7 @@ const Signin = () => {
                                 InputProps={{
                                   startAdornment: (
                                     <InputAdornment position="start">
-                                      <CImg src={'img/email.png'} style={{width: '27px'}} />
+                                      <CImg src={'/img/email.png'} style={{width: '27px'}} />
                                     </InputAdornment>
                                   ),
                                   classes:{notchedOutline:classes.noBorder}
@@ -194,7 +194,7 @@ const Signin = () => {
                                 InputProps={{
                                   startAdornment: (
                                     <InputAdornment position="start">
-                                      <CImg src={'img/password.png'} style={{width: '22px'}} />
+                                      <CImg src={'/img/password.png'} style={{width: '22px'}} />
                                     </InputAdornment>
                                   ),
                                   classes:{notchedOutline:classes.noBorder}

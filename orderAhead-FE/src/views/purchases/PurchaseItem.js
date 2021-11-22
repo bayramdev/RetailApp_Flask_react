@@ -17,7 +17,7 @@ const PurchaseItem = (props) => {
     <div className="purchase-item">
       <div className="purchase-item__left">
         <div className="purchase-item__image">
-          <img src={'img/icon-item2.png'} />
+          <img src={'/img/icon-item2.png'} />
         </div>
         <div className="purchase-item__name">{item.qty} x {item.name}</div>
         <div className="purchase-item__category">{item.category}</div>
