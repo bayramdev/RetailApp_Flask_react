@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { lazy, useRef, useEffect, useState } from 'react'
 import {
     CCard,
     CCardBody,
@@ -14,9 +14,9 @@ import { useHistory } from 'react-router-dom';
 import { dbManageService } from '../../controllers/_services/dbmanage.service';
 import { errorNotification, warningNotification, successNotification } from '../../controllers/_helpers';
 import useTable from './../widgets/useTable';
-import TableFooter from './../widgets/TableFooter';
-
 import 'spinkit/spinkit.min.css';
+
+const ViewItemDB = lazy(() => import('./ViewItemDB'));
 
 const DBManage = () => {
   const dispatch = useDispatch()
@@ -168,7 +168,7 @@ const DBManage = () => {
                 <thead className="thead-light">
                   <tr>
                     { columnsInfo.map(column => (
-                        <th className="text-center">{column}</th>
+                        <th className="text-center" style={{textOverflow: "ellipsis", "whiteSpace": "nowrap"}}>{column}</th>
                       ))
                     }
                   </tr>
@@ -176,9 +176,14 @@ const DBManage = () => {
                 <tbody>
                 { slice &&
                   slice.map(item => (
-                    <tr>
+                    <tr  onClick={() => {
+                      dispatch({type: 'set', viewItemDB: true})
+                      dispatch({type: 'set', viewDetail: item})
+                      dispatch({type: 'set', viewColumn: columnsInfo})
+                      dispatch({type: 'set', selectedTable: selectedTable})
+                    }}>
                       { item.map(detail => (
-                        <td className="text-center">
+                        <td style={{textOverflow: "ellipsis", "whiteSpace": "nowrap", cursor: "pointer"}}>
                           { detail }
                         </td>
                         ))
@@ -214,7 +219,7 @@ const DBManage = () => {
           </CCard>
         </CCol>
       </CRow>
-      
+      <ViewItemDB />
     </>
   )
 }
