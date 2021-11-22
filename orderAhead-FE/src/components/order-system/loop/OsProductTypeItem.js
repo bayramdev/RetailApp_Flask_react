@@ -3,6 +3,7 @@ import {Select, MenuItem, FormControl, InputLabel} from '@mui/material'
 import { osServices } from '../../../controllers/_services/ordersystem.service';
 import { formatPrice } from '../ultility';
 import OsLoading from '../OsLoading'
+import { useHistory } from 'react-router-dom';
 
 const OsProductTypeItem = (props) => {
   const className = "os-type-item"
@@ -24,13 +25,19 @@ const OsProductTypeItem = (props) => {
   const handleChange = (e) => {
     chooseBrand(e.target.value)
   }
+
+  const history = useHistory()
+  const gotoType = () => {
+    history.push('/order/products/?type='+type.name)
+  }
+
   return (
     <div className={`${className}`}>
-      <div className={`${className}__photo`}>
+      <div className={`${className}__photo`} onClick={gotoType}>
         <img src={type.thumbnail} width="100%" />
       </div>
       <div className={`${className}__info`}>
-        <div className={`${className}__name`}>
+        <div className={`${className}__name`} onClick={gotoType}>
           {type.name}
         </div>
         <div className={`${className}__price-range`}>
