@@ -1086,6 +1086,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .os-type-item__photo {
   width: 200px;
+  cursor: pointer;
 }
 .os-type-item__info {
   flex: 1;
@@ -1093,6 +1094,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .os-type-item__name {
   font-weight: bold;
   margin-bottom: 15px;
+  cursor: pointer;
 }
 .os-type-item__price-range {
   margin-bottom: 25px;

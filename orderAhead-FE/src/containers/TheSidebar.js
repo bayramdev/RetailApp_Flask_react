@@ -28,7 +28,7 @@ const TheSidebar = () => {
     >
       <CSidebarBrand className="d-md-down-none invisible" to="/">
         <CImg
-            src={'img/logo.png'}
+            src={'/img/logo.png'}
             alt="Company Logo"
             height="40"
           />
