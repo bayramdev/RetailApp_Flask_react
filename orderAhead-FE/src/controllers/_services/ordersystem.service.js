@@ -47,8 +47,8 @@ function osLoadCategories() {
   return callApi('ordersystem/loadCategories')
 }
 
-function osLoadBrands() {
-  return callApi('ordersystem/loadBrands')
+function osLoadBrands(params) {
+  return callApi('ordersystem/loadBrands', params)
 }
 function osLoadTypes(params) {
   return callApi('ordersystem/loadTypes', params)

@@ -93,7 +93,7 @@ const Signup = () => {
       "password": password
     })
         .then(
-            user => { 
+            user => {
                 if (user.status) {
                   successNotification("Your password is changed successfully.", 3000);
                   onClose()
@@ -105,7 +105,7 @@ const Signup = () => {
             error => {
                 warningNotification(error, 3000);
             }
-        );    
+        );
   }
 
   const onClose = () => {
@@ -115,7 +115,7 @@ const Signup = () => {
   }
 
 //   useEffect(() => {
-//     if (confirmationCode !== '' && password !== '' && errMessageForConfirmationCode === '' && errMessageForNewPassword === '' && 
+//     if (confirmationCode !== '' && password !== '' && errMessageForConfirmationCode === '' && errMessageForNewPassword === '' &&
 //         errMessageForConfirmPassword === '' && password === confirmPassword) {
 //       setSubmitButtonDisabled(false);
 //     } else {
@@ -127,7 +127,7 @@ const Signup = () => {
     <>
       <CWidgetSimple className="signin-widget text-left p-3 pt-0 pb-0 mx-auto">
         <div className="float-right" style={{marginRight: '-10px'}}>
-          <CImg src={'img/icons8-close.png'} style={{cursor: 'pointer'}} onClick={() => onClose()}></CImg>
+          <CImg src={'/img/icons8-close.png'} style={{cursor: 'pointer'}} onClick={() => onClose()}></CImg>
         </div>
         <h2 className="text-left signin-header-title">Forgot password?</h2>
         <h5 className="text-left signin-header-desc">Please confirm your email and then reset your password.</h5>
