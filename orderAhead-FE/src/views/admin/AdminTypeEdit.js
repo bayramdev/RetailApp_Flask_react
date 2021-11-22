@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import OsLoading from '../../components/order-system/OsLoading';
 import { osServices } from '../../controllers/_services/ordersystem.service';
 import {Table, TableBody, TableHead, TableRow, TableCell, Button, TextField } from '@mui/material'
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import QueryString from 'query-string'
 
 const AdminTypeEdit = () => {
@@ -15,6 +15,7 @@ const AdminTypeEdit = () => {
   const [priceFrom, setPriceFrom] = useState(0)
   const [priceTo, setPriceTo] = useState(0)
   const [saveText, setSaveText] = useState('Save')
+  const history = useHistory()
 
   useEffect(() => {
     setLoading(true)
@@ -39,7 +40,10 @@ const AdminTypeEdit = () => {
     formData.append('price_to', priceTo)
 
     setSaveText('Updating...')
-    osServices.osUpdateType(formData).then(response => setSaveText('Save'))
+    osServices.osUpdateType(formData).then(response => {
+      setSaveText('Save')
+      history.push('/types')
+    })
   }
 
   const onImageChanged = (e) => {

@@ -105,7 +105,7 @@ const TheHeader = () => {
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className={isEmployee && isEmployee ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isEmployee || isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/types" className={currPath === '/types' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Type Manage</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>

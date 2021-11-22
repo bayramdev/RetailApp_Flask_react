@@ -42,7 +42,7 @@ const AdminTypeManage = () => {
               {isLoading && <OsLoading />}
               {!isLoading && productTypes.map(productType =>
                 <TableRow>
-                  <TableCell onClick={handleEditClicked}><img src={productType.thumbnail} width="100%"/></TableCell>
+                  <TableCell onClick={handleEditClicked}><img src={productType.thumbnail} width="50"/></TableCell>
                   <TableCell onClick={handleEditClicked}>{productType.name}</TableCell>
                   <TableCell>{productType.price_range.from}</TableCell>
                   <TableCell>{productType.price_range.to}</TableCell>
