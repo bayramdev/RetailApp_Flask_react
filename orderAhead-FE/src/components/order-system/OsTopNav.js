@@ -50,6 +50,7 @@ const OsTopNav = () => {
                   <OsItemLink key={brand.handle} to={`${brand.link}`}>{brand.name}</OsItemLink>
                 )}
               </OsItemDropdown>
+              <OsItemLink to={`/order/types`}>Product Types</OsItemLink>
             </nav>
             <OsMinicart />
           </div>

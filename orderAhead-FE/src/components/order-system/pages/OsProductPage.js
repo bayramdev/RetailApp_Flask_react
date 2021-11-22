@@ -48,6 +48,8 @@ const OsProductPage = (props) => {
                 <img src={product.thumbnail} width="100%" />
               </div>
               <div className="os-product__details col-7">
+                {console.log(product)}
+                <div className="os-product__type">{product.type}</div>
                 <div className="os-product__brand">{product.brand}</div>
                 <div className="os-product__name">{product.name}</div>
                 <OsAddToCart data={product} />

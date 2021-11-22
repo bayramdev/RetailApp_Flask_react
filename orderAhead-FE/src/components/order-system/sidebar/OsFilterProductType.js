@@ -10,7 +10,7 @@ const OsFilterProductType = (props) => {
   const [isCollapsed, setCollapsed] = useState(false)
   const handleClick = () => setCollapsed(!isCollapsed)
   const isLoading = useSelector(state=>state.isLoading)
-  const types = useSelector(state=>state.types)
+  const types = useSelector(state=>state.productTypes)
 
   const {search} = useLocation()
   const params = QueryString.parse(search)
@@ -35,7 +35,7 @@ const OsFilterProductType = (props) => {
   return (
     <div className="os-sidebar-widget">
       <div className="os-sidebar-widget__header" onClick={handleClick}>
-        <div className="os-sidebar-widget__heading">Product Type</div>
+        <div className="os-sidebar-widget__heading">Product Types</div>
         {isCollapsed && <OsIconRight />}
         {!isCollapsed && <OsIconDown />}
       </div>
