@@ -11,6 +11,8 @@ from models.type import Type
 from models.product import Product
 from models.product_search import ProductSearch
 from models.brand_search import BrandSearch
+from pathlib import Path
+
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
 @cross_origin()
@@ -113,6 +115,69 @@ def os_loadProduct():
 
   product = Product(sku)
   data = product.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osLoadType', methods=['GET', 'POST'])
+@cross_origin()
+def os_loadType():
+  if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+  content = request.get_json()
+  name = content.get("name")
+
+  productType = Type(name)
+  productType.load_data()
+  data = productType.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osUpdateType', methods=['GET', 'POST'])
+@cross_origin()
+def os_updateType():
+  thumbnail_file = request.files['typeThumbnail']
+  type_name = request.form['typeName']
+  price_from = request.form['price_from']
+  price_to = request.form['price_to']
+
+  type_obj = Type(type_name)
+  type_obj.load_data()
+
+  if (thumbnail_file):
+    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/build/'
+    relative_path = "/img/types"
+    type_dir = root_dir + relative_path
+    Path(type_dir).mkdir(parents=True, exist_ok=True)
+
+    thumbnail_file.save(type_dir + '/' + thumbnail_file.filename)
+    thumbnail_url = relative_path + '/' + thumbnail_file.filename
+    type_obj.image_url = thumbnail_url
+
+  if price_from is None:
+    price_from = 0
+  if price_to is None:
+    price_to = 0
+
+  type_obj.price_from = price_from
+  type_obj.price_to = price_to
+  type_obj.save()
+
+
+  # productType = Type(name)
+  # productType.load_data()
+  # data = productType.toJSON()
+  data = type_obj.toJSON()
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

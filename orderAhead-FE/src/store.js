@@ -5,6 +5,7 @@ const initialState = {
   asideShow: false,
   darkMode: true,
   isAdmin: false,
+  isEmployee: false,
   isLogin: false,
   openSignup: false,
   openSignin: false,

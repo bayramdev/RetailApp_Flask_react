@@ -1,4 +1,5 @@
 import { useConfig } from "../../config";
+import axios from 'axios';
 
 const config = useConfig()
 const serverURL = config.serverUrl
@@ -9,6 +10,8 @@ export const osServices = {
   osLoadProducts,
   osLoadTypes,
   osLoadProduct,
+  osLoadType,
+  osUpdateType,
 };
 
 function handleResponse(response) {
@@ -60,4 +63,13 @@ function osLoadProducts(params) {
 
 function osLoadProduct(params) {
   return callApi('ordersystem/loadProduct', params)
+}
+
+function osLoadType(params) {
+  return callApi('ordersystem/osLoadType', params)
+}
+
+function osUpdateType(formData) {
+  const path = 'ordersystem/osUpdateType'
+  return axios.post(`${serverURL}/${path}`, formData)
 }

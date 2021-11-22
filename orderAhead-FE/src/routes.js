@@ -10,6 +10,8 @@ const PersionalSetting = lazy(() => import('./views/setting/PersionalSetting'))
 const AdminLinkManage = lazy(() => import('./views/admin/AdminLinkManage'));
 const AdminUsers = lazy(() => import('./views/admin/AdminUsers'));
 const AdminDBManage = lazy(() => import('./views/admin/AdminDBManage'));
+const AdminTypeManage = lazy(() => import('./views/admin/AdminTypeManage'));
+const AdminTypeEdit = lazy(() => import('./views/admin/AdminTypeEdit'));
 
 const AdminDashboard1 = lazy(() => import('./views/admin/Dashboard1'));
 const AdminDashboard2 = lazy(() => import('./views/admin/Dashboard2'));
@@ -22,6 +24,8 @@ const routes = [
   { path: '/setting', name: 'Setting', component: PersionalSetting },
   { path: '/users', name: 'Users', component: AdminUsers },
   { path: '/links', name: 'Link Manage', component: AdminLinkManage},
+  { path: '/types', name: 'Type Manage', component: AdminTypeManage},
+  { path: '/type', name: 'Type Edit', component: AdminTypeEdit},
   { path: '/db-manage', name: 'Link Manage', component: AdminDBManage},
   { path: '/dashboard-1', name: 'Dashboard 1', component: AdminDashboard1, fullwidth: true,},
   { path: '/dashboard-2', name: 'Dashboard 2', component: AdminDashboard2, fullwidth: true,},
