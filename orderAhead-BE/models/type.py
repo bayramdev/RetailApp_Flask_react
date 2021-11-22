@@ -4,6 +4,8 @@ from models.product import Product
 from models.brand import Brand
 import json
 from common import sanitize_title, sanitize_handle
+import time
+
 
 class Type(Base):
   DEFAULT_IMAGE = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
@@ -21,7 +23,7 @@ class Type(Base):
   @classmethod
   def get_list(cls, options={}):
     select_fields = cls.get_select_fields()
-    sql = f'SELECT {select_fields} FROM "Product_Types";'
+    sql = f'SELECT {select_fields} FROM "Product_Types" ORDER BY "Updated At" DESC;'
     return Postgres_DB.fetchall(sql, (), cls.build_type)
 
   def load_data(self):
@@ -46,6 +48,8 @@ class Type(Base):
     for key, column_name in self.allow_fields.items():
       sql_set.append(f'"{column_name}" = %s')
       params += (self.data[key],)
+
+    sql_set.append(f'"Updated At" = current_timestamp')
 
     params += (self.id,)
 
