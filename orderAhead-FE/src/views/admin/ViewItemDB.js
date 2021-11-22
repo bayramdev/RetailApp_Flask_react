@@ -11,6 +11,8 @@ import {
     CRow,
     CTextarea,
   } from '@coreui/react'
+import { userService } from '../../controllers/_services';
+import { successNotification, warningNotification } from '../../controllers/_helpers';
 
 const ViewItemDB = () => {
   const dispatch = useDispatch()
@@ -23,18 +25,41 @@ const ViewItemDB = () => {
   const [viewDetail, setViewDetail] = useState(originData)
 
   useEffect(() => {
-      console.log(originData)
       setViewDetail(originData)
   }, [originData])
 
   const handleClose = () => {
     dispatch({type: 'set', viewItemDB: false})
+    dispatch({type: 'set', viewDetail: []})
   };
 
   const updateDetailItem = (value, index) => {
-      originData[index] = value
-      dispatch({type: 'set', viewDetail: originData})
+      setViewDetail([
+          ...viewDetail.slice(0, index),
+          value,
+          ...viewDetail.slice(index + 1)
+      ])
   }
+
+  const onUpdate = () => {
+    if (viewDetail) {
+          const obj = {
+            "table_name": selectedTable,
+            "column": viewColumn,
+            "data": viewDetail
+          }
+
+          userService.updateDBForAdmin(obj).then(
+            result => {
+                  successNotification("Successfully updated", 3000);
+                  handleClose()
+            },
+            err => {
+                warningNotification("Failed. Please input the data again.", 3000)
+            }
+          )
+    }
+ }
 
   return (
     <CModal 
@@ -56,7 +81,7 @@ const ViewItemDB = () => {
                                 <CCardBody className="view-table-content">
                                     { viewColumn[index] != 'insert_datetime' ?
                                         (
-                                            !viewDetail[index] || viewDetail[index].indexOf("/", 1) != 2?
+                                            !viewDetail[index] || viewDetail[index] == null || ("" + viewDetail[index]).indexOf("/", 1) != 2?
                                                 <CTextarea className="m-0 p-0 px-1 view-table-content" value={viewDetail[index]} onChange={(e) => updateDetailItem(e.target.value, index)} ></CTextarea>
                                             : item
                                         )
@@ -70,7 +95,7 @@ const ViewItemDB = () => {
             </CRow>
             
             <div className="d-flex mx-3 px-3 mt-2">
-                <CButton block className="button-exchange p-1 pt-2" onClick={handleClose}>
+                <CButton block className="button-exchange p-1 pt-2" onClick={onUpdate}>
                     <h3 style={{fontSize: "medium"}}>Update</h3>
                 </CButton>
 

@@ -25,6 +25,8 @@ export const userService = {
     confirmCodeBeforeSignup,
 
     getLastPurchasesByDate,
+    
+    updateDBForAdmin,
 };
 
 function login(email, password, confirm) {
@@ -158,6 +160,16 @@ function updateForAdmin(user) {
     };
 
     return fetch(`${serverURL}/admin/users/${user.id}`, requestOptions).then(handleResponse);;
+}
+
+function updateDBForAdmin(tableContent) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(tableContent)
+    };
+
+    return fetch(`${serverURL}/admin/updateTable`, requestOptions).then(handleResponse);;
 }
 
 function updateMfa(user) {

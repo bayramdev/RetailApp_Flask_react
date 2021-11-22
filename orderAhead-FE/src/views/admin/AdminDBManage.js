@@ -25,6 +25,7 @@ const DBManage = () => {
   dispatch({type: 'set', darkMode: false})
 
   const user = useSelector(state => state.user)
+  const viewItemDB = useSelector(state => state.viewItemDB)
 
   if (!localStorage.getItem('userId') || !user || user.is_superuser !== 1) {
     dispatch({type: 'set', darkMode: true})
@@ -59,6 +60,12 @@ const DBManage = () => {
         }
     )
   }, [user]);
+
+  useEffect(() => {
+    if (selectedTable) {
+      onSelectTable(selectedTable)
+    }
+  }, [viewItemDB])
 
   const [isLoading, setIsLoading] = useState(false)
 

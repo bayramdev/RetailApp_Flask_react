@@ -745,7 +745,7 @@ def getDataInfoByTableName():
 
     columns = db_controller.get_column_names_per_table(table_name)
 
-    return jsonify({"status": True, "data": result, "columns": columns})
+    return jsonify({"status": True, "data": result[::-1], "columns": columns})
 
 
 @app.route('/uploadFile', methods=["POST"], strict_slashes=False)
@@ -757,15 +757,10 @@ def uploadCSVFile():
         if file.filename == '':
             return jsonify({"status": False, "message": "No selected file"})
 
-        # if os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)):
-        #     return jsonify({"status": False, "message": "Already uploaded"})
-
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         file.close()
 
         table_name = db_controller.get_table_name_from_csv(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-
-        print(table_name)
 
         if table_name == '':
             return jsonify({"status": False, "message": "Responding table no exist."})
@@ -799,14 +794,9 @@ def downloadCSV():
 
         columns = db_controller.get_column_names_per_table(table_name)
 
-        # output = io.StringIO()
-        # writer = csv.writer(output)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], "output.csv")
 
         column_str = ','.join(columns)
-        # line = [column_str]
-        # writer.writerow(line)
-        length_columns = len(columns)
 
         with open(file_path, 'w', encoding="utf8") as f:
             f.writelines(column_str)
@@ -821,17 +811,48 @@ def downloadCSV():
                         line_str += str(id_c) + ','
                 f.writelines(line_str[:-1])
                 f.write('\n')
-            # writer.writerow([line_str[:-1]])
 
         with open(file_path, encoding="utf8") as f:
             data = f.read()
 
         return {"data": data}
 
-        # output.seek(0)
 
-        # return Response(output, mimetype="text/csv",
-        #                 headers={"Content-Disposition": "attachment;filename=report.csv"})
+@app.route('/admin/updateTable',  methods=['PUT'])
+@cross_origin()
+def update_table():
+
+    content = request.get_json()
+    table_name = content.get("table_name")
+    column = content.get("column")
+    data = content.get("data")
+
+    if not (table_name or column or data):
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "Input error!"}),
+            status=404,
+            mimetype='application/json'
+        )
+        return response
+
+    try:
+        db_controller.update_table(table_name=table_name, column=column, data=data)
+    except Exception as e:
+        print(e)
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": str(e)}),
+            status=500,
+            mimetype='application/json'
+        )
+        return response
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully updated"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
 
 @app.errorhandler(404)
 def page_not_found(e):
