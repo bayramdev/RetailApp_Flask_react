@@ -170,3 +170,27 @@ def write_multiple_line(csv_file, table_name):
         Postgres_DB.copy_csv(sql[:-1] + f';')
 
         return headers
+
+
+def update_table(table_name, column, data):
+
+    sql1 = f'UPDATE "{table_name}" SET '
+
+    sql2 = f''
+
+    sql3 = f' WHERE '
+
+    for in_, content in enumerate(data):
+        if str(content) == 'None' or str(content) == '':
+            continue
+
+        if str(content).find("/", 1) == 2 or str(column[in_]) == 'insert_datetime':
+            if str(column[in_]) != 'insert_datetime':
+                sql3 += f'\"{column[in_]}\" = \'{content}\' and '
+        else:
+            sql2 += f'\"{column[in_]}\" = \'{content}\','
+
+    sql = sql1 + sql2[:-1] + sql3[:-5] + f';'
+
+    Postgres_DB.copy_csv(sql)
+
