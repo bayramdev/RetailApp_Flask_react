@@ -22,12 +22,15 @@ const TheHeader = () => {
   // const sidebarShow = useSelector(state => state.sidebarShow)
   const isLogin = useSelector(state => state.isLogin)
   const isAdmin = useSelector(state => state.isAdmin)
+
+
   const currPath = history.location.pathname
 
   const [fullName, setFullName] = useState('')
 
   const localUser = localStorage.getItem('userId')
   const user = useSelector(state => state.user)
+  const isEmployee = user.is_superuser == 2
 
   const [toggle, setToggle] = useState(false);
 
@@ -101,6 +104,9 @@ const TheHeader = () => {
         </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className={isEmployee && isEmployee ? 'px-3 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/types" className={currPath === '/types' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Type Manage</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/db-manage" className={currPath === '/db-manage' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>DB Manage</CHeaderNavLink>

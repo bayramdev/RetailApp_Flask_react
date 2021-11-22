@@ -10,6 +10,8 @@ class Type(Base):
   allow_fields = {
     'name': 'Name',
     'image_url': 'Image_Url',
+    'price_from': 'Price From',
+    'price_to': 'Price To',
   }
 
   def __init__(self, name):
@@ -33,7 +35,27 @@ class Type(Base):
     for index, field in enumerate(self.allow_fields.keys()):
       self.data[field] = db_record[index]
 
+    # self.data['price_from'] = 100
+    # self.data['price_to'] = 200
+
     return self.data
+
+  def save(self):
+    sql_set = []
+    params = ()
+    for key, column_name in self.allow_fields.items():
+      sql_set.append(f'"{column_name}" = %s')
+      params += (self.data[key],)
+
+    params += (self.id,)
+
+    sql_set = ','.join(sql_set)
+    sql = f'UPDATE "Product_Types" SET {sql_set} WHERE "Name" = %s'
+
+    print(sql)
+    print(params)
+
+    Postgres_DB.query(sql, params)
 
   def get_brand_list(self):
     sql = f'SELECT DISTINCT "Brand" FROM "Inventory" WHERE "Product Type" = %s;'
@@ -50,7 +72,5 @@ class Type(Base):
     if not self.image_url:
       self.image_url = Type.DEFAULT_IMAGE
 
-    price_from = 100
-    price_to = 200
 
-    return {'name':self.name, 'thumbnail': self.image_url, 'handle':sanitize_handle(self.name), 'price_range': {'from': price_from, 'to': price_to}}
+    return {'name':self.name, 'thumbnail': self.image_url, 'handle':sanitize_handle(self.name), 'price_range': {'from': self.price_from, 'to': self.price_to}}
