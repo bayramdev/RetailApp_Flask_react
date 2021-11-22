@@ -49,6 +49,15 @@ class Postgres_DB:
     return result
 
   @classmethod
+  def query(self, sql, params = ()):
+    conn = self.connect()
+    cur = conn.cursor()
+    cur.execute(sql, params)
+    cur.close()
+    conn.commit()
+    conn.close()
+
+  @classmethod
   def build_object(self, row, mapping):
     if mapping == None:
       return row

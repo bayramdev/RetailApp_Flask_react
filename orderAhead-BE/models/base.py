@@ -7,8 +7,6 @@ class Base(object):
     if name in self.data.keys():
       return self.data[name]
     else:
-      print('name')
-      print(name)
       return super().__getattr__(name)
 
   def __setattr__(self, name, value):
