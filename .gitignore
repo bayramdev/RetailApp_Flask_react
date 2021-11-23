@@ -1,2 +1,4 @@
 /orderAhead-BE/.idea
 orderAhead-BE/db/order.db
+orderAhead-BE/public/uploads/*
+orderAhead-FE/package-lock.json
