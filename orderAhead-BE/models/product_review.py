@@ -21,11 +21,12 @@ class ProductReview:
 
     result = Postgres_DB.fetchone(sql, (self.customer_id, self.sku,))
     if result:
-      self.img_url = result[0]
-      self.name = result[1]
-      self.rating = result[2]
-      self.content = result[3]
-      self.reviewed_at = result[4]
+      # self.sku = result[0]
+      self.img_url = result[1]
+      self.name = result[2]
+      self.rating = result[3]
+      self.content = result[4]
+      self.reviewed_at = result[5]
 
   def bind_data(self, data):
     self.rating = data['rating']
@@ -46,7 +47,7 @@ class ProductReview:
       'sku': self.sku,
       'name': self.name,
       'img_url': self.img_url,
-      'rating': self.rating,
+      'rating': str(self.rating),
       'content': self.content,
-      'reviewed_at': self.reviewed_at,
+      'reviewed_at': str(self.reviewed_at),
     }

@@ -218,6 +218,9 @@ def os_loadReview():
   review.load_data()
   data = review.toJSON()
 
+  print('data')
+  print(data)
+
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
       status=200,
