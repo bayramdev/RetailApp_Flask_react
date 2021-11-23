@@ -431,6 +431,7 @@ def update_entry(update_id):
     allow_fields = [
         {'key': 'first_name', 'required': True},
         {'key': 'last_name', 'required': True},
+        {'key': 'med_id', 'required': True},
         {'key': 'phone_number', 'required': False},
         {'key': 'address_1', 'required': False},
         {'key': 'address_2', 'required': False},
