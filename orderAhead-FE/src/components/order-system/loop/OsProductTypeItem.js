@@ -33,8 +33,8 @@ const OsProductTypeItem = (props) => {
 
   return (
     <div className={`${className}`}>
-      <div className={`${className}__photo`} onClick={gotoType}>
-        <img src={type.thumbnail} width="100%" />
+      <div className={`${className}__photo`} onClick={gotoType} style={{backgroundImage: 'url('+type.thumbnail+')'}}>
+        {/* <img src={type.thumbnail} width="100%" /> */}
       </div>
       <div className={`${className}__info`}>
         <div className={`${className}__name`} onClick={gotoType}>
