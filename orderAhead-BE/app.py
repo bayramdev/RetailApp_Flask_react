@@ -17,6 +17,7 @@ from flask_mail import Mail, Message
 import smtplib
 from models.datatable_factory import DatatableFactory
 from models.user import User
+from models.customer import Customer
 from config import app
 
 CORS(app)
@@ -209,6 +210,11 @@ def register():
         medid = content.get("medid")
         birthdate = content.get("birthdate")
 
+        customer_id = ''
+        customer = Customer.create_by_medical_id(medid)
+        if customer:
+            customer_id = customer.customer_id
+
         customer_data = {
             'username': username,
             'email': email,
@@ -217,6 +223,7 @@ def register():
             'role': role_info['role'],
             'fullname': fullname,
             'med_id': medid,
+            'customer_id': customer_id,
             'birth_date': birthdate,
         }
 
@@ -396,6 +403,12 @@ def getUserById():
     user = User(id)
     results = user.data
     results['id'] = id
+
+    customer = Customer.create_by_medical_id(user.med_id)
+    if customer:
+        results['customer_id'] = customer.customer_id
+    else:
+        results['customer_id'] = ''
     # results = user_controller.getUserById(id)
 
     return jsonify(results)

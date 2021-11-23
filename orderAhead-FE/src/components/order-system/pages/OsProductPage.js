@@ -4,6 +4,7 @@ import OsIconLeft from '../icons/OsIconLeft';
 import OsAddToCart from '../parts/OsAddToCart';
 import { osServices } from '../../../controllers/_services/ordersystem.service';
 import OsLoading from '../OsLoading';
+import OsProductReviews from '../OsProductReviews'
 
 
 const OsProductPage = (props) => {
@@ -63,6 +64,8 @@ const OsProductPage = (props) => {
                 <div className="os-product__desc">
                   {product.desc}
                 </div>
+
+                <OsProductReviews data={product.reviews} />
               </div>
             </div>}
           </div>

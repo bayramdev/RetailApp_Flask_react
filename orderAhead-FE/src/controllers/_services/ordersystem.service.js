@@ -12,6 +12,9 @@ export const osServices = {
   osLoadProduct,
   osLoadType,
   osUpdateType,
+  osGetBoughtProductReviews,
+  osLoadReview,
+  osUpdateReview,
 };
 
 function handleResponse(response) {
@@ -71,5 +74,18 @@ function osLoadType(params) {
 
 function osUpdateType(formData) {
   const path = 'ordersystem/osUpdateType'
+  return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osGetBoughtProductReviews(params) {
+  return callApi('ordersystem/osGetBoughtProductReviews', params)
+}
+
+function osLoadReview(params) {
+  return callApi('ordersystem/osLoadReview', params)
+}
+
+function osUpdateReview(formData) {
+  const path = 'ordersystem/osUpdateReview'
   return axios.post(`${serverURL}/${path}`, formData)
 }

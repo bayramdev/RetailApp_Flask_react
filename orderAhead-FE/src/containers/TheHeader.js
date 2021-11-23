@@ -32,6 +32,8 @@ const TheHeader = () => {
   const user = useSelector(state => state.user)
   const isEmployee = user.is_superuser == 2
 
+  const isShowReviews = user.is_superuser == 5
+
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const TheHeader = () => {
     <>
     <CHeader colorscheme="dark" className="header">
 
-      <CHeaderNav >
+      <CHeaderNav className="mr-5" >
         <CHeaderNavItem >
           <CHeaderNavLink onClick={onClickLogo}>
             <h2>Open Ahead</h2>
@@ -99,27 +101,30 @@ const TheHeader = () => {
               <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('dashboard-4')}>Dashboard 4</CDropdownItem>
             </CDropdownMenu>
         </CDropdown>}
-        <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/users" className={currPath === '/users' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>User Manage</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className={isEmployee || isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isShowReviews ? 'px-2 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/reviews" className={currPath === '/reviews' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Reviews for Bought Products</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className={isEmployee || isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/types" className={currPath === '/types' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Type Manage</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className={isLogin && isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/db-manage" className={currPath === '/db-manage' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>DB Manage</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className={isLogin ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isLogin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/order" className={currPath === '/order' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Order</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className={isLogin && !isAdmin ? 'px-3 d-md-down-none' : 'd-none'}>
+        <CHeaderNavItem className={isLogin && !isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/setting" className={currPath === '/setting' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Setting</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 
-      <CHeaderNav  className="px-3">
+      <CHeaderNav  className="px-2">
         {/* <CToggler
           inHeader
           className="ml-3 d-md-down-none"

@@ -1113,3 +1113,29 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
     width: 300px;
   }
 }
+
+/** review-summary */
+.review-summary {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $color__border;
+}
+.review-summary__heading {
+  font-weight: bold;
+  font-size: 18px;
+}
+.review-summary__rating {
+  margin-top: 20px;
+}
+
+/** product-review */
+.product-review {
+  margin-top: 15px;
+}
+.product-review__rating {}
+.product-review__content {
+  margin-top: 10px;
+}
+.product-review__customer {
+  margin-top: 10px;
+}
