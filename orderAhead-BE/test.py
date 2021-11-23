@@ -39,9 +39,9 @@ def test():
   # brands = search.get_list()
   # print(brands)
 
-  print(os.path.dirname(os.path.realpath(__file__)))
-  current_dir = os.path.dirname(os.path.realpath(__file__))
-  Path(current_dir + "/public/uploads/types").mkdir(parents=True, exist_ok=True)
+  # print(os.path.dirname(os.path.realpath(__file__)))
+  # current_dir = os.path.dirname(os.path.realpath(__file__))
+  # Path(current_dir + "/public/uploads/types").mkdir(parents=True, exist_ok=True)
 
 
   return 'Please check log on python console'

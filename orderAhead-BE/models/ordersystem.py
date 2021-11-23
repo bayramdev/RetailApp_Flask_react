@@ -11,7 +11,9 @@ from models.type import Type
 from models.product import Product
 from models.product_search import ProductSearch
 from models.brand_search import BrandSearch
+from models.customer import Customer
 from pathlib import Path
+from models.product_review import ProductReview
 
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
@@ -110,11 +112,13 @@ def os_loadProduct():
 
   content = request.get_json()
   sku = content.get("sku")
-  print('SKU')
-  print(sku)
-
   product = Product(sku)
   data = product.toJSON()
+
+  reviews = product.get_reviews()
+  print('reviews')
+  print(reviews)
+  data['reviews'] = reviews
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
@@ -178,6 +182,59 @@ def os_updateType():
   # productType.load_data()
   # data = productType.toJSON()
   data = type_obj.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osGetBoughtProductReviews', methods=['GET', 'POST'])
+@cross_origin()
+def os_getBoughtProductReviews():
+  content = request.get_json()
+  customer_id = content.get('customer_id')
+  customer = Customer(customer_id)
+  data = customer.get_bought_product_list()
+  print('data')
+  print(data)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osLoadReview', methods=['GET', 'POST'])
+@cross_origin()
+def os_loadReview():
+  content = request.get_json()
+  customer_id = content.get('customer_id')
+  sku = content.get('sku')
+
+  review = ProductReview(customer_id, sku)
+  review.load_data()
+  data = review.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osUpdateReview', methods=['GET', 'POST'])
+@cross_origin()
+def os_updateReview():
+  content = request.get_json()
+  print(content)
+
+  review = ProductReview(content['customer_id'], content['sku'])
+  review.bind_data(content)
+  review.save()
+  data = review.toJSON()
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

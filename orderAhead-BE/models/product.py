@@ -85,6 +85,24 @@ class Product(Base):
 
     return self.data
 
+  def get_reviews(self):
+    sql = '''
+      SELECT DISTINCT pr."Rating", pr."Content", pr."Reviewed At", c."Customer Name"
+      FROM "Product_Reviews" AS pr
+        INNER JOIN "Customers" AS c ON c."Customer ID" = pr."Customer Id"
+      WHERE pr."Product Sku" = %s
+    '''
+
+    return Postgres_DB.fetchall(sql, (self.id, ), self.build_review)
+
+  def build_review(self, db_record):
+    return {
+      'rating': str(db_record[0]),
+      'content': db_record[1],
+      'reviewed_at': str(db_record[2]),
+      'customer_name': db_record[3],
+    }
+
   @classmethod
   def build_product(cls, db_record):
     product = cls()

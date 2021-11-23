@@ -55,11 +55,33 @@ class Customer:
             'price': record[3],
             'tax': record[4],
             'total': record[5],
-
         }
         item_list.append(item)
 
       return item_list
+
+    def get_bought_product_list(self):
+      sql = """
+        SELECT DISTINCT sbi."SKU", i."img_url", concat(i."Product Name", i."Strain Name") AS "Name", pr."Rating", pr."Content"
+        FROM "Sales_by_item" AS sbi
+          LEFT JOIN "Product_Reviews" AS pr ON sbi."SKU" = pr."Product Sku"
+          LEFT JOIN "Inventory" AS i ON sbi."SKU" = i."SKU"
+        WHERE sbi."Receipt ID" IN (SELECT DISTINCT s."Receipt ID" FROM "Sales" AS s WHERE s."Customer ID" = %s);
+      """
+
+      result = Postgres_DB.fetchall(sql, (self.customer_id, ), self.build_review)
+
+
+      return result
+
+    def build_review(self, db_record):
+      return {
+        'sku': db_record[0],
+        'img_url': db_record[1],
+        'name': db_record[2],
+        'rating': str(db_record[3]),
+        'content': db_record[4],
+      }
 
     def get_last_purchases_by_date(self):
       result = []
