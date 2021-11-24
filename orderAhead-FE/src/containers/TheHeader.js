@@ -105,6 +105,9 @@ const TheHeader = () => {
           <CHeaderNavLink to="/users" className={currPath === '/users' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>User Manage</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/shipping" className={currPath === '/shipping' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Shipping Manage</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className={isShowReviews ? 'px-2 d-md-down-none' : 'd-none'}>

@@ -17,7 +17,6 @@ const OsCheckoutPayment = () => {
             <div className="os-checkout-list__summary">Payment will be made upon pickup. We accept the following payment methods:</div>
             <div className="os-checkout-list__options">
               <div className="os-checkout-list__item"><OsIconCash /> Cash</div>
-              <div className="os-checkout-list__item"><OsIconCash /> Check</div>
               <div className="os-checkout-list__item"><OsIconCash /> Debit Card</div>
             </div>
           </div>
