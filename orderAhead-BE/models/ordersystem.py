@@ -14,6 +14,7 @@ from models.brand_search import BrandSearch
 from models.customer import Customer
 from pathlib import Path
 from models.product_review import ProductReview
+from models.product_type import ProductType
 
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
@@ -238,6 +239,24 @@ def os_updateReview():
   review.bind_data(content)
   review.save()
   data = review.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osLoadProductTypesByCategory', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadProductTypesByCategory():
+  content = request.get_json()
+
+  result = ProductType.get_list({'category': content.get('category')})
+  data = []
+  for product_type in result:
+    data.append(product_type.toJSON())
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

@@ -15,6 +15,7 @@ export const osServices = {
   osGetBoughtProductReviews,
   osLoadReview,
   osUpdateReview,
+  osLoadProductTypesByCategory,
 };
 
 function handleResponse(response) {
@@ -88,4 +89,8 @@ function osLoadReview(params) {
 function osUpdateReview(formData) {
   const path = 'ordersystem/osUpdateReview'
   return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osLoadProductTypesByCategory(params) {
+  return callApi('ordersystem/osLoadProductTypesByCategory', params)
 }

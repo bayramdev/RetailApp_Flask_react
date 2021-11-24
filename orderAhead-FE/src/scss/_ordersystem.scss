@@ -1139,3 +1139,55 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .product-review__customer {
   margin-top: 10px;
 }
+
+
+/** os-slider-product-types */
+.os-slider-product-types {
+  padding: 50px 0px 15px;
+  position: relative;
+  border-bottom: 1px solid rgb(215, 228, 235);
+  margin: 0px auto;
+  z-index: 10;
+}
+.os-slider-product-types__heading {
+  font-weight: bold;
+  line-height: 120%;
+  font-size: 26px;
+}
+.os-slider-product-types__slider {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-left: 25px;
+
+}
+
+/** os-slider-type-item */
+.os-slider-type-item {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  padding: 15px;
+  max-width: 214px;
+  cursor: pointer;
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 14px;
+  }
+}
+.os-slider-type-item__photo {
+  margin-bottom: 15px;
+}
+.os-slider-type-item__price {
+  color: rgb(11, 153, 230);
+  font-size: 14px;
+  line-height: 15px;
+  padding-bottom: 7px;
+}
+.os-slider-type-item__name {
+  color: rgb(36, 37, 38);
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 17px;
+  padding-bottom: 6px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
