@@ -138,4 +138,5 @@ class Product(Base):
       'type_link': self.product_type,
       'is_flower': self.in_flower_cat(),
       'tier_prices': self.tier_prices,
+      'rating': self.rating if self.rating is not None else 0,
     }

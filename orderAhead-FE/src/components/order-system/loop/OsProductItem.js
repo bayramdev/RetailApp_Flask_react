@@ -3,6 +3,7 @@ import OsButtonAdd from './OsButtonAdd';
 import {useHistory, Link, useLocation} from 'react-router-dom';
 import QueryString from 'query-string'
 import { useSelector } from 'react-redux';
+import {Rating} from '@mui/material'
 
 const OsProductItem = (props) => {
   const history = useHistory();
@@ -39,6 +40,7 @@ const OsProductItem = (props) => {
           <div className={`${className}__details`}>
             <div className={`${className}__brand`}>{product.brand}</div>
             <div className={`${className}__name`}>{product.name} <Link to={typeLink+'&type='+product.type}>{product.type}</Link></div>
+            <div className={`${className}__rating`}><Rating value={product.rating} precision={0.5} size="small" readOnly /></div>
             <div className={`${className}__features`}>
               <div className={`${className}__strain`}>{product.strain}</div>
               <div className={`${className}__potency`}><span className={`${className}__label`}>THC:</span>&nbsp;25%</div>
