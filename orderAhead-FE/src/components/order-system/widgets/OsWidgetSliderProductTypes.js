@@ -16,6 +16,7 @@ const OsWidgetSliderProductTypes = (props) => {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
+    draggable: false,
   };
 
   const [productTypes, setProductTypes] = useState([])
