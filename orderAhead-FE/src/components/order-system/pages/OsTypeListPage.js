@@ -3,13 +3,13 @@ import OsProductTypeItem from '../loop/OsProductTypeItem';
 import OsSidebar from '../OsSidebar';
 import OsContentHeader from '../OsContentHeader';
 import OsWidgetCategories from '../widgets/OsWidgetCategories';
+import OsWidgetSliderProductTypes from '../widgets/OsWidgetSliderProductTypes';
 import OsLoading from '../OsLoading';
 import { useSelector } from 'react-redux';
 
-
 const OsTypeListPage = (props) => {
   const isLoading = useSelector(state => state.isLoading)
-  const productTypes = useSelector(state => state.productTypes)
+  const categories = useSelector(state => state.categories)
   const title = 'Product Types'
 
   return (
@@ -23,10 +23,7 @@ const OsTypeListPage = (props) => {
             <OsContentHeader data={{title: title}} />
             {isLoading && <OsLoading />}
             {!isLoading &&
-            <>
-              {productTypes.length == 0 && <div className="mt-3">There is no type.</div>}
-              {productTypes.map(type => <OsProductTypeItem key={type.handle} data={type} />)}
-            </>}
+            categories.map(category => <OsWidgetSliderProductTypes data={category} />)}
           </div>
         </div>
       </div>
