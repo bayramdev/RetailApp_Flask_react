@@ -15,7 +15,7 @@ const OsWidgetSliderProductTypes = (props) => {
     infinite: true,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
 
   const [productTypes, setProductTypes] = useState([])
@@ -44,7 +44,7 @@ const OsWidgetSliderProductTypes = (props) => {
               {isLoading && <OsLoading />}
               {!isLoading &&
               <div class="os-slider-product-types__slider">
-                <Slider {...settings}>
+                <Slider {...settings} >
                   {productTypes.map(productType =>
                     <div key={productType.handle} class="os-slider-type-item" data-name={productType.name} onClick={handleGotoType}>
                       <div class="os-slider-type-item__photo"><img src={productType.thumbnail} width="175" height="175" /></div>

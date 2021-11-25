@@ -197,7 +197,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   display: flex;
   flex: 1;
   align-items: center;
-  padding: 20px 8px 20px 0px;
+  padding: 20px 8px 20px 0;
   border-bottom: 1px solid $color__border;
 }
 .os-product-item__info {
@@ -233,7 +233,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 
 .os-product-item__strain {
-  margin: 0px 8px 0px 0px;
+  margin: 0px 8px 0px 0;
   background-color: $color__strain_bg;
   padding: 0px 11px;
   color: $color__brand;
@@ -346,7 +346,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   font-weight: bold;
   text-transform: uppercase;
   line-height: 12px;
-  margin: 0px;
+  margin: 0;
   font-size: 11px;
   display: flex;
 }
@@ -364,7 +364,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   -webkit-box-pack: center;
   justify-content: center;
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   padding: 38.3% 12.6% 9.4%;
 }
 .os-category-item__img {
@@ -374,7 +374,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 
 /*Sidebar*/
 .os-sidebar-widget {
-  padding: 30px 37px 30px 0px;
+  padding: 30px 37px 30px 0;
   border-bottom: 1px solid $color__border;
   &:first-of-type {
     padding-top: 5px;
@@ -391,12 +391,12 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
-  margin: 0px 9px 0px 0px;
+  margin: 0px 9px 0px 0;
 }
 
 .os-sidebar-list {
   list-style: none;
-  margin: 11px 0px 0px;
+  margin: 11px 0px 0;
   padding: 0;
 }
 
@@ -539,7 +539,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .os-product-tag {
   border-radius: 61px;
   background-color: rgb(242, 246, 248);
-  margin: 0px 10px 10px 0px;
+  margin: 0px 10px 10px 0;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -600,7 +600,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   height: 42px;
   justify-content: center;
   width: 89px;
-  padding: 0px;
+  padding: 0;
   .os-icon {
     margin-right: -8px;
     margin-left: 0;
@@ -614,7 +614,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 
   margin: 7px 30px;
   border-bottom: 1px solid $color__border;
-  padding: 18px 0px;
+  padding: 18px 0;
   &:last-child {
     border-bottom: none;
   }
@@ -658,7 +658,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .os-cart-product-item__options {
   display: flex;
-  margin: 12px 0px;
+  margin: 12px 0;
   align-items: flex-start;
 }
 .os-cart-product-item__qty {}
@@ -686,7 +686,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   padding: 0px 25px;
   width: 100%;
   background-color: $color__white;
-  bottom: 0px;
+  bottom: 0;
   max-width: 547px;
   flex: 1 0 106px;
 }
@@ -764,10 +764,10 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 /*CheckoutConfirmation*/
 .confirmation {
   box-sizing: border-box;
-  margin-top: 0px;
-  margin-right: 0px;
-  margin-left: 0px;
-  min-width: 0px;
+  margin-top: 0;
+  margin-right: 0;
+  margin-left: 0;
+  min-width: 0;
   background-color: rgb(240, 243, 246);
   border-radius: 7px;
   // max-width: 307px;
@@ -778,37 +778,37 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .confirmation__header {
   box-sizing: border-box;
   margin: 0px 0px 16px;
-  min-width: 0px;
+  min-width: 0;
   flex-wrap: nowrap;
   align-items: flex-start;
   display: flex;
 }
 .confirmation__logo {
   box-sizing: border-box;
-  margin: 0px 18px 0px 0px;
-  min-width: 0px;
+  margin: 0px 18px 0px 0;
+  min-width: 0;
   flex-shrink: 0;
 }
 .confirmation__store {}
 .confirmation__title {
   box-sizing: border-box;
   margin: 6px 0px 8px;
-  min-width: 0px;
+  min-width: 0;
   font-size: 17px;
   font-weight: bold;
   color: rgb(96, 99, 105);
 }
 .confirmation__estimate-pickup {
   box-sizing: border-box;
-  margin: 6px 0px 0px;
-  min-width: 0px;
+  margin: 6px 0px 0;
+  min-width: 0;
   font-size: 12px;
   color: rgb(96, 99, 105);
 }
 .confirmation__body {
   box-sizing: border-box;
-  margin: 0px;
-  min-width: 0px;
+  margin: 0;
+  min-width: 0;
   padding-top: 25px;
   border-top: 1px solid rgb(211, 218, 223);
   border-bottom: 1px solid rgb(211, 218, 223);
@@ -817,8 +817,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .confirmation__table {}
 .confirmation__item {
   box-sizing: border-box;
-  margin: 0px;
-  min-width: 0px;
+  margin: 0;
+  min-width: 0;
   padding-bottom: 16px;
   display: flex;
 }
@@ -830,8 +830,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .confirmation__value {
   box-sizing: border-box;
-  margin: 0px;
-  min-width: 0px;
+  margin: 0;
+  min-width: 0;
   width: 50%;
   text-align: right;
   font-weight: bold;
@@ -846,8 +846,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .confirmation__footer {}
 .confirmation__total {
   box-sizing: border-box;
-  margin: 0px;
-  min-width: 0px;
+  margin: 0;
+  min-width: 0;
   padding-top: 23px;
   display: flex;
   .confirmation__label {
@@ -883,8 +883,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .confirmation__note-term {
   box-sizing: border-box;
-  margin: 0px;
-  min-width: 0px;
+  margin: 0;
+  min-width: 0;
   text-align: center;
   font-size: 11px;
   line-height: 17px;
@@ -894,8 +894,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 
 .os-checkout-form {
   flex: 1 0 0%;
-  min-width: 0px;
-  padding-left: 0px;
+  min-width: 0;
+  padding-left: 0;
   padding-right: 40px;
   padding-bottom: 300px;
 }
@@ -908,9 +908,9 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .os-checkout-form__heading {
   color: rgb(107, 111, 115);
   font-size: 29px;
-  margin: 0px;
+  margin: 0;
   font-weight: normal;
-  padding-left: 0px;
+  padding-left: 0;
   border-left: none;
 }
 .os-checkout-form__section {
@@ -928,9 +928,9 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .os-checkout-group__caption {
   flex: 0 0 calc(20%);
-  margin-bottom: 0px;
-  min-width: 0px;
-  padding: 0px;
+  margin-bottom: 0;
+  min-width: 0;
+  padding: 0;
   height: 54px;
   display: flex;
   -webkit-box-align: center;
@@ -948,7 +948,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .os-checkout-group__body {
   flex: 0 0 calc(80%);
   padding-left: 36px;
-  min-width: 0px;
+  min-width: 0;
 }
 .os-checkout-group__border {
   border: 1px solid;
@@ -998,8 +998,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   font-weight: bold;
   .os-icon {
     box-sizing: border-box;
-    margin: 0px 11px 0px 0px;
-    min-width: 0px;
+    margin: 0px 11px 0px 0;
+    min-width: 0;
     max-width: 100%;
     height: auto;
     flex-shrink: 0;
@@ -1008,7 +1008,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .os-checkout-group__note {
   box-sizing: border-box;
   margin: 14px 0px 21px;
-  min-width: 0px;
+  min-width: 0;
   background-color: rgb(239, 249, 242);
   border: 1px solid rgb(191, 222, 210);
   border-radius: 4px;
@@ -1169,6 +1169,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   padding: 15px;
   max-width: 214px;
   cursor: pointer;
+  border-radius: 13px;
   &:hover{
     box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 14px;
   }
@@ -1191,3 +1192,43 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.slick-arrow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  outline: 0;
+  border: 0;
+  background: rgb(234, 239, 242);
+  border-radius: 50%;
+  height: 54px;
+  width: 54px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px 3px 5px;
+  transition: opacity 0.25s ease 0s, visibility 0.25s ease 0s;
+  display: none;
+  right: 0;
+  &:hover {
+    background: rgb(215, 228, 235);
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.slick-prev:before, .slick-next:before {
+  font-family: FontAwesome;
+  font-size: 30px;
+  line-height: 1;
+  color: $color__black;
+  opacity: 0.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev:before { content: "\f104"; }
+.slick-next:before { content: "\f105"; }
