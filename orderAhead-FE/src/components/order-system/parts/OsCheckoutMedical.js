@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import OsIconCash from '../icons/OsIconCash';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import { useSelector } from 'react-redux';
 
 
 const OsCheckoutMedical = () => {
@@ -21,25 +22,21 @@ const OsCheckoutMedical = () => {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
+
+  const user = useSelector(state => state.user)
+  console.log(user)
+
   return (
     <div className="os-checkout-group">
       <div className="os-checkout-group__caption">Medical</div>
       <div className="os-checkout-group__body">
         <div className="os-checkout-group__border">
-          <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="I have a state issued medical card" />
-          </FormGroup>
-          <div className="os-checkout-group__note">Your card will be verified upon pickup, and your order total has been adjusted!</div>
-
           <Grid container rowSpacing={3}>
             <Grid item xs={12}>
-              <TextField id="filled-basic" label="Medical Card Number" variant="filled" style={{width: '100%'}} />
+              <TextField id="filled-basic" label="Medical Card Number" variant="filled"  style={{width: '100%'}} value={user.med_id} disabled />
             </Grid>
             <Grid item xs={12}>
-              <TextField id="filled-basic" label="Medical Card Expiration" variant="filled" style={{width: '100%'}} />
-            </Grid>
-            <Grid item xs={12}>
-              <Button variant="contained" style={{borderRadius: '33px', width: '73px'}}>Save</Button>
+              <TextField id="filled-basic" label="Medical Card Expiration" variant="filled" style={{width: '100%'}} value={user.med_expired_date} disabled />
             </Grid>
           </Grid>
         </div>

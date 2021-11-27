@@ -15,6 +15,7 @@ from models.customer import Customer
 from pathlib import Path
 from models.product_review import ProductReview
 from models.product_type import ProductType
+from models.shipping_zone import ShippingZone
 
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
@@ -257,6 +258,23 @@ def osLoadProductTypesByCategory():
   data = []
   for product_type in result:
     data.append(product_type.toJSON())
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osLoadShippingZones', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadShippingZones():
+  # content = request.get_json()
+
+  result = ShippingZone.get_list()
+  data = []
+  for zone in result:
+    data.append(zone.toJSON())
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

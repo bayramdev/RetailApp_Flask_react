@@ -16,6 +16,8 @@ export const osServices = {
   osLoadReview,
   osUpdateReview,
   osLoadProductTypesByCategory,
+  osLoadShippingZones,
+  osUpdateShippingZone,
 };
 
 function handleResponse(response) {
@@ -93,4 +95,12 @@ function osUpdateReview(formData) {
 
 function osLoadProductTypesByCategory(params) {
   return callApi('ordersystem/osLoadProductTypesByCategory', params)
+}
+
+function osLoadShippingZones(params) {
+  return callApi('ordersystem/osLoadShippingZones', params)
+}
+
+function osUpdateShippingZone(params) {
+  return callApi('ordersystem/osUpdateShippingZone', params)
 }

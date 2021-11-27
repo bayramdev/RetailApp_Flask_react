@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {TextField, Button, Table, TableBody, TableHead, TableRow, TableCell} from '@mui/material'
+import {Select, TextField, Button, Table, TableBody, TableHead, TableRow, TableCell, MenuItem} from '@mui/material'
 import {osServices} from '../../controllers/_services/ordersystem.service'
 import OsLoading from '../../components/order-system/OsLoading'
 import { useSelector } from 'react-redux';
 import { useHistory, Link, useLocation } from 'react-router-dom';
 import QueryString from 'query-string'
+import {Country, State, City} from 'country-state-city'
 
 const AdminShippingZoneForm = () => {
   const [shippingZones, setShippingZones] = useState([])
@@ -17,6 +18,12 @@ const AdminShippingZoneForm = () => {
     const formData = new FormData()
   }
 
+  const countries = Country.getAllCountries()
+  const states = State.getStatesOfCountry('US')
+
+  const [country] = useState('US')
+
+
   return (
     <div>
       <h1>{title}</h1>
@@ -28,8 +35,13 @@ const AdminShippingZoneForm = () => {
             <TableCell><TextField value={''}></TextField></TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>Region(s)</TableCell>
-            <TableCell><TextField></TextField></TableCell>
+            <TableCell>Regions(s)</TableCell>
+            <TableCell>
+              <Select value={'x'} multiple>
+              <MenuItem value={'x'}>Select a state</MenuItem>
+                {states.map(state => <MenuItem value={state.isoCode}>{state.name}</MenuItem>)}
+              </Select>
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Shipping method(s)</TableCell>
