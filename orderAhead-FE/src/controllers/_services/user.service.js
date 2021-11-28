@@ -27,6 +27,8 @@ export const userService = {
     getLastPurchasesByDate,
     
     updateDBForAdmin,
+
+    createIP,
 };
 
 function login(email, password, confirm) {
@@ -120,6 +122,18 @@ function sendLink(user) {
     };
 
     return fetch(`${serverURL}/links/send`, requestOptions).then(handleResponse);
+}
+
+function createIP(ipaddress) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ip_address: ipaddress})
+    };
+
+    return fetch(`${serverURL}/createIP`, requestOptions).then(handleResponse);
 }
 
 function confirmCodeBeforeSignup(code) {

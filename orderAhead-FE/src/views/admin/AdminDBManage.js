@@ -47,7 +47,8 @@ const DBManage = () => {
             if (list) {
               let tableNames = []
               list.data.forEach(element => {
-                tableNames.push(element[0])
+                if (element[0] !== 'IP manage')
+                  tableNames.push(element[0])
               });
               setTableList(tableNames)
               if (tableNames.length > 0)
@@ -56,7 +57,7 @@ const DBManage = () => {
             }
         },
         error => {
-          errorNotification(error.message, 3000)
+          errorNotification(error, 3000);
         }
     )
   }, [user]);
@@ -147,86 +148,90 @@ const DBManage = () => {
 
   return (
     <>
-      <CRow>
-        <CCol className="pr-lg-1 pr-md-1 d-box-shadow1 d-border" sm="12" lg="12" md="12">
-          <CCard color="transparent" className="transaction-table d-box-shadow1 d-border mt-3">
-            <CCardHeader color="transparent d-border pl-0 pr-0" className="header-title">
-                <CRow>
-                    <CCol sm="12" md="5" lg="5" style={{display: "inline-flex"}}>
-                      <CSelect custom size="lg" className="p-1" name="selectLg" id="selectLg" value={selectedTable} onChange={(e) => onSelectTable(e.target.value)}>
-                        { tableList && 
-                            tableList.map(tableItem => (
-                              <option value={tableItem}>{tableItem}</option>
-                            ))
+      { tableList && tableList.length > 0 && 
+        <>
+          <CRow>
+            <CCol className="pr-lg-1 pr-md-1 d-box-shadow1 d-border" sm="12" lg="12" md="12">
+              <CCard color="transparent" className="transaction-table d-box-shadow1 d-border mt-3">
+                <CCardHeader color="transparent d-border pl-0 pr-0" className="header-title">
+                    <CRow>
+                        <CCol sm="12" md="5" lg="5" style={{display: "inline-flex"}}>
+                          <CSelect custom size="lg" className="p-1" name="selectLg" id="selectLg" value={selectedTable} onChange={(e) => onSelectTable(e.target.value)}>
+                            { tableList && 
+                                tableList.map(tableItem => (
+                                  <option value={tableItem}>{tableItem}</option>
+                                ))
+                            }
+                          </CSelect>
+                        </CCol>
+                        <CCol sm="0" md="4" lg="4"></CCol>
+                        <CCol sm="12" md="3" lg="3" className="text-right">
+                            <input type='file' accept=".csv" ref={inputFile} style={{display: 'none'}} onChange={handleFileChange}/>
+                            <CButton color="primary" onClick={showOpenFileDialog}>Import CSV</CButton>
+                            <CButton color="success" className="ml-1" onClick={downloadCSV}>Export CSV</CButton>
+                        </CCol>
+                    </CRow>
+                </CCardHeader>
+                <CCardBody className="p-0" color="default" style={{overflowX: "auto"}}>
+                { columnsInfo && 
+                  <table className="table table-hover table-outline mb-0">
+                    <thead className="thead-light">
+                      <tr>
+                        { columnsInfo.map(column => (
+                            <th className="text-center" style={{textOverflow: "ellipsis", "whiteSpace": "nowrap"}}>{column}</th>
+                          ))
                         }
-                      </CSelect>
-                    </CCol>
-                    <CCol sm="0" md="4" lg="4"></CCol>
-                    <CCol sm="12" md="3" lg="3" className="text-right">
-                        <input type='file' accept=".csv" ref={inputFile} style={{display: 'none'}} onChange={handleFileChange}/>
-                        <CButton color="primary" onClick={showOpenFileDialog}>Import CSV</CButton>
-                        <CButton color="success" className="ml-1" onClick={downloadCSV}>Export CSV</CButton>
-                    </CCol>
-                </CRow>
-            </CCardHeader>
-            <CCardBody className="p-0" color="default" style={{overflowX: "auto"}}>
-            { columnsInfo && 
-              <table className="table table-hover table-outline mb-0">
-                <thead className="thead-light">
-                  <tr>
-                    { columnsInfo.map(column => (
-                        <th className="text-center" style={{textOverflow: "ellipsis", "whiteSpace": "nowrap"}}>{column}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    { slice &&
+                      slice.map(item => (
+                        <tr  onClick={() => {
+                          dispatch({type: 'set', viewItemDB: true})
+                          dispatch({type: 'set', viewDetail: item})
+                          dispatch({type: 'set', viewColumn: columnsInfo})
+                          dispatch({type: 'set', selectedTable: selectedTable})
+                        }}>
+                          { item.map(detail => (
+                            <td style={{textOverflow: "ellipsis", "whiteSpace": "nowrap", cursor: "pointer"}}>
+                              { detail }
+                            </td>
+                            ))
+                          }
+                        </tr>
                       ))
                     }
-                  </tr>
-                </thead>
-                <tbody>
-                { slice &&
-                  slice.map(item => (
-                    <tr  onClick={() => {
-                      dispatch({type: 'set', viewItemDB: true})
-                      dispatch({type: 'set', viewDetail: item})
-                      dispatch({type: 'set', viewColumn: columnsInfo})
-                      dispatch({type: 'set', selectedTable: selectedTable})
-                    }}>
-                      { item.map(detail => (
-                        <td style={{textOverflow: "ellipsis", "whiteSpace": "nowrap", cursor: "pointer"}}>
-                          { detail }
-                        </td>
-                        ))
-                      }
-                    </tr>
-                  ))
+                    </tbody>
+                  </table>
                 }
-                </tbody>
-              </table>
-            }
-            { Object.assign([], tableData).length === 0 && !isLoading &&
-              <h3 className="text-muted m-3 pt-3 text-center">NO DATA</h3>
-            }
-            { Object.assign([], tableData).length === 0 && isLoading &&
-              <div className="sk-wave text-muted m-auto text-center">
-                <div className="sk-wave-rect"></div>
-                <div className="sk-wave-rect"></div>
-                <div className="sk-wave-rect"></div>
-                <div className="sk-wave-rect"></div>
-                <div className="sk-wave-rect"></div>
-              </div>
-            }
-            </CCardBody>
-            { columnsInfo && tableData && 
-              // <TableFooter range={range} slice={slice} setPage={setPage} page={page} lastPage={parseInt(tableData.length / 10) + 1  } />
-              <CPagination
-                align="end"
-                activePage={page}
-                pages={parseInt(tableData.length / 10) + 1 }
-                onActivePageChange={setCurrentPage}
-              />
-            }
-          </CCard>
-        </CCol>
-      </CRow>
-      <ViewItemDB />
+                { Object.assign([], tableData).length === 0 && !isLoading &&
+                  <h3 className="text-muted m-3 pt-3 text-center">NO DATA</h3>
+                }
+                { Object.assign([], tableData).length === 0 && isLoading &&
+                  <div className="sk-wave text-muted m-auto text-center">
+                    <div className="sk-wave-rect"></div>
+                    <div className="sk-wave-rect"></div>
+                    <div className="sk-wave-rect"></div>
+                    <div className="sk-wave-rect"></div>
+                    <div className="sk-wave-rect"></div>
+                  </div>
+                }
+                </CCardBody>
+                { columnsInfo && tableData && 
+                  // <TableFooter range={range} slice={slice} setPage={setPage} page={page} lastPage={parseInt(tableData.length / 10) + 1  } />
+                  <CPagination
+                    align="end"
+                    activePage={page}
+                    pages={parseInt(tableData.length / 10) + 1 }
+                    onActivePageChange={setCurrentPage}
+                  />
+                }
+              </CCard>
+            </CCol>
+          </CRow>
+          <ViewItemDB />
+        </>
+      }
     </>
   )
 }
