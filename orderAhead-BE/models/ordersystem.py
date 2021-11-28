@@ -298,3 +298,16 @@ def osGetShippingMethods():
   return response
 
 
+@app.route('/ordersystem/osRecalculatePrice', methods=['GET', 'POST'])
+@cross_origin()
+def osRecalculatePrice():
+  params = request.get_json()
+  data = ProductType.recalculate_all_prices()
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
