@@ -16,6 +16,7 @@ from pathlib import Path
 from models.product_review import ProductReview
 from models.product_type import ProductType
 from models.shipping_zone import ShippingZone
+from models.shipping_manager import ShippingManager
 
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
@@ -282,3 +283,18 @@ def osLoadShippingZones():
       mimetype='application/json'
   )
   return response
+
+
+@app.route('/ordersystem/osGetShippingMethods', methods=['GET', 'POST'])
+@cross_origin()
+def osGetShippingMethods():
+  params = request.get_json()
+  data = ShippingManager.get_available_methods(params)
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+

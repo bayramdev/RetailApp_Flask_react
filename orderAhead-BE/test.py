@@ -8,6 +8,8 @@ from models.brand import Brand
 from models.type import Type
 from models.brand_search import BrandSearch
 from pathlib import Path
+import json
+
 
 @app.route("/test", methods=["GET"])
 def test():
@@ -42,6 +44,11 @@ def test():
   # print(os.path.dirname(os.path.realpath(__file__)))
   # current_dir = os.path.dirname(os.path.realpath(__file__))
   # Path(current_dir + "/public/uploads/types").mkdir(parents=True, exist_ok=True)
+
+  # print('xin chao cac ban than men cua toi toi yeu cac ban lam lam ma sao cac ban khong he yeu toi the ha?')
+  a = json.dumps('US')
+  print(a)
+
 
 
   return 'Please check log on python console'

@@ -8,7 +8,7 @@ class ShippingZone:
   @classmethod
   def get_list(cls):
     sql = '''
-    SELECT "Zone Id", "Zone Name", "Zone Regions"
+    SELECT "Zone ID", "Zone Name", "Zone Order"
     FROM "Shipping_Zones"
     '''
 

@@ -18,6 +18,7 @@ export const osServices = {
   osLoadProductTypesByCategory,
   osLoadShippingZones,
   osUpdateShippingZone,
+  osGetShippingMethods,
 };
 
 function handleResponse(response) {
@@ -103,4 +104,8 @@ function osLoadShippingZones(params) {
 
 function osUpdateShippingZone(params) {
   return callApi('ordersystem/osUpdateShippingZone', params)
+}
+
+function osGetShippingMethods(params) {
+  return callApi('ordersystem/osGetShippingMethods', params)
 }

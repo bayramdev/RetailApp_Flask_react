@@ -19,7 +19,7 @@ const initialState = {
   brands: [],
   isLoading: false,
   currentCategory: false,
-  cartItems: [],
+  cartItems: [{product: {name: 'Hao', price: 10}, qty: 10}],
   productTypes: [],
 }
 
