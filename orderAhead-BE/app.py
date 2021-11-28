@@ -727,22 +727,34 @@ def loadDatatable(data_type):
 @app.route('/getTableList', methods=['GET'])
 @cross_origin()
 def getTableList():
-    result = db_controller.get_table_list()
 
-    if not result or len(result) == 0:
+    requested_ip = request.access_route[0] or request.remote_addr
+    allowed_ipaddress = db_controller.get_all_data_by_name('IP manage')
+
+    if requested_ip in str(allowed_ipaddress):
+        result = db_controller.get_table_list()
+
+        if not result or len(result) == 0:
+            response = app.response_class(
+                response=json.dumps({"status": False, "message": "Database doesn\'t exist."}),
+                status=404,
+                mimetype='application/json'
+            )
+            return response
+
         response = app.response_class(
-            response=json.dumps({"status": False, "message": "Database doesn\'t exist."}),
-            status=404,
+            response=json.dumps({"status": True, "message": "successfully sent", "data": result}),
+            status=200,
             mimetype='application/json'
         )
         return response
-
-    response = app.response_class(
-        response=json.dumps({"status": True, "message": "successfully sent", "data": result}),
-        status=200,
-        mimetype='application/json'
-    )
-    return response
+    else:
+        response = app.response_class(
+            response=json.dumps({"status": False, "message": "You with the ipaddress is not allowed to access."}),
+            status=500,
+            mimetype='application/json'
+        )
+        return response
 
 
 @app.route('/getDataInfoByTableName', methods=["POST"], strict_slashes=False)
@@ -869,6 +881,56 @@ def update_table():
         mimetype='application/json'
     )
     return response
+
+
+# Create Link
+@app.route('/createIP', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def createIP():
+    # Receives the data in JSON format in a HTTP POST request
+
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+    ipaddress = content.get("ip_address")
+
+    if not (ipaddress):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    db_controller.create_ip(ipaddress)
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully created"}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
+@app.route('/deleteIPAddress', methods=["POST"], strict_slashes=False)
+@cross_origin()
+def deleteIPAddress():
+    # Receives the data in JSON format in a HTTP POST request
+    if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+    content = request.get_json()
+    ip_addrss = content.get("data")
+
+    if not (ip_addrss):
+        return jsonify({"status": False, "message": "Input error!"})
+
+    db_controller.delete_ip(ip_addrss)
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully deleted."}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+
 
 
 @app.errorhandler(404)

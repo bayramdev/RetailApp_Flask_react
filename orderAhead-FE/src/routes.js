@@ -8,6 +8,7 @@ const Privacy = lazy(() => import('./views/dashboard/Privacy'))
 const PersionalSetting = lazy(() => import('./views/setting/PersionalSetting'))
 
 const AdminLinkManage = lazy(() => import('./views/admin/AdminLinkManage'));
+const AdminIPManage = lazy(() => import('./views/admin/AdminIPManage'));
 const AdminUsers = lazy(() => import('./views/admin/AdminUsers'));
 const AdminDBManage = lazy(() => import('./views/admin/AdminDBManage'));
 const AdminTypeManage = lazy(() => import('./views/admin/AdminTypeManage'));
@@ -28,6 +29,7 @@ const routes = [
   { path: '/setting', name: 'Setting', component: PersionalSetting },
   { path: '/users', name: 'Users', component: AdminUsers },
   { path: '/links', name: 'Link Manage', component: AdminLinkManage},
+  { path: '/ip', name: 'IP Manage', component: AdminIPManage },
   { path: '/types', name: 'Type Manage', component: AdminTypeManage},
   { path: '/type', name: 'Type Edit', component: AdminTypeEdit},
   { path: '/reviews', name: 'Product Reviews', component: AdminProductReviews},

@@ -194,3 +194,17 @@ def update_table(table_name, column, data):
 
     Postgres_DB.copy_csv(sql)
 
+
+def create_ip(ip_address):
+
+    sql = f'INSERT INTO "IP manage" ("ip_address") VALUES (\'{ip_address}\');'
+
+    Postgres_DB.copy_csv(sql)
+
+
+def delete_ip(ip_address):
+
+    sql = f'DELETE FROM "IP manage" WHERE "ip_address"=\'{ip_address}\';'
+
+    Postgres_DB.copy_csv(sql)
+

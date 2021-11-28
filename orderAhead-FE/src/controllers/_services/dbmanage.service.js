@@ -8,7 +8,8 @@ export const dbManageService = {
     getTableNames,
     getDataInfoByTableName,
     fileUpload,
-    downloadCSV
+    downloadCSV,
+    deleteIPAddress,
 };
 
 /*
@@ -16,7 +17,7 @@ export const dbManageService = {
 */
 function getTableNames() {
     const requestOptions = {
-        method: 'GET'
+        method: 'GET',
     };
 
     return fetch(`${serverURL}/getTableList`, requestOptions).then(handleResponse);
@@ -59,6 +60,18 @@ function fileUpload(file) {
     };
 
     return fetch(`${serverURL}/uploadFile`, requestOptions).then(handleResponse);
+}
+
+function deleteIPAddress(ip_address) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"data": ip_address})
+    };
+
+    return fetch(`${serverURL}/deleteIPAddress`, requestOptions).then(handleResponse);
 }
 
 function logout() {
