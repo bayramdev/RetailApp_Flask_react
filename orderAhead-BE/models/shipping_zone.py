@@ -31,8 +31,12 @@ class ShippingZone:
     }
 
 
-  def get_shipping_methods(self):
-    pass
+  @staticmethod
+  def get_shipping_methods(zone_id):
+    sql = '''
+      SELECT "Method ID", "Title" FROM "Shipping_Zone_Methods" WHERE "Zone ID" = %s
+    '''
+    return Postgres_DB.fetchall(sql, (zone_id, ), lambda db_record: {'id': db_record[0], 'name': db_record[1]})
 
   def get_regions(self):
     pass

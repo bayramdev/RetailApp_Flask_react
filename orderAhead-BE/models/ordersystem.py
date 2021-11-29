@@ -18,6 +18,7 @@ from models.product_type import ProductType
 from models.shipping_zone import ShippingZone
 from models.shipping_manager import ShippingManager
 from models.product_media import ProductMedia
+from flowhub.api import orderAheadPostCaller
 
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
@@ -365,6 +366,25 @@ def osLoadProductGallery():
   sku = params.get('sku')
 
   data = ProductMedia.get_product_media_items(sku)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+
+
+@app.route('/ordersystem/osPlaceOrder', methods=['GET', 'POST'])
+@cross_origin()
+def osPlaceOrder():
+  form_data = request.form
+  print(form_data)
+  data = orderAheadPostCaller(form_data)
+
+  # data = 'New Order ID'
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

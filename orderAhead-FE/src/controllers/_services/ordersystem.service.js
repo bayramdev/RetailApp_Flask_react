@@ -23,6 +23,7 @@ export const osServices = {
   osDeleteMedia,
   osUploadMediaFiles,
   osLoadProductGallery,
+  osPlaceOrder,
 };
 
 function handleResponse(response) {
@@ -129,4 +130,8 @@ function osUploadMediaFiles(formData) {
 
 function osLoadProductGallery(params) {
   return callApi('ordersystem/osLoadProductGallery', params)
+}
+
+function osPlaceOrder(params) {
+  return callApi('ordersystem/osPlaceOrder', params)
 }

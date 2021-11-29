@@ -611,6 +611,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 
 .os-cart-product-item {
   display: flex;
+  align-items: center;
   @extend .os-padding;
 
   margin: 7px 30px;
@@ -659,8 +660,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .os-cart-product-item__options {
   display: flex;
+  align-items: center;
   margin: 12px 0;
-  align-items: flex-start;
 }
 .os-cart-product-item__qty {}
 .os-cart-product-item__price {
@@ -669,7 +670,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   font-size: 14px;
   line-height: 175%;
   margin-left: 15px;
-  margin-top: 4px;
+  margin-top: 0;
   min-width: 60px;
   text-align: right;
 }
