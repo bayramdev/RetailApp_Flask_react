@@ -6,7 +6,7 @@ import { osServices } from '../../../controllers/_services/ordersystem.service';
 import OsLoading from '../OsLoading';
 import OsProductReviews from '../OsProductReviews'
 import {formatPrice} from '../ultility'
-
+import OsProductMediaGallery from '../parts/OsProductMediaGallery'
 
 const OsProductPage = (props) => {
   const note = '*Cannabis tax will be added at checkout.'
@@ -40,7 +40,12 @@ const OsProductPage = (props) => {
             max_price = tier.pricePerUnitInMinorUnits / 100
           }
         })
-        setProductPrice(formatPrice(min_price) + ' - ' + formatPrice(max_price))
+        if (max_price) {
+          setProductPrice(formatPrice(min_price) + ' - ' + formatPrice(max_price))
+        } else {
+          setProductPrice(formatPrice(0))
+        }
+
       } else {
         setProductPrice(formatPrice(response.data.price))
       }
@@ -65,7 +70,7 @@ const OsProductPage = (props) => {
             {!isLoading &&
             <div className="os-product row">
               <div className="os-product__photo col-5">
-                <img src={product.thumbnail} width="100%" />
+                <OsProductMediaGallery data={product} />
               </div>
               <div className="os-product__details col-7">
                 <div className="os-product__type">{product.type}</div>

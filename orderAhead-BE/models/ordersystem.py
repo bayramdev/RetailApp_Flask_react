@@ -357,3 +357,20 @@ def osUploadMediaFiles():
   return response
 
 
+
+@app.route('/ordersystem/osLoadProductGallery', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadProductGallery():
+  params = request.get_json()
+  sku = params.get('sku')
+
+  data = ProductMedia.get_product_media_items(sku)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+

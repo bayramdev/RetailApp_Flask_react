@@ -1237,3 +1237,14 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   font-weight: 300;
   line-height: 36px;
 }
+
+.os-product-gallery-thumbnail {
+  display: flex;
+  flex-wrap: wrap;
+}
+.os-product-gallery-thumbnail__item {
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  padding: 3px;
+  cursor: pointer;
+}

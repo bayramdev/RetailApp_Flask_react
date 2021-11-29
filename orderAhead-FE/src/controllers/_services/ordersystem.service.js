@@ -22,6 +22,7 @@ export const osServices = {
   osRecalculatePrice,
   osDeleteMedia,
   osUploadMediaFiles,
+  osLoadProductGallery,
 };
 
 function handleResponse(response) {
@@ -124,4 +125,8 @@ function osDeleteMedia(params) {
 function osUploadMediaFiles(formData) {
   const path = 'ordersystem/osUploadMediaFiles'
   return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osLoadProductGallery(params) {
+  return callApi('ordersystem/osLoadProductGallery', params)
 }
