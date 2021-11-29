@@ -31,8 +31,8 @@ const OsProductPage = (props) => {
 
       let min_price = 9999999
       let max_price = 0
-      if (product.tier_prices) {
-        product.tier_prices.map(tier => {
+      if (response.data.tier_prices) {
+        response.data.tier_prices.map(tier => {
           if (min_price > tier.pricePerUnitInMinorUnits) {
             min_price = tier.pricePerUnitInMinorUnits / 100
           }
@@ -42,7 +42,7 @@ const OsProductPage = (props) => {
         })
         setProductPrice(formatPrice(min_price) + ' - ' + formatPrice(max_price))
       } else {
-        setProductPrice(formatPrice(product.price))
+        setProductPrice(formatPrice(response.data.price))
       }
 
       setLoading(false)
