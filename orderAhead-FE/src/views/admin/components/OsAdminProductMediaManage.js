@@ -76,7 +76,6 @@ const OsAdminProductMediaManage = (props) => {
               <TableCell>{media.media_type}</TableCell>
               <TableCell>
                   <Button style={{color: 'white'}} variant={'contained'} data-id={media.media_id} onClick={handleDeleteMedia}><OsIconRemove /></Button>
-                  <span>{messageDeleting}</span>
               </TableCell>
             </TableRow>
           )}

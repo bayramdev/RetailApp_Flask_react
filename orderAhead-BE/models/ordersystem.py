@@ -341,7 +341,12 @@ def osUploadMediaFiles():
 
     upload_file.save(product_dir + '/' + upload_file.filename)
     file_url = relative_path + '/' + upload_file.filename
-    data = ProductMedia.add_media(sku, file_url, 'image')
+
+    filename, file_extension = os.path.splitext(file_url)
+
+    file_type = 'video' if file_extension == '.mp4' else 'image'
+
+    data = ProductMedia.add_media(sku, file_url, file_type)
     print('data', data)
 
   response = app.response_class(
