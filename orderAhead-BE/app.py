@@ -405,13 +405,14 @@ def getUserById():
     results['id'] = id
 
     customer = Customer.create_by_medical_id(user.med_id)
-    customer.load_data()
     if customer:
-        results['customer_id'] = customer.customer_id
-        results['med_expired_date'] = customer.med_id_exp
-    else:
-        results['customer_id'] = ''
-        results['med_expired_date'] = ''
+        customer.load_data()
+        if customer:
+            results['customer_id'] = customer.customer_id
+            results['med_expired_date'] = customer.med_id_exp
+        else:
+            results['customer_id'] = ''
+            results['med_expired_date'] = ''
     # results = user_controller.getUserById(id)
 
     return jsonify(results)

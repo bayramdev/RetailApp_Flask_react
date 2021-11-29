@@ -20,6 +20,8 @@ export const osServices = {
   osUpdateShippingZone,
   osGetShippingMethods,
   osRecalculatePrice,
+  osDeleteMedia,
+  osUploadMediaFiles,
 };
 
 function handleResponse(response) {
@@ -113,4 +115,13 @@ function osGetShippingMethods(params) {
 
 function osRecalculatePrice() {
   return callApi('ordersystem/osRecalculatePrice', {})
+}
+
+function osDeleteMedia(params) {
+  return callApi('ordersystem/osDeleteMedia', params)
+}
+
+function osUploadMediaFiles(formData) {
+  const path = 'ordersystem/osUploadMediaFiles'
+  return axios.post(`${serverURL}/${path}`, formData)
 }

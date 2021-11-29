@@ -6,13 +6,17 @@ class ProductSearch:
   def __init__(self, params):
     self.params = params
 
-  def get_products(self, options = {'limit': 50, 'offset': 0}):
+  def get_products(self, options = {'limit': 20, 'offset': 0}):
     select_fields = Product.get_select_fields()
     limit = options['limit']
     offset = options['offset']
 
     wherePart = self.createSearchCondition()
     sqlCondition = wherePart['sql']
+    if sqlCondition:
+      sqlCondition += ' AND  "Room" = \'Sales Floor\''
+    else:
+       sqlCondition = '"Room" = \'Sales Floor\''
 
     sql = f'''
       SELECT {select_fields}, review."AvgRating"
@@ -20,7 +24,7 @@ class ProductSearch:
       LEFT JOIN (
         SELECT "Product Sku", AVG("Rating")::numeric(10,1) AS "AvgRating" FROM "Product_Reviews" GROUP BY "Product Sku"
       ) AS review ON review."Product Sku" = i."SKU"
-      WHERE {sqlCondition} AND "Room" = \'Sales Floor\'
+      WHERE {sqlCondition}
     '''
 
     if limit > 0:

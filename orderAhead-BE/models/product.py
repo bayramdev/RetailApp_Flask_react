@@ -2,6 +2,7 @@ from .postgres_db import Postgres_DB
 from common import sanitize_title
 from models.base import Base
 from flowhub.api import findAllInventoryNonZero
+from models.product_media import ProductMedia
 
 class Product(Base):
   FLOWER_CAT = 'Flower - Prepackaged'
@@ -75,11 +76,13 @@ class Product(Base):
     Postgres_DB.fetchone(sql, (self.id, ), self.build_data)
 
   def build_data(self, db_record):
+    if db_record is None:
+        return {}
+
     self.data = {}
     for index, field in enumerate(self.allow_fields.keys()):
       # setattr(self, field, db_record[index])
       self.data[field] = db_record[index]
-
 
     self.tier_prices = Product.get_product_tier_information(self.data['sku'])
 
@@ -139,4 +142,13 @@ class Product(Base):
       'is_flower': self.in_flower_cat(),
       'tier_prices': self.tier_prices,
       'rating': self.data['rating'] if 'rating' in self.data is not None else 0,
+      'images': self.get_all_media_items(),
     }
+
+  def get_all_media_items(self):
+    # default_image = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
+    # sample_images = [
+    #   {'media_id': 1, 'media_path': default_image, 'media_type': 'image'}
+    # ]
+    # return sample_images
+    return ProductMedia.get_product_media_items(self.sku)

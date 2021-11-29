@@ -53,9 +53,18 @@ class Postgres_DB:
     conn = self.connect()
     cur = conn.cursor()
     cur.execute(sql, params)
+
+    try:
+      record = cur.fetchone()
+      result = record[0]
+    except:
+      result = False
+
     cur.close()
     conn.commit()
     conn.close()
+
+    return result
 
   @classmethod
   def build_object(self, row, mapping):
