@@ -57,7 +57,7 @@ const OsProductMediaGallery = (props) => {
         })}
       </div>
 
-      <div class="os-product-gallery-thumbnail mt-5">
+      <div class="os-product-gallery-thumbnail mt-4">
         {gallery && gallery.map(item => {
           // if (item.media_type == 'video') {
           //   return <div class="os-product-gallery-thumbnail__item"><ReactPlayer url={item.media_path} width="100%" height="100%" controls={true} /></div>
