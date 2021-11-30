@@ -13,6 +13,8 @@ from flask_jwt_extended import (
 )
 from flask_cors import cross_origin, CORS
 from flask_mail import Mail, Message
+import ipaddress
+import paramiko
 
 import smtplib
 from models.datatable_factory import DatatableFactory
@@ -890,12 +892,28 @@ def createIP():
         return jsonify({"status": False, "message": "Input error!"})
 
     content = request.get_json()
-    ipaddress = content.get("ip_address")
+    ip = content.get("ip_address")
 
-    if not (ipaddress):
+    if not (ip):
         return jsonify({"status": False, "message": "Input error!"})
 
-    db_controller.create_ip(ipaddress)
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError as e:
+        print(e)
+        return jsonify({"status": False, "message": "IP address is incorrect."})
+
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(hostname='52.191.3.0', username='azureuser', key_filename='/you/key/path', password='yourpass')
+
+    cmd = ' sudo sed -i "s/127.0.0.1\/32 *scram-sha-256/& \\nhost all postgres %s\/32 trust/" /etc/postgresql/14/main/pg_hba.conf' %ip
+    cmd.replace("\\n", "\n")
+
+    stdin, stdout, stderr = ssh.exec_command(cmd)
+    print(stdout.readlines())
+
+    db_controller.create_ip(ip)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully created"}),
