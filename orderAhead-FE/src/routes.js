@@ -16,6 +16,8 @@ const AdminTypeEdit = lazy(() => import('./views/admin/AdminTypeEdit'));
 const AdminProductReviews = lazy(() => import('./views/admin/AdminProductReviews'));
 const AdminReviewEdit = lazy(() => import('./views/admin/AdminReviewEdit'));
 const AdminShippingManage = lazy(() => import('./views/admin/AdminShippingManage'));
+const AdminProductManage = lazy(() => import('./views/admin/AdminProductManage'));
+const AdminProductEdit = lazy(() => import('./views/admin/AdminProductEdit'));
 const AdminShippingZoneEdit = lazy(() => import('./views/admin/AdminShippingZoneEdit'));
 
 const AdminDashboard1 = lazy(() => import('./views/admin/Dashboard1'));
@@ -34,7 +36,9 @@ const routes = [
   { path: '/type', name: 'Type Edit', component: AdminTypeEdit},
   { path: '/reviews', name: 'Product Reviews', component: AdminProductReviews},
   { path: '/review', name: 'Review Edit', component: AdminReviewEdit},
-  { path: '/shipping', name: 'Shipping Management', component: AdminShippingManage},
+  { path: '/products', name: 'Product Management', component: AdminProductManage},
+  { path: '/product', name: 'Product Edit', component: AdminProductEdit},
+  // { path: '/shipping', name: 'Shipping Management', component: AdminShippingManage},
   { path: '/shipping_zone', name: 'Shipping Zone Edit', component: AdminShippingZoneEdit},
   { path: '/db-manage', name: 'Link Manage', component: AdminDBManage},
   { path: '/dashboard-1', name: 'Dashboard 1', component: AdminDashboard1, fullwidth: true,},

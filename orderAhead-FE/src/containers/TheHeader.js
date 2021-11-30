@@ -116,6 +116,9 @@ const TheHeader = () => {
         <CHeaderNavItem className={isEmployee || isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/types" className={currPath === '/types' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Type Manage</CHeaderNavLink>
         </CHeaderNavItem>
+        <CHeaderNavItem className={isEmployee || isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/products" className={currPath === '/products' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Manage</CHeaderNavLink>
+        </CHeaderNavItem>
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/db-manage" className={currPath === '/db-manage' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>DB Manage</CHeaderNavLink>
         </CHeaderNavItem>
@@ -157,11 +160,11 @@ const TheHeader = () => {
                 }
             </CDropdownToggle>
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
-                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('users')}>User Manage</CDropdownItem>
-                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('links')}>Link Manage</CDropdownItem>
-                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('db-manage')}>DB Manage</CDropdownItem>
-                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('ip')}>IP Manage</CDropdownItem>
-                <CDropdownItem className={isLogin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('setting')}>Setting</CDropdownItem>
+                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('/users')}>User Manage</CDropdownItem>
+                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('/links')}>Link Manage</CDropdownItem>
+                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('/db-manage')}>DB Manage</CDropdownItem>
+                <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('/ip')}>IP Manage</CDropdownItem>
+                <CDropdownItem className={isLogin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('/setting')}>Setting</CDropdownItem>
                 <CDropdownItem className="dropdown-toggle-menuitem" onClick={logout}>Log out</CDropdownItem>
             </CDropdownMenu>
         </CDropdown>

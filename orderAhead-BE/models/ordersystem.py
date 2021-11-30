@@ -15,6 +15,10 @@ from models.customer import Customer
 from pathlib import Path
 from models.product_review import ProductReview
 from models.product_type import ProductType
+from models.shipping_zone import ShippingZone
+from models.shipping_manager import ShippingManager
+from models.product_media import ProductMedia
+from flowhub.api import orderAheadPostCaller
 
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
@@ -264,3 +268,129 @@ def osLoadProductTypesByCategory():
       mimetype='application/json'
   )
   return response
+
+@app.route('/ordersystem/osLoadShippingZones', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadShippingZones():
+  # content = request.get_json()
+
+  result = ShippingZone.get_list()
+  data = []
+  for zone in result:
+    data.append(zone.toJSON())
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osGetShippingMethods', methods=['GET', 'POST'])
+@cross_origin()
+def osGetShippingMethods():
+  params = request.get_json()
+  data = ShippingManager.get_available_methods(params)
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osRecalculatePrice', methods=['GET', 'POST'])
+@cross_origin()
+def osRecalculatePrice():
+  params = request.get_json()
+  data = ProductType.recalculate_all_prices()
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osDeleteMedia', methods=['GET', 'POST'])
+@cross_origin()
+def osDeleteMedia():
+  params = request.get_json()
+
+  data = ProductMedia.delete_media(params.get('media_id'))
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osUploadMediaFiles', methods=['GET', 'POST'])
+@cross_origin()
+def osUploadMediaFiles():
+  params = request.get_json()
+  sku = request.form['sku']
+  upload_file = request.files['uploadFile']
+  data = False
+  if upload_file:
+    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/build/'
+    relative_path = "/img/products"
+    product_dir = root_dir + relative_path
+    Path(product_dir).mkdir(parents=True, exist_ok=True)
+
+    upload_file.save(product_dir + '/' + upload_file.filename)
+    file_url = relative_path + '/' + upload_file.filename
+
+    filename, file_extension = os.path.splitext(file_url)
+
+    file_type = 'video' if file_extension == '.mp4' else 'image'
+
+    data = ProductMedia.add_media(sku, file_url, file_type)
+    print('data', data)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+
+@app.route('/ordersystem/osLoadProductGallery', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadProductGallery():
+  params = request.get_json()
+  sku = params.get('sku')
+
+  data = ProductMedia.get_product_media_items(sku)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+
+
+@app.route('/ordersystem/osPlaceOrder', methods=['GET', 'POST'])
+@cross_origin()
+def osPlaceOrder():
+  form_data = request.form
+  print(form_data)
+  data = orderAheadPostCaller(form_data)
+
+  # data = 'New Order ID'
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+

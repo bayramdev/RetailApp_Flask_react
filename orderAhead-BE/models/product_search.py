@@ -6,13 +6,17 @@ class ProductSearch:
   def __init__(self, params):
     self.params = params
 
-  def get_products(self, options = {'limit': 50, 'offset': 0}):
+  def get_products(self, options = {'limit': 20, 'offset': 0}):
     select_fields = Product.get_select_fields()
     limit = options['limit']
     offset = options['offset']
 
     wherePart = self.createSearchCondition()
     sqlCondition = wherePart['sql']
+    if sqlCondition:
+      sqlCondition += ' AND  "Room" = \'Sales Floor\''
+    else:
+       sqlCondition = '"Room" = \'Sales Floor\''
 
     sql = f'''
       SELECT {select_fields}, review."AvgRating"
@@ -20,9 +24,11 @@ class ProductSearch:
       LEFT JOIN (
         SELECT "Product Sku", AVG("Rating")::numeric(10,1) AS "AvgRating" FROM "Product_Reviews" GROUP BY "Product Sku"
       ) AS review ON review."Product Sku" = i."SKU"
-      WHERE {sqlCondition} AND "Room" = \'Sales Floor\'
-      LIMIT {limit} OFFSET {offset}
+      WHERE {sqlCondition}
     '''
+
+    if limit > 0:
+      sql += f'LIMIT {limit} OFFSET {offset}'
 
     product_list = Postgres_DB.fetchall(sql, wherePart['params'], self.build_product)
     product_list = filter(lambda x: x.price is not None or len(x.tier_prices) > 0, product_list)

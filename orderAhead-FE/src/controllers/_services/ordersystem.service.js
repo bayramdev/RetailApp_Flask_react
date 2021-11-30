@@ -16,6 +16,14 @@ export const osServices = {
   osLoadReview,
   osUpdateReview,
   osLoadProductTypesByCategory,
+  osLoadShippingZones,
+  osUpdateShippingZone,
+  osGetShippingMethods,
+  osRecalculatePrice,
+  osDeleteMedia,
+  osUploadMediaFiles,
+  osLoadProductGallery,
+  osPlaceOrder,
 };
 
 function handleResponse(response) {
@@ -93,4 +101,37 @@ function osUpdateReview(formData) {
 
 function osLoadProductTypesByCategory(params) {
   return callApi('ordersystem/osLoadProductTypesByCategory', params)
+}
+
+function osLoadShippingZones(params) {
+  return callApi('ordersystem/osLoadShippingZones', params)
+}
+
+function osUpdateShippingZone(params) {
+  return callApi('ordersystem/osUpdateShippingZone', params)
+}
+
+function osGetShippingMethods(params) {
+  return callApi('ordersystem/osGetShippingMethods', params)
+}
+
+function osRecalculatePrice() {
+  return callApi('ordersystem/osRecalculatePrice', {})
+}
+
+function osDeleteMedia(params) {
+  return callApi('ordersystem/osDeleteMedia', params)
+}
+
+function osUploadMediaFiles(formData) {
+  const path = 'ordersystem/osUploadMediaFiles'
+  return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osLoadProductGallery(params) {
+  return callApi('ordersystem/osLoadProductGallery', params)
+}
+
+function osPlaceOrder(params) {
+  return callApi('ordersystem/osPlaceOrder', params)
 }

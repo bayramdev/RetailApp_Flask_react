@@ -433,7 +433,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .os-product__photo {}
 .os-product__details {}
 .os-product__type {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: $color__blue;
 }
 .os-product__brand {
@@ -442,6 +442,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
     font-weight: bold;
     line-height: 15px;
     text-transform: uppercase;
+    margin-bottom: 5px;
 }
 .os-product__name {
     color: $color__item_name;
@@ -610,6 +611,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 
 .os-cart-product-item {
   display: flex;
+  align-items: center;
   @extend .os-padding;
 
   margin: 7px 30px;
@@ -658,8 +660,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 }
 .os-cart-product-item__options {
   display: flex;
+  align-items: center;
   margin: 12px 0;
-  align-items: flex-start;
 }
 .os-cart-product-item__qty {}
 .os-cart-product-item__price {
@@ -668,7 +670,7 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   font-size: 14px;
   line-height: 175%;
   margin-left: 15px;
-  margin-top: 4px;
+  margin-top: 0;
   min-width: 60px;
   text-align: right;
 }
@@ -1229,3 +1231,21 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 
 .slick-prev:before { content: "\f104"; }
 .slick-next:before { content: "\f105"; }
+
+.os-product__price {
+  color: rgb(11, 153, 230);
+  font-size: 31px;
+  font-weight: 300;
+  line-height: 36px;
+}
+
+.os-product-gallery-thumbnail {
+  display: flex;
+  flex-wrap: wrap;
+}
+.os-product-gallery-thumbnail__item {
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  padding: 3px;
+  cursor: pointer;
+}

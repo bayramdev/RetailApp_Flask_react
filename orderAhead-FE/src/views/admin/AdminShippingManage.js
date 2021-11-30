@@ -14,11 +14,18 @@ const AdminShippingManage = () => {
     history.push('/shipping_zone?zone_id=new')
   }
 
+  useEffect(() => {
+    setLoading(true)
+    osServices.osLoadShippingZones().then(response => {
+      setShippingZones(response.data)
+      setLoading(false)
+    })
+  }, [])
+
   return (
     <div>
       <h1>Shipping zones</h1>
       <Button onClick={handleAddShippingZone}>Add shipping zone</Button>
-
       <Table>
         <TableHead>
           <TableRow>
@@ -31,6 +38,9 @@ const AdminShippingManage = () => {
           {isLoading && <OsLoading />}
           {!isLoading && shippingZones.map(zone =>
             <TableRow>
+              <TableCell>{zone.name}</TableCell>
+              <TableCell>{zone.regions}</TableCell>
+              <TableCell>{zone.shipping_methods}</TableCell>
             </TableRow>
           )}
         </TableBody>

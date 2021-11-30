@@ -6,6 +6,13 @@ class Customer:
       self.customer_id = customer_id
       pass
 
+    def load_data(self):
+      sql = 'SELECT "Med ID Exp" FROM "Customers" WHERE "Customer ID" = %s LIMIT 1;'
+      Postgres_DB.fetchone(sql, (self.customer_id,), self.build_customer)
+
+    def build_customer(self, db_record):
+      self.med_id_exp = db_record[0]
+
     @classmethod
     def create_by_medical_id(cls, med_id):
       print(f'SELECT "Customer ID" FROM "Customers" WHERE "Customer Med ID" = \'{med_id}\';')
