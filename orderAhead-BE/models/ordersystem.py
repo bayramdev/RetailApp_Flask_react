@@ -164,8 +164,8 @@ def os_updateType():
   type_obj.load_data()
 
   if (thumbnail_file):
-    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/build/'
-    relative_path = "/img/types"
+    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/public/'
+    relative_path = "/uploads/types"
     type_dir = root_dir + relative_path
     Path(type_dir).mkdir(parents=True, exist_ok=True)
 
@@ -335,8 +335,8 @@ def osUploadMediaFiles():
   upload_file = request.files['uploadFile']
   data = False
   if upload_file:
-    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/build/'
-    relative_path = "/img/products"
+    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/public/'
+    relative_path = "/uploads/products"
     product_dir = root_dir + relative_path
     Path(product_dir).mkdir(parents=True, exist_ok=True)
 
