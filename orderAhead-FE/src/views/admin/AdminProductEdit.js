@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import QueryString from 'query-string'
 import { osServices } from '../../controllers/_services/ordersystem.service';
 import OsLoading from '../../components/order-system/OsLoading';
@@ -25,7 +25,7 @@ const AdminProductEdit = () => {
     <div>
       {isLoading && <OsLoading />}
       {!isLoading && product && <>
-        <div class="d-flex align-items-center"><h2 class="mr-3">Media management for product </h2>{product.name}</div>
+        <div class="d-flex align-items-center"><h2 class="mr-3">Media management for product </h2><Link to={`/order/product/${product.sku}`}>{product.name}</Link></div>
 
         <OsAdminProductMediaManage sku={params.sku} data={product.images} />
       </>}
