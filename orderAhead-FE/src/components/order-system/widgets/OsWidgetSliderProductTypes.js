@@ -51,6 +51,7 @@ const OsWidgetSliderProductTypes = (props) => {
                       <div class="os-slider-type-item__photo"><img src={productType.thumbnail} width="175" height="175" /></div>
                       <div class="os-slider-type-item__price">{formatPrice(productType.price_from)} - {formatPrice(productType.price_to)}</div>
                       <div class="os-slider-type-item__name">{productType.name}</div>
+                      <div class="os-slider-type-item__brands">{productType.brands}</div>
                     </div>
                   )}
                 </Slider>

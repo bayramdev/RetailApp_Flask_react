@@ -46,8 +46,8 @@ def test():
   # Path(current_dir + "/public/uploads/types").mkdir(parents=True, exist_ok=True)
 
   # print('xin chao cac ban than men cua toi toi yeu cac ban lam lam ma sao cac ban khong he yeu toi the ha?')
-  a = json.dumps('US')
-  print(a)
+  # a = json.dumps('US')
+  # print(a)
 
 
 

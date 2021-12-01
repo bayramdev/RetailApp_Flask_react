@@ -8,7 +8,7 @@ import time
 
 
 class Type(Base):
-  DEFAULT_IMAGE = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
+  DEFAULT_IMAGE = '/img/default_type.jpg'
   allow_fields = {
     'name': 'Name',
     'image_url': 'Image_Url',
@@ -77,4 +77,13 @@ class Type(Base):
       self.image_url = Type.DEFAULT_IMAGE
 
 
-    return {'name':self.name, 'thumbnail': self.image_url, 'handle':sanitize_handle(self.name), 'price_range': {'from': self.price_from, 'to': self.price_to}}
+    return {
+      'name':self.name,
+      'thumbnail': self.image_url,
+      'handle': sanitize_handle(self.name),
+      'price_range': {
+        'from': self.price_from,
+        'to': self.price_to
+      },
+      'brands': 'hello',
+    }

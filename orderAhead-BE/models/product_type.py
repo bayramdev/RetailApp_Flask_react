@@ -2,6 +2,7 @@ from models.postgres_db import Postgres_DB
 from models.category import Category
 from common import sanitize_title, sanitize_handle
 from models.product_search import ProductSearch
+from models.brand import Brand
 import sys
 class ProductType(Category):
   column_name = "Product Type"
@@ -134,5 +135,25 @@ class ProductType(Category):
 
     return {'sql':sql, 'params': params}
 
+
+
   def toJSON(self):
-    return {'name':self.name, 'thumbnail': self.thumbnail, 'price_from': self.price_from, 'price_to': self.price_to, 'link': self.get_link(), 'handle':sanitize_handle(self.name)}
+    brand_list = self.get_brand_list()
+    brand_text = ', '.join(list(map(lambda x: x.name, brand_list)))
+    return {
+      'name':self.name,
+      'thumbnail': self.thumbnail,
+      'price_from': self.price_from,
+      'price_to': self.price_to,
+      'link': self.get_link(),
+      'handle':sanitize_handle(self.name),
+      'brands': brand_text,
+    }
+
+  def get_brand_list(self):
+    sql = f'SELECT DISTINCT "Brand" FROM "Inventory" WHERE "Product Type" = %s;'
+
+    return Postgres_DB.fetchall(sql, (self.name,), Brand.build_category)
+
+  def get_brands(self):
+    print('get_brands')
