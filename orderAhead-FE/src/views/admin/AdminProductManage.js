@@ -1,4 +1,4 @@
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Pagination, TableFooter, Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import OsLoading from '../../components/order-system/OsLoading';
@@ -9,19 +9,28 @@ const AdminProductManage = () => {
   const [isLoading, setLoading] = useState(false)
   const params = {}
   const history = useHistory()
+  const [page, setPage] = useState(1)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     setLoading(true)
+    params['page'] = page
     osServices.osLoadProducts(params).then(response => {
       setProducts(response.data)
       setLoading(false)
+      setCount(response.total)
     })
-  }, [])
+  }, [page])
 
   const handleEditClick = (e) => {
     e.preventDefault()
     const sku = e.target.getAttribute('data-sku')
     history.push('/product?sku='+sku)
+  }
+
+
+  const handlePaginationChange = (event, value) => {
+    setPage(value)
   }
 
 
@@ -51,6 +60,8 @@ const AdminProductManage = () => {
           )}
         </TableBody>
       </Table>
+
+      {count > 0 && <Pagination count={count} page={page} color="primary" className={'d-flex justify-content-center my-5'} onChange={handlePaginationChange}  />}
     </div>
   );
 };

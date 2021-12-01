@@ -77,6 +77,12 @@ def os_loadTypes():
     )
     return response
 
+@app.route('/ordersystem/countProducts', methods=['GET', 'POST'])
+@cross_origin()
+def os_countProducts():
+  sql = ''
+
+
 @app.route('/ordersystem/loadProducts', methods=['GET', 'POST'])
 @cross_origin()
 def os_loadProducts():
@@ -87,6 +93,9 @@ def os_loadProducts():
   category_name = content.get("category")
   brand_name = content.get("brand")
   type_name = content.get("type")
+  page = content.get("page")
+  if not page:
+    page = 1
 
   # if category_name:
   #   product_list = Category(category_name).get_products()
@@ -95,15 +104,18 @@ def os_loadProducts():
   # elif type_name:
   #   product_list = ProductType(type_name).get_products()
 
-  search = ProductSearch({'category': category_name, 'brand': brand_name, 'type': type_name})
-  product_list = search.get_products()
+  search = ProductSearch({'category': category_name, 'brand': brand_name, 'type': type_name, 'page': page})
+
+  count = search.get_product_count()
+
+  product_list = search.get_light_products({'limit': 10, 'offset': (page-1)*10})
 
   data = []
   for product in product_list:
-    data.append(product.toJSON())
+    data.append(product.toLightJSON())
 
   response = app.response_class(
-      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data, 'total': count}),
       status=200,
       mimetype='application/json'
   )

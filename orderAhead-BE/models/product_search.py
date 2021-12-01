@@ -6,7 +6,7 @@ class ProductSearch:
   def __init__(self, params):
     self.params = params
 
-  def get_products(self, options = {'limit': 20, 'offset': 0}):
+  def get_products(self, options = {'limit': 10, 'offset': 0}):
     select_fields = Product.get_select_fields()
     limit = options['limit']
     offset = options['offset']
@@ -35,9 +35,58 @@ class ProductSearch:
 
     return product_list
 
+  def get_light_products(self, options = {'limit': 10, 'offset': 0}):
+    select_fields = Product.get_select_fields()
+    limit = options['limit']
+    offset = options['offset']
+
+    wherePart = self.createSearchCondition()
+    sqlCondition = wherePart['sql']
+    if sqlCondition:
+      sqlCondition += ' AND  "Room" = \'Sales Floor\''
+    else:
+       sqlCondition = '"Room" = \'Sales Floor\''
+
+    sql = f'''
+      SELECT {select_fields}
+      FROM "Inventory" AS i
+      WHERE {sqlCondition}
+    '''
+
+    if limit > 0:
+      sql += f'LIMIT {limit} OFFSET {offset}'
+
+    product_list = Postgres_DB.fetchall(sql, wherePart['params'], self.build_light_product)
+
+    return product_list
+
+
+  def get_product_count(self):
+    wherePart = self.createSearchCondition()
+    sqlCondition = wherePart['sql']
+    if sqlCondition:
+      sqlCondition += ' AND  "Room" = \'Sales Floor\''
+    else:
+       sqlCondition = '"Room" = \'Sales Floor\''
+
+    sql = f'''
+      SELECT count("SKU")
+      FROM "Inventory"
+      WHERE {sqlCondition}
+    '''
+
+    result = Postgres_DB.fetchone(sql)
+    return result[0]
+
+
   def build_product(self, db_record):
     product = Product.build_product(db_record)
     product.rating = db_record[len(Product.allow_fields)]
+
+    return product
+
+  def build_light_product(self, db_record):
+    product = Product.build_light_product(db_record)
 
     return product
 

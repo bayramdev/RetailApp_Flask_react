@@ -113,6 +113,17 @@ class Product(Base):
 
     return product
 
+  @classmethod
+  def build_light_product(cls, db_record):
+    product = cls()
+
+    product.data = {}
+    for index, field in enumerate(cls.allow_fields.keys()):
+      product.data[field] = db_record[index]
+
+
+    return product
+
   def get_link(self):
     link = '/order/product/' + self.sku
     return link
@@ -125,7 +136,7 @@ class Product(Base):
     return self.category == self.FLOWER_CAT
 
   def toJSON(self):
-    thumbnail = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
+    thumbnail = '/img/default_product.jpg'
     if self.img_url:
       thumbnail = self.img_url
     return {
@@ -145,10 +156,23 @@ class Product(Base):
       'images': self.get_all_media_items(),
     }
 
+  def toLightJSON(self):
+    thumbnail = '/img/default_product.jpg'
+    if self.img_url:
+      thumbnail = self.img_url
+    return {
+      'sku': self.sku,
+      'name': self.strain_name if self.in_flower_cat() else self.product_name,
+      'thumbnail': thumbnail,
+      'price': self.price,
+      'brand': self.brand,
+      'type': self.product_type,
+      'strain': self.strain_name,
+      'desc': self.product_description,
+      'link': self.get_link(),
+      'type_link': self.product_type,
+      'is_flower': self.in_flower_cat(),
+    }
+
   def get_all_media_items(self):
-    # default_image = 'https://images.dutchie.com/f0d012f401f84d82452884e213477bcc?auto=format&fit=fill&fill=solid&fillColor=%23fff&__typename=ImgixSettings&ixlib=react-9.0.2&h=344&w=344&q=75&dpr=1'
-    # sample_images = [
-    #   {'media_id': 1, 'media_path': default_image, 'media_type': 'image'}
-    # ]
-    # return sample_images
     return ProductMedia.get_product_media_items(self.sku)
