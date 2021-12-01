@@ -23,7 +23,17 @@ const OsProductMediaGallery = (props) => {
 
       setLoading(true)
     })
+
+    //
+
   }, [])
+
+  useEffect(() => {
+    const videoElement = document.querySelector('[data-type="video"]')
+    if (videoElement != null) {
+      videoElement.click()
+    }
+  });
 
   const handleShowPreview = (e) => {
     const mediaId = e.currentTarget.getAttribute('data-target')
@@ -52,19 +62,14 @@ const OsProductMediaGallery = (props) => {
           if (item.media_type == 'video') {
             return <div class="os-product-gallery-preview__item"><ReactPlayer url={item.media_path} width="100%" height="100%" controls={true} /></div>
           } else {
-            return <div class="os-product-gallery-preview__item"><img src={item.media_thumbnail} width="100%" /></div>
+            return <div class="os-product-gallery-preview__item"><img src={item.media_path} width="100%" /></div>
           }
         })}
       </div>
 
       <div class="os-product-gallery-thumbnail mt-4">
         {gallery && gallery.map(item => {
-          // if (item.media_type == 'video') {
-          //   return <div class="os-product-gallery-thumbnail__item"><ReactPlayer url={item.media_path} width="100%" height="100%" controls={true} /></div>
-          // } else {
-
-          // }
-          return <div class="os-product-gallery-thumbnail__item" data-target={item.media_id} onClick={handleShowPreview}><img src={item.media_thumbnail} width="100" height="100" /></div>
+          return <div class="os-product-gallery-thumbnail__item" data-type={item.media_type} data-target={item.media_id} onClick={handleShowPreview}><img src={item.media_thumbnail} width="100" height="100" /></div>
         })}
       </div>
     </div>

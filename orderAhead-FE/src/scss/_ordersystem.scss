@@ -1232,6 +1232,9 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
 .slick-prev:before { content: "\f104"; }
 .slick-next:before { content: "\f105"; }
 
+.os-product {
+  margin-bottom: 80px;
+}
 .os-product__price {
   color: rgb(11, 153, 230);
   font-size: 31px;
@@ -1248,4 +1251,8 @@ $primary_font: Matter, proxima-nova, -apple-system, BlinkMacSystemFont, "Segoe U
   border: 1px solid #ccc;
   padding: 3px;
   cursor: pointer;
+  margin-bottom: 10px;
+  &:hover {
+    border-color: $color__blue;
+  }
 }

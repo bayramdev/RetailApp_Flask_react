@@ -1,9 +1,9 @@
 from models.postgres_db import Postgres_DB
 class ProductMedia:
   @staticmethod
-  def add_media(product_sku, media_path, media_type):
-    sql = 'INSERT INTO "Product_Medias"("Product Sku", "Media Path", "Media Type") VALUES (%s, %s, %s) RETURNING "Media ID"'
-    media_id = Postgres_DB.query(sql, (product_sku, media_path, media_type))
+  def add_media(product_sku, media_path, media_type, thumbnail):
+    sql = 'INSERT INTO "Product_Medias"("Product Sku", "Media Path", "Media Type", "Thumbnail") VALUES (%s, %s, %s, %s) RETURNING "Media ID"'
+    media_id = Postgres_DB.query(sql, (product_sku, media_path, media_type, thumbnail))
     return {
       'media_id': media_id,
       'product_sku': product_sku,
@@ -20,11 +20,11 @@ class ProductMedia:
   @staticmethod
   def get_product_media_items(product_sku):
     sql = '''
-      SELECT "Media ID", "Media Path", "Media Type" FROM "Product_Medias" WHERE "Product Sku" = %s
+      SELECT "Media ID", "Media Path", "Media Type", "Thumbnail" FROM "Product_Medias" WHERE "Product Sku" = %s
     '''
 
     return Postgres_DB.fetchall(sql, (product_sku, ), lambda db_record: {'media_id': db_record[0], 'media_path': db_record[1],
-      'media_thumbnail': ProductMedia.get_thumbnail(db_record[1], db_record[2]), 'media_type': db_record[2]})
+       'media_type': db_record[2], 'media_thumbnail': db_record[3]})
 
   @staticmethod
   def get_thumbnail(media_path, media_type):

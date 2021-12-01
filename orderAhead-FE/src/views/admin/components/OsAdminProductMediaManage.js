@@ -46,10 +46,6 @@ const OsAdminProductMediaManage = (props) => {
 
         uploadRef.current.value = ''
 
-        console.log('response.data')
-        console.log(response.data)
-        console.log(medias)
-
         setMedias([...medias, newMedia])
 
       })
@@ -72,7 +68,7 @@ const OsAdminProductMediaManage = (props) => {
           {medias.map(media =>
             <TableRow key={media.media_id}>
               <TableCell>{media.media_id}</TableCell>
-              <TableCell><img src={media.media_path} width="100" height="100" /></TableCell>
+              <TableCell><img src={media.media_thumbnail} width="100" height="100" /></TableCell>
               <TableCell>{media.media_type}</TableCell>
               <TableCell>
                   <Button style={{color: 'white'}} variant={'contained'} data-id={media.media_id} onClick={handleDeleteMedia}><OsIconRemove /></Button>

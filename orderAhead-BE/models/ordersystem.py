@@ -19,7 +19,7 @@ from models.shipping_zone import ShippingZone
 from models.shipping_manager import ShippingManager
 from models.product_media import ProductMedia
 from flowhub.api import orderAheadPostCaller
-
+import cv2
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
 @cross_origin()
@@ -330,6 +330,7 @@ def osDeleteMedia():
 @app.route('/ordersystem/osUploadMediaFiles', methods=['GET', 'POST'])
 @cross_origin()
 def osUploadMediaFiles():
+  print('osUploadMediaFiles')
   params = request.get_json()
   sku = request.form['sku']
   upload_file = request.files['uploadFile']
@@ -340,14 +341,29 @@ def osUploadMediaFiles():
     product_dir = root_dir + relative_path
     Path(product_dir).mkdir(parents=True, exist_ok=True)
 
-    upload_file.save(product_dir + '/' + upload_file.filename)
+    media_absolute_path = product_dir + '/' + upload_file.filename
+    upload_file.save(media_absolute_path)
     file_url = relative_path + '/' + upload_file.filename
 
     filename, file_extension = os.path.splitext(file_url)
 
     file_type = 'video' if file_extension == '.mp4' else 'image'
 
-    data = ProductMedia.add_media(sku, file_url, file_type)
+    # generate thumbnail
+    thumbnail = file_url
+
+    if file_type == 'video':
+      try:
+        vidcap = cv2.VideoCapture(media_absolute_path)
+        success,image = vidcap.read()
+        thumbnail_filename = filename + "_thumbnail.jpg"
+        thumbnail = thumbnail_filename
+        cv2.imwrite(root_dir + '/' + thumbnail_filename, image)     # save frame as JPEG file
+
+      except:
+        thumbnail = file_url
+
+    data = ProductMedia.add_media(sku, file_url, file_type, thumbnail)
     print('data', data)
 
   response = app.response_class(
