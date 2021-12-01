@@ -75,7 +75,7 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand",
     "eject": "react-scripts eject",
     "zip": "git archive -o coreui-pro-react-admin-template-v$npm_package_version.zip -9 HEAD",
-    "postbuild": "cp -r ./public/uploads/ ./build/uploads/"
+    "postbuild": "cp -r ./public/uploads/ ./build/"
   },
   "eslintConfig": {
     "extends": "react-app"
