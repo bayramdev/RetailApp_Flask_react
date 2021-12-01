@@ -1,3 +1,4 @@
+import math
 import json
 from flask_cors import cross_origin
 from flask import Flask, jsonify, request
@@ -115,7 +116,7 @@ def os_loadProducts():
     data.append(product.toLightJSON())
 
   response = app.response_class(
-      response=json.dumps({"status": True, "message": "successfully sent", "data": data, 'total': count}),
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data, 'total': math.ceil(count / 10)}),
       status=200,
       mimetype='application/json'
   )
