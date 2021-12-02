@@ -1,8 +1,10 @@
+import os
 from passlib.hash import pbkdf2_sha256 as sha256
 from random import randint
 import urllib
 from slugify import slugify
 import json
+from pathlib import Path
 
 
 def generate_hash(password):
@@ -32,3 +34,25 @@ def sanitize_handle(text):
 
 def fix_quote(text):
     return json.dumps(text)
+
+def get_frontend_dir(relative_path = ''):
+    return os.path.dirname(os.path.realpath(__file__)) + '/../orderAhead-FE' + relative_path
+
+def get_public_dir(relative_path = ''):
+    return get_frontend_dir('/public' + relative_path)
+
+def get_build_dir(relative_path = ''):
+    return get_frontend_dir('/build' + relative_path)
+
+def save_uploaded_file_to_dir(upload_file, relative_dir, filename):
+    try:
+        # save to public and build
+        save_dirs = [get_public_dir(relative_dir), get_build_dir(relative_dir)]
+        for save_dir in save_dirs:
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
+            upload_file.save(save_dir + '/' + filename)
+
+    except:
+        pass
+
+    return '/'.join([relative_dir, filename])

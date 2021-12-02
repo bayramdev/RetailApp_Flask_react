@@ -21,6 +21,7 @@ from models.shipping_manager import ShippingManager
 from models.product_media import ProductMedia
 from flowhub.api import orderAheadPostCaller
 import cv2
+import common
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
 @cross_origin()
@@ -177,14 +178,7 @@ def os_updateType():
   type_obj.load_data()
 
   if (thumbnail_file):
-    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/public/'
-    relative_path = "/uploads/types"
-    type_dir = root_dir + relative_path
-    Path(type_dir).mkdir(parents=True, exist_ok=True)
-
-    thumbnail_file.save(type_dir + '/' + thumbnail_file.filename)
-    thumbnail_url = relative_path + '/' + thumbnail_file.filename
-    type_obj.image_url = thumbnail_url
+    type_obj.image_url = common.save_uploaded_file_to_dir(thumbnail_file, '/uploads/types', thumbnail_file.filename)
 
   if price_from is None:
     price_from = 0
@@ -349,35 +343,43 @@ def osUploadMediaFiles():
   upload_file = request.files['uploadFile']
   data = False
   if upload_file:
-    root_dir = os.path.dirname(os.path.realpath(__file__)) + '/../../orderAhead-FE/public/'
-    relative_path = "/uploads/products"
-    product_dir = root_dir + relative_path
-    Path(product_dir).mkdir(parents=True, exist_ok=True)
+    product_relative_path = '/uploads/products'
+    uploaded_file_relative_path = common.save_uploaded_file_to_dir(upload_file, product_relative_path, upload_file.filename)
 
-    media_absolute_path = product_dir + '/' + upload_file.filename
-    upload_file.save(media_absolute_path)
-    file_url = relative_path + '/' + upload_file.filename
 
-    filename, file_extension = os.path.splitext(file_url)
+    # check file extension to detect file type
+    filename_without_ext, file_extension = os.path.splitext(upload_file.filename)
 
-    file_type = 'video' if file_extension == '.mp4' else 'image'
+
+    if file_extension == '.mp4':
+      file_type = 'video'
+      thumbnail_filename = f'{filename_without_ext}_thumbnail.jpg'
+    else:
+      file_type = 'image'
+      thumbnail_filename = upload_file.filename
+
+    thumbnail_relative_path = f'{product_relative_path}/{thumbnail_filename}'
+
+
 
     # generate thumbnail
-    thumbnail = file_url
-
     if file_type == 'video':
       try:
-        vidcap = cv2.VideoCapture(media_absolute_path)
-        success,image = vidcap.read()
-        thumbnail_filename = filename + "_thumbnail.jpg"
-        thumbnail = thumbnail_filename
-        cv2.imwrite(root_dir + '/' + thumbnail_filename, image)     # save frame as JPEG file
+
+        video_path = common.get_public_dir(uploaded_file_relative_path)
+        vidcap = cv2.VideoCapture(video_path)
+        success, image = vidcap.read()
+
+        #save thumbnail
+        save_dirs = [common.get_build_dir(product_relative_path), common.get_public_dir(product_relative_path)]
+        for save_dir in save_dirs:
+          thumbnail_save_path = f'{save_dir}/{thumbnail_filename}'
+          cv2.imwrite(thumbnail_save_path, image)     # save frame as JPEG file
 
       except:
-        thumbnail = file_url
+        pass
 
-    data = ProductMedia.add_media(sku, file_url, file_type, thumbnail)
-    print('data', data)
+    data = ProductMedia.add_media(sku, uploaded_file_relative_path, file_type, thumbnail_relative_path)
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

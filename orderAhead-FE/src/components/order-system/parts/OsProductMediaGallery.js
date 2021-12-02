@@ -31,7 +31,7 @@ const OsProductMediaGallery = (props) => {
   useEffect(() => {
     const videoElement = document.querySelector('[data-type="video"]')
     if (videoElement != null) {
-      videoElement.click()
+      // videoElement.click()
     }
   });
 
