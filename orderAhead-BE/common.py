@@ -5,6 +5,8 @@ import urllib
 from slugify import slugify
 import json
 from pathlib import Path
+from shutil import copyfile
+
 
 
 def generate_hash(password):
@@ -47,10 +49,17 @@ def get_build_dir(relative_path = ''):
 def save_uploaded_file_to_dir(upload_file, relative_dir, filename):
     try:
         # save to public and build
-        save_dirs = [get_public_dir(relative_dir), get_build_dir(relative_dir)]
-        for save_dir in save_dirs:
-            Path(save_dir).mkdir(parents=True, exist_ok=True)
-            upload_file.save(save_dir + '/' + filename)
+        save_dir = get_public_dir(relative_dir)
+        file_target = save_dir + '/' + filename
+        Path(save_dir).mkdir(parents=True, exist_ok=True)
+        upload_file.save(file_target)
+
+        # // copy to build dir
+        build_dir = get_build_dir(relative_dir)
+        Path(build_dir).mkdir(parents=True, exist_ok=True)
+        print('copyfile')
+        print(file_target, f'{build_dir}/{filename}')
+        copyfile(file_target, f'{build_dir}/{filename}')
 
     except:
         pass
