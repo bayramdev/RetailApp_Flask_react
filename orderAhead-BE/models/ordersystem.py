@@ -110,6 +110,45 @@ def os_loadProducts():
 
   count = search.get_product_count()
 
+  product_list = search.get_products({'limit': 10, 'offset': (page-1)*10})
+
+  data = []
+  for product in product_list:
+    data.append(product.toJSON())
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data, 'total': math.ceil(count / 10)}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/adminLoadProducts', methods=['GET', 'POST'])
+@cross_origin()
+def adminLoadProducts():
+  if not request.is_json:
+        return jsonify({"status": False, "message": "Input error!"})
+
+  content = request.get_json()
+  category_name = content.get("category")
+  brand_name = content.get("brand")
+  type_name = content.get("type")
+  page = content.get("page")
+  if not page:
+    page = 1
+
+  # if category_name:
+  #   product_list = Category(category_name).get_products()
+  # elif brand_name:
+  #   product_list = Brand(brand_name).get_products()
+  # elif type_name:
+  #   product_list = ProductType(type_name).get_products()
+
+  search = ProductSearch({'category': category_name, 'brand': brand_name, 'type': type_name, 'page': page})
+
+  count = search.get_product_count()
+
   product_list = search.get_light_products({'limit': 10, 'offset': (page-1)*10})
 
   data = []
@@ -169,7 +208,7 @@ def os_loadType():
 @app.route('/ordersystem/osUpdateType', methods=['GET', 'POST'])
 @cross_origin()
 def os_updateType():
-  thumbnail_file = request.files['typeThumbnail']
+
   type_name = request.form['typeName']
   price_from = request.form['price_from']
   price_to = request.form['price_to']
@@ -177,8 +216,10 @@ def os_updateType():
   type_obj = Type(type_name)
   type_obj.load_data()
 
-  if (thumbnail_file):
-    type_obj.image_url = common.save_uploaded_file_to_dir(thumbnail_file, '/uploads/types', thumbnail_file.filename)
+  if 'typeThumbnail' in request.files:
+    thumbnail_file = request.files['typeThumbnail']
+    if thumbnail_file:
+      type_obj.image_url = common.save_uploaded_file_to_dir(thumbnail_file, '/uploads/types', thumbnail_file.filename)
 
   if price_from is None:
     price_from = 0
@@ -188,6 +229,11 @@ def os_updateType():
   type_obj.price_from = price_from
   type_obj.price_to = price_to
   type_obj.save()
+
+
+  update_name = request.form['updateName']
+  if update_name != type_name:
+    type_obj.update_name(update_name)
 
 
   # productType = Type(name)
@@ -406,8 +452,6 @@ def osLoadProductGallery():
   return response
 
 
-
-
 @app.route('/ordersystem/osPlaceOrder', methods=['GET', 'POST'])
 @cross_origin()
 def osPlaceOrder():
@@ -425,3 +469,22 @@ def osPlaceOrder():
   return response
 
 
+@app.route('/ordersystem/osUpdateProduct', methods=['GET', 'POST'])
+@cross_origin()
+def osUpdateProduct():
+  form_data = request.form
+
+  sku = form_data['sku']
+
+  product = Product(sku)
+  product.product_name = form_data['product_name']
+  product.visibility = form_data['visibility']
+  product.save()
+  data = product.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response

@@ -48,7 +48,7 @@ const OsProductItem = (props) => {
           </div>
         </div>
         <div className={`${className}__actions`}>
-          {product.is_flower &&
+          {product.is_flower && tierPrices &&
             tierPrices.map(tierPrice => <OsButtonAdd className={`${className}__button`} data={product} tierInfo={tierPrice} />)
           }
           {!product.is_flower && <OsButtonAdd className={`${className}__button`} data={product} />}

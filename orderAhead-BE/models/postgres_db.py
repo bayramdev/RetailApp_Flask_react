@@ -1,11 +1,18 @@
 import psycopg2
 
+# params = {
+#   'host': "52.191.3.0",
+#   'database': "postgres",
+#   'user': "postgres",
+#   'password': "N^cfZkujmn3dIjMjVHd"
+# }
 params = {
-  'host': "52.191.3.0",
+  'host': "localhost",
   'database': "postgres",
   'user': "postgres",
-  'password': "N^cfZkujmn3dIjMjVHd"
+  'password': "admin123"
 }
+
 class Postgres_DB:
   @classmethod
   def connect(self):

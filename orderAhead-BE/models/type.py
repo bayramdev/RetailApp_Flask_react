@@ -87,3 +87,8 @@ class Type(Base):
       },
       'brands': 'hello',
     }
+
+  def update_name(self, new_name):
+    sql = f'UPDATE "Product_Types" SET "Name" = %s WHERE "Name" = %s;'
+    sql += f'UPDATE "Inventory" SET "Product Type" = %s WHERE "Product Type" = %s;'
+    Postgres_DB.query(sql, (new_name, self.name, new_name, self.name,))

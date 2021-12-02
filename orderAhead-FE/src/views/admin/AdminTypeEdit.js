@@ -14,16 +14,19 @@ const AdminTypeEdit = () => {
   const [selectedFile, setSelectedFile] = useState(false)
   const [priceFrom, setPriceFrom] = useState(0)
   const [priceTo, setPriceTo] = useState(0)
+  const [name, setName] = useState('')
   const [saveText, setSaveText] = useState('Save')
   const history = useHistory()
 
   useEffect(() => {
     setLoading(true)
     osServices.osLoadType(params).then(response => {
-      setType(response.data)
-      setSelectedImage(response.data.thumbnail)
-      setPriceFrom(response.data.price_range.from)
-      setPriceTo(response.data.price_range.to)
+      const productType = response.data
+      setType(productType)
+      setSelectedImage(productType.thumbnail)
+      setPriceFrom(productType.price_range.from)
+      setPriceTo(productType.price_range.to)
+      setName(productType.name)
       setLoading(false)
     })
   }, [])
@@ -36,6 +39,9 @@ const AdminTypeEdit = () => {
     if (selectedFile) {
       formData.append('typeThumbnail', selectedFile, selectedFile.name)
     }
+
+    formData.append('updateName', name)
+
     formData.append('price_from', priceFrom)
     formData.append('price_to', priceTo)
 
@@ -62,6 +68,11 @@ const AdminTypeEdit = () => {
     setPriceTo(e.target.value)
   }
 
+  const handleNameChanged = (e) => {
+    setName(e.target.value)
+  }
+
+
 
   return (
     <div>
@@ -76,6 +87,10 @@ const AdminTypeEdit = () => {
               <TableCell>
                 <input type="file" onChange={onImageChanged} />
               </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell colSpan="2"><TextField variant="outlined" onChange={handleNameChanged} value={name}></TextField></TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Price From</TableCell>

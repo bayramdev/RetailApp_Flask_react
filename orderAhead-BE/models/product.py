@@ -38,6 +38,7 @@ class Product(Base):
     'insert_datetime': 'insert_datetime',
     'img_url': 'img_url',
     'product_description': 'product_description',
+    'visibility': 'Visibility',
   }
 
   all_tier_information = None
@@ -154,6 +155,7 @@ class Product(Base):
       'tier_prices': self.tier_prices,
       'rating': self.data['rating'] if 'rating' in self.data is not None else 0,
       'images': self.get_all_media_items(),
+      'visibility': self.visibility,
     }
 
   def toLightJSON(self):
@@ -173,6 +175,26 @@ class Product(Base):
       'type_link': self.product_type,
       'is_flower': self.in_flower_cat(),
     }
+
+  def save(self):
+    sql_set = []
+    params = ()
+
+    update_fields = {
+      'product_name': 'Product Name',
+      'visibility': 'Visibility',
+    }
+
+    for key, column_name in update_fields.items():
+      sql_set.append(f'"{column_name}" = %s')
+      params += (self.data[key],)
+
+    params += (self.sku,)
+
+    sql_set = ','.join(sql_set)
+
+    sql = f'UPDATE "Inventory" SET {sql_set} WHERE "SKU" = %s'
+    Postgres_DB.query(sql, params)
 
   def get_all_media_items(self):
     return ProductMedia.get_product_media_items(self.sku)

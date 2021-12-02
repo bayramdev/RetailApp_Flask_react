@@ -14,9 +14,9 @@ class ProductSearch:
     wherePart = self.createSearchCondition()
     sqlCondition = wherePart['sql']
     if sqlCondition:
-      sqlCondition += ' AND  "Room" = \'Sales Floor\''
+      sqlCondition += ' AND  "Room" = \'Sales Floor\' AND "Visibility" = TRUE'
     else:
-       sqlCondition = '"Room" = \'Sales Floor\''
+       sqlCondition = '"Room" = \'Sales Floor\' AND "Visibility" = TRUE'
 
     sql = f'''
       SELECT {select_fields}, review."AvgRating"
@@ -26,6 +26,7 @@ class ProductSearch:
       ) AS review ON review."Product Sku" = i."SKU"
       WHERE {sqlCondition}
     '''
+    print(sql)
 
     if limit > 0:
       sql += f'LIMIT {limit} OFFSET {offset}'

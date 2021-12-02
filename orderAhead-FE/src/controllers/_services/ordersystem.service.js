@@ -24,6 +24,7 @@ export const osServices = {
   osUploadMediaFiles,
   osLoadProductGallery,
   osPlaceOrder,
+  osUpdateProduct,
 };
 
 function handleResponse(response) {
@@ -134,4 +135,9 @@ function osLoadProductGallery(params) {
 
 function osPlaceOrder(params) {
   return callApi('ordersystem/osPlaceOrder', params)
+}
+
+function osUpdateProduct(formData) {
+  const path = 'ordersystem/osUpdateProduct'
+  return axios.post(`${serverURL}/${path}`, formData)
 }

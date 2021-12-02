@@ -63,7 +63,7 @@ const OsAddToCart = (props) => {
         {product.tier_prices && product.tier_prices.map(option =>
           <div data-tier={option.name} className={'os-product-option '+((selectedTier && selectedTier.name == option.name)?' os-product-option--active ':'')+' os-product-item-button'} onClick={handleSelectTier}>
             <div className="os-product-option__weight os-product-item-button__weight">{convertTierLabel(option.name)}</div>
-            <div className="os-product-option__price os-product-item-button__price">{formatPrice(option.pricePerUnitInMinorUnits / 100)}</div>
+            {/* <div className="os-product-option__price os-product-item-button__price">{formatPrice(option.pricePerUnitInMinorUnits / 100)}</div> */}
           </div>
         )}
       </div>
