@@ -75,7 +75,7 @@ class ProductSearch:
       WHERE {sqlCondition}
     '''
 
-    result = Postgres_DB.fetchone(sql)
+    result = Postgres_DB.fetchone(sql, wherePart['params'])
     return result[0]
 
 
