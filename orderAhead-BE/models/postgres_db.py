@@ -1,5 +1,8 @@
 import psycopg2
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 params = {
   'host': os.getenv('PSQL_DB_HOST', '52.191.3.0'),

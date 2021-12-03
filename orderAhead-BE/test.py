@@ -9,6 +9,7 @@ from models.type import Type
 from models.brand_search import BrandSearch
 from pathlib import Path
 import json
+from models.postgres_db import params
 
 
 @app.route("/test", methods=["GET"])
@@ -50,8 +51,10 @@ def test():
   # print(a)
 
 
-  print(os.getenv('PSQL_DB_HOSTx', 'xxxxxxxxxxxxxxxxx'))
+  print(os.getenv('PSQL_DB_HOST', '52.191.3.0'))
+  print(os.getenv('PSQL_DB_HOST', 'xxxxxxxxxxxxxxxxx'))
   print(os.getenv('PSQL_DB_PASS'))
+  print(params)
 
 
   return 'Please check log on python console'
