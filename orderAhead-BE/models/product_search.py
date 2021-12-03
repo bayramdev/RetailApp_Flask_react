@@ -6,7 +6,7 @@ class ProductSearch:
   def __init__(self, params):
     self.params = params
 
-  def get_products(self, options = {'limit': 10, 'offset': 0}):
+  def get_products(self, options = {'limit': 10, 'offset': 0, 'ordering': 'asc'}):
     select_fields = Product.get_select_fields()
     limit = options['limit']
     offset = options['offset']
@@ -25,6 +25,7 @@ class ProductSearch:
         SELECT "Product Sku", AVG("Rating")::numeric(10,1) AS "AvgRating" FROM "Product_Reviews" GROUP BY "Product Sku"
       ) AS review ON review."Product Sku" = i."SKU"
       WHERE {sqlCondition}
+      ORDER BY "Price" {options['ordering']}
     '''
     print(sql)
 

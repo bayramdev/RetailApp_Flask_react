@@ -96,6 +96,7 @@ def os_loadProducts():
   brand_name = content.get("brand")
   type_name = content.get("type")
   page = content.get("page")
+  ordering = content.get("ordering", 'asc')
   if not page:
     page = 1
 
@@ -109,8 +110,9 @@ def os_loadProducts():
   search = ProductSearch({'category': category_name, 'brand': brand_name, 'type': type_name, 'page': page})
 
   count = search.get_product_count()
-
-  product_list = search.get_products({'limit': 10, 'offset': (page-1)*10})
+  print('ordering')
+  print(ordering)
+  product_list = search.get_products({'limit': 10, 'offset': (page-1)*10, 'ordering': ordering})
 
   data = []
   for product in product_list:

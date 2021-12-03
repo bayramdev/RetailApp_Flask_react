@@ -7,33 +7,46 @@ import OsWidgetCategories from '../widgets/OsWidgetCategories';
 import OsLoading from '../OsLoading';
 import { osServices } from '../../../controllers/_services/ordersystem.service';
 import { useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import QueryString from 'query-string'
+import {Box, FormControl, Select, MenuItem, InputLabel} from '@mui/material'
 
 const OsProductListPage = (props) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const [isLoading, setLoading] = useState(false)
   const [products, setProducts] = useState([])
+  const [priceOrdering, setPriceOrdering] = useState('asc')
 
   const {search} = useLocation();
   const params = QueryString.parse(search)
 
+  let queryList = []
   let title = []
   if (params.category) {
     title.push(params.category)
+    queryList.push(`category=${params.category}`)
   }
 
   if (params.brand) {
     title.push(params.brand)
+    queryList.push(`brand=${params.brand}`)
   }
 
   if (params.type) {
     title.push(params.type)
+    queryList.push(`type=${params.type}`)
   }
 
   title = title.join(' > ')
 
-
+  const handlePriceSort = (e) => {
+    setPriceOrdering(e.target.value)
+    const newQueryList = [...queryList, `ordering=${e.target.value}`]
+    const queryPart = newQueryList.join('&')
+    const url = `/order/products?${queryPart}`
+    history.push(url)
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -54,7 +67,18 @@ const OsProductListPage = (props) => {
             <OsSidebar />
           </div>
           <div className="os-layout__main">
-            <OsContentHeader data={{title: title}} />
+            <div class="d-flex justify-content-between">
+              <OsContentHeader data={{title: title}} baseUrl={''} />
+              <Box sx={{ minWidth: 150 }}>
+                <FormControl fullWidth>
+                  <InputLabel>Sort by price</InputLabel>
+                  <Select onChange={handlePriceSort} value={priceOrdering}>
+                    <MenuItem value="desc">High to low</MenuItem>
+                    <MenuItem value="asc">Low to high</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </div>
             {isLoading && <OsLoading />}
             {!isLoading &&
             <OsProductList>
