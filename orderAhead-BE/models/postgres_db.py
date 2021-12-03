@@ -1,10 +1,11 @@
 import psycopg2
+import os
 
 params = {
-  'host': "52.191.3.0",
-  'database': "postgres",
-  'user': "postgres",
-  'password': "N^cfZkujmn3dIjMjVHd"
+  'host': os.getenv('PSQL_DB_HOST', '52.191.3.0'),
+  'database': os.getenv('PSQL_DB_NAME', 'postgres'),
+  'user': os.getenv('PSQL_DB_USER', 'postgres'),
+  'password': os.getenv('PSQL_DB_PASS', 'N^cfZkujmn3dIjMjVHd')
 }
 class Postgres_DB:
   @classmethod

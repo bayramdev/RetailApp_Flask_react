@@ -50,5 +50,8 @@ def test():
   # print(a)
 
 
+  print(os.getenv('PSQL_DB_HOSTx', 'xxxxxxxxxxxxxxxxx'))
+  print(os.getenv('PSQL_DB_PASS'))
+
 
   return 'Please check log on python console'
