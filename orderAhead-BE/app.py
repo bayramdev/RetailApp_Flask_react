@@ -934,10 +934,11 @@ def deleteIPAddress():
 def add_ip(ip):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(hostname='52.191.3.0', username='azureuser',key_filename="/root/.ssh/id_rsa", password="alextwo")
+    ssh.connect(hostname='52.191.3.0', username='azureuser',key_filename="/home/azureuser/.ssh/id_rsa", password="alextwo")
     cmd = ' sudo sed  -i   "s/host *all *all *127.0.0.1\/32 *scram-sha-256/& \\nhost all postgres %s\/32 trust/" /etc/postgresql/14/main/pg_hba.conf' %ip
     cmd.replace("\\n", "\n")
     #print(cmd2)
+    print(ip)
     stdin, stdout, stderr = ssh.exec_command(cmd)
     print(stdout.readlines())
     cmd2 = 'sudo service postgresql restart'
@@ -948,10 +949,11 @@ def add_ip(ip):
 def remove_ip(ip):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(hostname='52.191.3.0', username='azureuser',key_filename="/root/.ssh/id_rsa", password="alextwo")
+    ssh.connect(hostname='52.191.3.0', username='azureuser',key_filename="/home/azureuser/.ssh/id_rsa", password="alextwo")
     cmd = ' sudo sed  -i   "/%s/g" /etc/postgresql/14/main/pg_hba.conf' %ip
     cmd.replace("\\n", "\n")
     #print(cmd2)
+    print(ip)
     stdin, stdout, stderr = ssh.exec_command(cmd)
     print(stdout.readlines())
     cmd2 = 'sudo service postgresql restart'
