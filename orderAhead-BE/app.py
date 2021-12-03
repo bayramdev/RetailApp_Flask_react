@@ -921,7 +921,7 @@ def deleteIPAddress():
         return jsonify({"status": False, "message": "Input error!"})
 
     db_controller.delete_ip(ip_addrss)
-    remove_ip(ip)
+    remove_ip(ip_addrss)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully deleted."}),
