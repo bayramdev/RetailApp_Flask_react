@@ -731,33 +731,22 @@ def loadDatatable(data_type):
 @cross_origin()
 def getTableList():
 
-    requested_ip = request.access_route[0] or request.remote_addr
-    allowed_ipaddress = db_controller.get_all_data_by_name('IP manage')
+    result = db_controller.get_table_list()
 
-    if requested_ip in str(allowed_ipaddress):
-        result = db_controller.get_table_list()
-
-        if not result or len(result) == 0:
-            response = app.response_class(
-                response=json.dumps({"status": False, "message": "Database doesn\'t exist."}),
-                status=404,
-                mimetype='application/json'
-            )
-            return response
-
+    if not result or len(result) == 0:
         response = app.response_class(
-            response=json.dumps({"status": True, "message": "successfully sent", "data": result}),
-            status=200,
+            response=json.dumps({"status": False, "message": "Database doesn\'t exist."}),
+            status=404,
             mimetype='application/json'
         )
         return response
-    else:
-        response = app.response_class(
-            response=json.dumps({"status": False, "message": "You with the ipaddress is not allowed to access."}),
-            status=500,
-            mimetype='application/json'
-        )
-        return response
+
+    response = app.response_class(
+        response=json.dumps({"status": True, "message": "successfully sent", "data": result}),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 
 
 @app.route('/getDataInfoByTableName', methods=["POST"], strict_slashes=False)
@@ -907,17 +896,8 @@ def createIP():
         print(e)
         return jsonify({"status": False, "message": "IP address is incorrect."})
 
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(hostname='52.191.3.0', username='azureuser', key_filename='/you/key/path', password='yourpass')
-
-    cmd = ' sudo sed -i "s/127.0.0.1\/32 *scram-sha-256/& \\nhost all postgres %s\/32 trust/" /etc/postgresql/14/main/pg_hba.conf' %ip
-    cmd.replace("\\n", "\n")
-
-    stdin, stdout, stderr = ssh.exec_command(cmd)
-    print(stdout.readlines())
-
     db_controller.create_ip(ip)
+    add_ip(ip)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully created"}),
@@ -941,6 +921,7 @@ def deleteIPAddress():
         return jsonify({"status": False, "message": "Input error!"})
 
     db_controller.delete_ip(ip_addrss)
+    remove_ip(ip)
 
     response = app.response_class(
         response=json.dumps({"status": True, "message": "successfully deleted."}),
@@ -950,6 +931,32 @@ def deleteIPAddress():
     return response
 
 
+def add_ip(ip):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(hostname='52.191.3.0', username='azureuser',key_filename="/root/.ssh/id_rsa", password="alextwo")
+    cmd = ' sudo sed  -i   "s/host *all *all *127.0.0.1\/32 *scram-sha-256/& \\nhost all postgres %s\/32 trust/" /etc/postgresql/14/main/pg_hba.conf' %ip
+    cmd.replace("\\n", "\n")
+    #print(cmd2)
+    stdin, stdout, stderr = ssh.exec_command(cmd)
+    print(stdout.readlines())
+    cmd2 = 'sudo service postgresql restart'
+    stdin, stdout, stderr = ssh.exec_command(cmd2)
+    print(stdout.readlines())
+
+
+def remove_ip(ip):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(hostname='52.191.3.0', username='azureuser',key_filename="/root/.ssh/id_rsa", password="alextwo")
+    cmd = ' sudo sed  -i   "/%s/g" /etc/postgresql/14/main/pg_hba.conf' %ip
+    cmd.replace("\\n", "\n")
+    #print(cmd2)
+    stdin, stdout, stderr = ssh.exec_command(cmd)
+    print(stdout.readlines())
+    cmd2 = 'sudo service postgresql restart'
+    stdin, stdout, stderr = ssh.exec_command(cmd2)
+    print(stdout.readlines())
 
 
 @app.errorhandler(404)
