@@ -9,6 +9,7 @@ class ProductMedia:
       'product_sku': product_sku,
       'media_path': media_path,
       'media_type': media_type,
+      'media_thumbnail': thumbnail,
     }
 
   @staticmethod
