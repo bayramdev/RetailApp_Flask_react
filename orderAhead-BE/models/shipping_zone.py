@@ -4,6 +4,7 @@ class ShippingZone:
     self.id = 0
     self.name = 0
     self.regions = 0
+    self.shipping_methods = []
 
   @classmethod
   def get_list(cls):
@@ -39,5 +40,10 @@ class ShippingZone:
     return Postgres_DB.fetchall(sql, (zone_id, ), lambda db_record: {'id': db_record[0], 'name': db_record[1]})
 
   def get_regions(self):
-    pass
+    return
 
+  def bind(self, data):
+    self.name = data['name']
+
+  def save(self):
+    print('TODO: saving shipping zone')

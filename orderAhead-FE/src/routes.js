@@ -19,6 +19,7 @@ const AdminShippingManage = lazy(() => import('./views/admin/AdminShippingManage
 const AdminProductManage = lazy(() => import('./views/admin/AdminProductManage'));
 const AdminProductEdit = lazy(() => import('./views/admin/AdminProductEdit'));
 const AdminShippingZoneEdit = lazy(() => import('./views/admin/AdminShippingZoneEdit'));
+const AdminOrderManage = lazy(() => import('./views/admin/AdminOrderManage'));
 
 const AdminDashboard1 = lazy(() => import('./views/admin/Dashboard1'));
 const AdminDashboard2 = lazy(() => import('./views/admin/Dashboard2'));
@@ -38,7 +39,7 @@ const routes = [
   { path: '/review', name: 'Review Edit', component: AdminReviewEdit},
   { path: '/products', name: 'Product Management', component: AdminProductManage},
   { path: '/product', name: 'Product Edit', component: AdminProductEdit},
-  // { path: '/shipping', name: 'Shipping Management', component: AdminShippingManage},
+  { path: '/shipping', name: 'Shipping Management', component: AdminShippingManage},
   { path: '/shipping_zone', name: 'Shipping Zone Edit', component: AdminShippingZoneEdit},
   { path: '/db-manage', name: 'Link Manage', component: AdminDBManage},
   { path: '/dashboard-1', name: 'Dashboard 1', component: AdminDashboard1, fullwidth: true,},
@@ -46,6 +47,7 @@ const routes = [
   { path: '/dashboard-3', name: 'Dashboard 3', component: AdminDashboard3, fullwidth: true,},
   { path: '/dashboard-4', name: 'Dashboard 4', component: AdminDashboard4, fullwidth: true,},
   { path: '/order', exact: false, name: 'Order', component: withRouter(OrderSystem), fullwidth: true,},
+  { path: '/order-manage', exact: false, name: 'Order Manage', component: AdminOrderManage, fullwidth: true,},
 ];
 
 export default routes;

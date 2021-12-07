@@ -6,33 +6,35 @@ import { useSelector } from 'react-redux';
 import { useHistory, Link, useLocation } from 'react-router-dom';
 import QueryString from 'query-string'
 import {Country, State, City} from 'country-state-city'
+import OsAdminShippingMethods  from './components/OsAdminShippingMethods'
+import Formik from 'formik'
 
-const AdminShippingZoneForm = () => {
-  const [shippingZones, setShippingZones] = useState([])
+const AdminShippingZoneEdit = () => {
+  const [zoneName, setZoneName] = useState('Everywhere')
+  const [zoneLocations, setZoneLocations] = useState([])
+
   const [isLoading, setLoading] = useState(false)
   const {search} = useLocation()
 
   const params = QueryString.parse(search)
+  const zoneId = params['zone_id']
+  const states = State.getStatesOfCountry('US')
+
   const title = (params.zone_id == 'new')?'Add shipping zone': 'Edit shipping zone'
   const handleSaveClicked = (e) => {
     const formData = new FormData()
+    formData.append('zone_id', zoneId)
+    formData.append('zone_name', zoneName)
+    zoneLocations.map(zoneLocation => formData.append('zone_locations', zoneLocation))
+
+    osServices.osShippingZoneSaveChanges(formData).then(response => {
+      console.log(response.data)
+    })
   }
 
-  const countries = Country.getAllCountries()
-  const states = State.getStatesOfCountry('US')
-
-  const [selectedStates, setSelectedStates] = useState([])
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedStates(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
-
+  const handleStateChanged = (e) => {
+    setZoneLocations(e.target.value);
+  }
 
   return (
     <div>
@@ -41,33 +43,30 @@ const AdminShippingZoneForm = () => {
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell>Zone name</TableCell>
-            <TableCell><TextField value={''}></TextField></TableCell>
+            <TableCell width={220}>Zone name</TableCell>
+            <TableCell><TextField value={zoneName}></TextField></TableCell>
+            <TableCell></TableCell>
           </TableRow>
           <TableRow>
-            <TableCell>The United State Region(s)</TableCell>
+            <TableCell>The United State Regions</TableCell>
             <TableCell>
-              <Select value={selectedStates} multiple onChange={handleChange} renderValueX={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}>
+              <Select style={{width:'300px'}} placeholder="Select a state" value={zoneLocations} multiple onChange={handleStateChanged}>
                 <MenuItem disabled value="">
                   <em>Select a state</em>
                 </MenuItem>
-                {states.map(state => <MenuItem value={state.isoCode}>{state.name}</MenuItem>)}
+                {states.map(state => <MenuItem key={state.name} value={`${state.isoCode}`}>{state.name}</MenuItem>)}
               </Select>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Shipping method(s)</TableCell>
-            <TableCell><TextField></TextField></TableCell>
+            <TableCell>
+              <OsAdminShippingMethods zone={zoneId} methods={[]}  />
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell></TableCell>
             <TableCell><Button onClick={handleSaveClicked} variant={'contained'}>Save</Button></TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -75,4 +74,4 @@ const AdminShippingZoneForm = () => {
   );
 };
 
-export default AdminShippingZoneForm;
+export default AdminShippingZoneEdit;

@@ -490,3 +490,83 @@ def osUpdateProduct():
       mimetype='application/json'
   )
   return response
+
+
+@app.route('/ordersystem/osShippingZoneSaveChanges', methods=['GET', 'POST'])
+@cross_origin()
+def osShippingZoneSaveChanges():
+  form_data = request.form
+  print('form_data')
+  print(form_data)
+  print(form_data.getlist('zone_locations'))
+
+
+  zone_id = form_data['zone_id']
+
+  zone = ShippingZone()
+  zone.bind(form_data)
+  zone.save()
+  data = zone.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osShippingZoneAddMethod', methods=['GET', 'POST'])
+@cross_origin()
+def osShippingZoneAddMethod():
+  form_data = request.form
+  method_id = form_data['method_id']
+  zone_id = form_data['zone_id']
+
+  data = {
+    'instance_id': 9,
+    'zone_id': 9,
+    'methods': {
+      '9': {
+        'title': 'Flat rate',
+        'id': 'flat_rate',
+        'cost': 0,
+        'enabled': 'yes',
+      },
+    },
+    'zone_name': 'Everywhere',
+  }
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osShippingZoneMethodsSaveSettings', methods=['GET', 'POST'])
+@cross_origin()
+def osShippingZoneMethodsSaveSettings():
+  form_data = request.form
+  method_id = form_data['instance_id']
+  title = form_data['title']
+  cost = form_data['cost']
+
+  data = {
+    'zone_id': 9,
+    'methods': {
+      'title': 'Flat rate',
+      'id': 'flat_rate',
+      'cost': 0,
+      'enabled': 'yes',
+    },
+    'zone_name': 'Everywhere',
+  }
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response

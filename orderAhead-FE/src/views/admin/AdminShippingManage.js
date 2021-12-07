@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import {Rating, Button, Table, TableBody, TableHead, TableRow, TableCell} from '@mui/material'
+import {Box, Divider, Rating, Button, Table, TableBody, TableHead, TableRow, TableCell} from '@mui/material'
 import {osServices} from '../../controllers/_services/ordersystem.service'
 import OsLoading from '../../components/order-system/OsLoading'
 import { useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import OsIconRemove from '../../components/order-system/icons/OsIconRemove'
 
 const AdminShippingManage = () => {
   const [shippingZones, setShippingZones] = useState([])
   const [isLoading, setLoading] = useState(false)
   const history = useHistory()
 
-  const handleAddShippingZone = (e) => {
+  const handleAddShippingZoneClicked = (e) => {
     history.push('/shipping_zone?zone_id=new')
   }
 
@@ -24,14 +25,17 @@ const AdminShippingManage = () => {
 
   return (
     <div>
-      <h1>Shipping zones</h1>
-      <Button onClick={handleAddShippingZone}>Add shipping zone</Button>
+      <Box class="d-flex">
+        <h1>Shipping zones</h1>
+        <Button onClick={handleAddShippingZoneClicked} class="ml-2">Add shipping zone</Button>
+      </Box>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell width="20%">Zone name</TableCell>
-            <TableCell width="auto">Region(s)</TableCell>
-            <TableCell width="20%">Shipping method(s)</TableCell>
+            <TableCell width="auto">The United State Regions</TableCell>
+            <TableCell width="40%">Shipping method(s)</TableCell>
+            <TableCell width="5%"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -41,6 +45,21 @@ const AdminShippingManage = () => {
               <TableCell>{zone.name}</TableCell>
               <TableCell>{zone.regions}</TableCell>
               <TableCell>{zone.shipping_methods}</TableCell>
+              <TableCell>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& hr': {
+                      mx: 0.5,
+                    },
+                  }}
+                >
+                  <Button color={'error'} variant="contained"  style={{color: 'white'}} ><OsIconRemove/></Button>
+                  <Divider orientation="vertical" flexItem />
+                  <Button variant="contained">Edit</Button>
+                </Box>
+              </TableCell>
             </TableRow>
           )}
         </TableBody>

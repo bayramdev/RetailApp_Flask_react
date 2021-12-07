@@ -25,6 +25,8 @@ export const osServices = {
   osLoadProductGallery,
   osPlaceOrder,
   osUpdateProduct,
+  osShippingZoneAddMethod,
+  osShippingZoneSaveChanges,
 };
 
 function handleResponse(response) {
@@ -141,3 +143,19 @@ function osUpdateProduct(formData) {
   const path = 'ordersystem/osUpdateProduct'
   return axios.post(`${serverURL}/${path}`, formData)
 }
+
+function osShippingZoneAddMethod(formData) {
+  const path = 'ordersystem/osShippingZoneAddMethod'
+  return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osShippingZoneMethodsSaveSettings(formData) {
+  const path = 'ordersystem/osShippingZoneMethodsSaveSettings'
+  return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osShippingZoneSaveChanges(formData) {
+  const path = 'ordersystem/osShippingZoneSaveChanges'
+  return axios.post(`${serverURL}/${path}`, formData)
+}
+
