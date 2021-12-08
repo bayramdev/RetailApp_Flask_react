@@ -1,5 +1,6 @@
 import { Button, TableCell, TableRow, Table, TableHead, TableBody, TableFooter, Switch } from '@mui/material';
 import React, {useState} from 'react';
+import { osServices } from '../../../controllers/_services/ordersystem.service';
 import OsAddShippingDialog from './OsAddShippingDialog'
 import OsUpdateShippingDialog from './OsUpdateShippingDialog';
 
@@ -16,7 +17,13 @@ const OsAdminShippingMethods = (props) => {
   }
 
   const handleDialogClosed = (value) => {
-    alert(value)
+    if (value) {
+      const formData = new FormData()
+
+      osServices.osShippingZoneAddMethod(formData).then(response => {
+        setShippingMethods(response.data)
+      })
+    }
     setOpen(false)
   }
 

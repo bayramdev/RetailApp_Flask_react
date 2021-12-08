@@ -1,9 +1,15 @@
 import React from 'react';
+import {Button} from '@mui/material'
+import { useHistory } from 'react-router-dom';
 
 const AdminOrderManage = () => {
+  const history = useHistory()
+  const handleCreateOrderClicked = () => {
+    history.push('/order-create')
+  }
   return (
     <div>
-      AdminOrderManage
+      <Button onClick={handleCreateOrderClicked}>Create Order</Button>
     </div>
   );
 };

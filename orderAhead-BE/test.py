@@ -11,6 +11,8 @@ from pathlib import Path
 import json
 from models.postgres_db import params
 
+from models.shipping import ShippingFacade, ShippingZone
+
 
 @app.route("/test", methods=["GET"])
 def test():
@@ -51,10 +53,26 @@ def test():
   # print(a)
 
 
-  print(os.getenv('PSQL_DB_HOST', '52.191.3.0'))
-  print(os.getenv('PSQL_DB_HOST', 'xxxxxxxxxxxxxxxxx'))
-  print(os.getenv('PSQL_DB_PASS'))
-  print(params)
+  # print(os.getenv('PSQL_DB_HOST', '52.191.3.0'))
+  # print(os.getenv('PSQL_DB_HOST', 'xxxxxxxxxxxxxxxxx'))
+  # print(os.getenv('PSQL_DB_PASS'))
+  # print(params)
 
+  # print('checking')
+  # a = ShippingZone.find_all()
+  # for x in a:
+  #   x.load()
+  #   print(x.to_json())
+  #   break
+
+  facade = ShippingFacade()
+  # facade.update_method_instance(8, {'cost': 10})
+  # zone = ShippingZone(2)
+  # a = zone.get_method_instance_list()
+  # for x in a:
+  #   x.load()
+  #   print(x.to_json())
+
+  facade.delete_zone(2)
 
   return 'Please check log on python console'
