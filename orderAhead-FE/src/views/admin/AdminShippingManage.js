@@ -32,6 +32,14 @@ const AdminShippingManage = () => {
     })
   }
 
+  const handleEditClicked = (e) => {
+    const zoneId = e.currentTarget.dataset.zone
+    history.push({
+      pathname: '/shipping_zone',
+      search: '?zone_id=' + zoneId
+    })
+  }
+
   return (
     <div>
       <Box class="d-flex">
@@ -66,7 +74,7 @@ const AdminShippingManage = () => {
                 >
                   <Button color={'error'} variant="contained"  style={{color: 'white'}} data-zone={zone.id} onClick={handleDeleteClicked}><OsIconRemove/></Button>
                   <Divider orientation="vertical" flexItem />
-                  <Button variant="contained">Edit</Button>
+                  <Button variant="contained" data-zone={zone.id} onClick={handleEditClicked}>Edit</Button>
                 </Box>
               </TableCell>
             </TableRow>
