@@ -1,42 +1,66 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-import { Select, MenuItem, Divider, Button } from '@mui/material';
-import React, {useState} from 'react';
+import { TextField, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Table, TableRow, TableCell } from '@mui/material';
+import { Box, Select, MenuItem, Divider, Button } from '@mui/material';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types'
+import { osServices } from '../../../controllers/_services/ordersystem.service';
 
 const OsUpdateShippingDialog = (props) => {
-  const {onDialogClosed, isOpen} = props
-  const predefinedShippingMethods = [
-    {id: 'flat_rate', title: 'Flat rate'},
-    {id: 'free_shipping', title: 'Free shipping'},
-    {id: 'local_pickup', title: 'Local pickup'},
-  ]
+  const {onDialogClosed, isOpen, methodInstanceId} = props
 
-  const defaultShippingMethod = 'flat_rate'
-  const [shippingMethod, setShippingMethod] = useState(defaultShippingMethod)
-  const handleShippingMethodChanged = (e) => {
-    setShippingMethod(e.target.value)
-  }
+  const [title, setTitle] = useState(false)
+  const [cost, setCost] = useState(false)
+
 
   const handleClose = () => {
     onDialogClosed(false)
   }
 
-  const handleAddShippingClicked = (e) => {
-    onDialogClosed(shippingMethod)
-    setShippingMethod(defaultShippingMethod)
+  const handleSaveClicked = (e) => {
+    const updatedInstance = {
+      title: title,
+      cost: cost,
+    }
+    onDialogClosed(updatedInstance)
+  }
+
+  useEffect(() => {
+    if (!methodInstanceId) return
+    osServices.osLoadMethodInstance({instance_id: methodInstanceId}).then(response => {
+      const instance = response.data
+      setTitle(instance.title)
+      setCost(instance.cost)
+    })
+  }, [methodInstanceId])
+
+  const handleTitleChanged = (e) => {
+    setTitle(e.target.value)
+  }
+
+  const handleCostChanged = (e) => {
+    setCost(e.target.value)
   }
 
   return <Dialog onClose={handleClose} open={isOpen}>
-        <DialogTitle>Add shipping method</DialogTitle>
+        <DialogTitle>Shipping Method Settings</DialogTitle>
         <DialogContent>
-          <DialogContentText>Choose the shipping method you wish to add. Only shipping methods which support zones are listed.</DialogContentText>
-          <Select fullWidth className="mt-2 mb-1" value={shippingMethod} onChange={handleShippingMethodChanged}>
-            {predefinedShippingMethods.map(method => <MenuItem key={method.id} value={method.id}>{method.title}</MenuItem>)}
-          </Select>
+          <Box class="p-2">
+            <Table>
+              <TableRow>
+                <TableCell>Method title</TableCell>
+                <TableCell><TextField variant="outlined" fullWidth value={title} data-field="title" onChange={handleTitleChanged} /></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Cost</TableCell>
+                <TableCell><TextField  variant="outlined" fullWidth value={cost} data-field="cost" onChange={handleCostChanged} /></TableCell>
+              </TableRow>
+            </Table>
+
+          </Box>
         </DialogContent>
         <Divider />
         <DialogActions>
-          <Button variant={'contained'} onClick={handleAddShippingClicked}>Add shipping method</Button>
+          <Button variant={'contained'} onClick={handleSaveClicked}>Save changes</Button>
         </DialogActions>
       </Dialog>
 }

@@ -16,12 +16,16 @@ from models.customer import Customer
 from pathlib import Path
 from models.product_review import ProductReview
 from models.product_type import ProductType
-from models.shipping_zone import ShippingZone
-from models.shipping_manager import ShippingManager
+# from models.shipping_zone import ShippingZone
+# from models.shipping_manager import ShippingManager
+from models.shipping import ShippingFacade
 from models.product_media import ProductMedia
 from flowhub.api import orderAheadPostCaller
+
 import cv2
 import common
+
+facade = ShippingFacade()
 
 @app.route('/ordersystem/loadCategories', methods=['GET'])
 @cross_origin()
@@ -324,15 +328,32 @@ def osLoadProductTypesByCategory():
   )
   return response
 
+@app.route('/ordersystem/osLoadShippingZone', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadShippingZone():
+  content = request.get_json()
+  zone_id = content.get('zone_id')
+  data = facade.get_zone(zone_id)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
 @app.route('/ordersystem/osLoadShippingZones', methods=['GET', 'POST'])
 @cross_origin()
 def osLoadShippingZones():
   # content = request.get_json()
 
-  result = ShippingZone.get_list()
+
+  result = facade.get_zone_list()
+
   data = []
   for zone in result:
-    data.append(zone.toJSON())
+    zone.load()
+    data.append(zone.to_json())
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
@@ -346,7 +367,7 @@ def osLoadShippingZones():
 @cross_origin()
 def osGetShippingMethods():
   params = request.get_json()
-  data = ShippingManager.get_available_methods(params)
+  data = facade.to_json(facade.get_method_list())
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
       status=200,
@@ -496,17 +517,92 @@ def osUpdateProduct():
 @cross_origin()
 def osShippingZoneSaveChanges():
   form_data = request.form
-  print('form_data')
-  print(form_data)
-  print(form_data.getlist('zone_locations'))
+  print('osShippingZoneSaveChanges')
+  zone_id = form_data.get('zone_id')
+  zone_name = form_data.get('zone_name')
+  zone_locations = form_data.getlist('zone_locations')
+  changes = {
+    'name': zone_name,
+    'locations': zone_locations
+  }
+
+  data = facade.update_zone(zone_id, changes)
+  # print('form_data')
+  # print(form_data)
+  # print(form_data.getlist('zone_locations'))
 
 
-  zone_id = form_data['zone_id']
+  # zone_id = form_data['zone_id']
 
-  zone = ShippingZone()
-  zone.bind(form_data)
-  zone.save()
-  data = zone.toJSON()
+  # zone = ShippingZone()
+  # zone.bind(form_data)
+  # zone.save()
+  # data = zone.toJSON()
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osShippingZoneDelete', methods=['GET', 'POST'])
+@cross_origin()
+def osShippingZoneDelete():
+  params = request.get_json()
+  zone_id = params.get('zone_id')
+
+  facade.delete_zone(zone_id)
+  data = ''
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osShippingZoneUpdateMethodStatus', methods=['GET', 'POST'])
+@cross_origin()
+def osShippingZoneUpdateMethodStatus():
+  params = request.get_json()
+  instance_id = params.get('instance_id')
+  is_enabled = params.get('is_enabled')
+
+  data = facade.update_instance_status(instance_id, is_enabled)
+
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osShippingZoneInstanceDelete', methods=['GET', 'POST'])
+@cross_origin()
+def osShippingZoneInstanceDelete():
+  params = request.get_json()
+  instance_id = params.get('instance_id')
+
+  data = facade.delete_instance(instance_id)
+
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+@app.route('/ordersystem/osLoadMethodInstance', methods=['GET', 'POST'])
+@cross_origin()
+def osLoadMethodInstance():
+  params = request.get_json()
+  instance_id = params.get('instance_id')
+
+  data = facade.get_instance(instance_id)
+
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
@@ -522,20 +618,29 @@ def osShippingZoneAddMethod():
   form_data = request.form
   method_id = form_data['method_id']
   zone_id = form_data['zone_id']
+  if zone_id == 'new':
+    zone_id = None
+  print('osShippingZoneAddMethod zone_id', zone_id)
+  zone = facade.create_method_instance(method_id, zone_id)
+  data = zone.to_json()
 
-  data = {
-    'instance_id': 9,
-    'zone_id': 9,
-    'methods': {
-      '9': {
-        'title': 'Flat rate',
-        'id': 'flat_rate',
-        'cost': 0,
-        'enabled': 'yes',
-      },
-    },
-    'zone_name': 'Everywhere',
-  }
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osUpdateMethodInstace', methods=['GET', 'POST'])
+@cross_origin()
+def osUpdateMethodInstace():
+  params = request.get_json()
+  print('osUpdateMethodInstace')
+  instance_id = params.get('instance_id')
+  changes = params.get('data')
+
+  data = facade.update_method_instance(instance_id, changes)
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),

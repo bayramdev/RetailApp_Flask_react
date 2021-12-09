@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Chip, Box, Select, TextField, Button, Table, TableBody, TableHead, TableRow, TableCell, MenuItem} from '@mui/material'
+import {Snackbar, Alert, Select, TextField, Button, Table, TableBody, TableHead, TableRow, TableCell, MenuItem} from '@mui/material'
 import {osServices} from '../../controllers/_services/ordersystem.service'
 import OsLoading from '../../components/order-system/OsLoading'
 import { useSelector } from 'react-redux';
@@ -12,8 +12,9 @@ import Formik from 'formik'
 const AdminShippingZoneEdit = () => {
   const [zoneName, setZoneName] = useState('Everywhere')
   const [zoneLocations, setZoneLocations] = useState([])
+  const [methodInstances, setMethodInstances] = useState([])
 
-  const [isLoading, setLoading] = useState(false)
+  const [isMessageShown, setMessageShown] = useState(false)
   const {search} = useLocation()
 
   const params = QueryString.parse(search)
@@ -21,6 +22,19 @@ const AdminShippingZoneEdit = () => {
   const states = State.getStatesOfCountry('US')
 
   const title = (params.zone_id == 'new')?'Add shipping zone': 'Edit shipping zone'
+
+
+  useEffect(() => {
+    if (zoneId > 0) {
+      osServices.osLoadShippingZone({zone_id: zoneId}).then(response => {
+        const zone = response.data
+        setZoneName(zone.name)
+        setZoneLocations(zone.locations)
+        setMethodInstances(zone.method_instances)
+      })
+    }
+  }, [zoneId])
+
   const handleSaveClicked = (e) => {
     const formData = new FormData()
     formData.append('zone_id', zoneId)
@@ -29,11 +43,30 @@ const AdminShippingZoneEdit = () => {
 
     osServices.osShippingZoneSaveChanges(formData).then(response => {
       console.log(response.data)
+      setMessageShown(true)
     })
   }
 
   const handleStateChanged = (e) => {
     setZoneLocations(e.target.value);
+  }
+
+  const handleDeleteClicked = (e) => {
+    const instanceId = parseInt(e.currentTarget.dataset.instance)
+    osServices.osShippingZoneInstanceDelete({instance_id: instanceId}).then(response => {
+      const updateInstances = methodInstances.filter(instance => {
+        return instance.id !== instanceId
+      })
+      setMethodInstances([...updateInstances])
+    })
+  }
+
+  const handleZoneNameChanged = (e) => {
+    setZoneName(e.target.value)
+  }
+
+  const handleCloseMessage = () => {
+    setMessageShown(false)
   }
 
   return (
@@ -44,7 +77,7 @@ const AdminShippingZoneEdit = () => {
         <TableBody>
           <TableRow>
             <TableCell width={220}>Zone name</TableCell>
-            <TableCell><TextField value={zoneName}></TextField></TableCell>
+            <TableCell><TextField value={zoneName} onChange={handleZoneNameChanged}></TextField></TableCell>
             <TableCell></TableCell>
           </TableRow>
           <TableRow>
@@ -61,7 +94,7 @@ const AdminShippingZoneEdit = () => {
           <TableRow>
             <TableCell>Shipping method(s)</TableCell>
             <TableCell>
-              <OsAdminShippingMethods zone={zoneId} methods={[]}  />
+              <OsAdminShippingMethods zone={zoneId} methods={methodInstances} onInstanceDeleted={handleDeleteClicked} />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -70,6 +103,12 @@ const AdminShippingZoneEdit = () => {
           </TableRow>
         </TableBody>
       </Table>
+
+      <Snackbar open={isMessageShown} autoHideDuration={6000} onClose={handleCloseMessage}>
+        <Alert onClose={handleCloseMessage} severity="success" sx={{ width: '100%' }}>
+          Shipping zone has been saved!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

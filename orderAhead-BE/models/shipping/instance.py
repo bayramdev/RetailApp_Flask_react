@@ -12,6 +12,10 @@ class MethodInstance(ActiveRecord):
     'ordering': 'Ordering',
   }
 
+  def __init__(self, id):
+    super().__init__(id)
+    self.ordering = 0
+
   @staticmethod
   def create(zone, method):
     method.load()
@@ -22,6 +26,7 @@ class MethodInstance(ActiveRecord):
       'method_id': method.id,
       'title': method.name,
       'ordering': MethodInstance.get_next_ordering(),
+      'is_enabled': True,
     })
     instance.save()
     return instance
@@ -37,3 +42,14 @@ class MethodInstance(ActiveRecord):
       return ShippingMethod(self.method_id)
     else:
       return None
+
+  def to_json(self):
+    json = super().to_json()
+    if json['is_enabled'] == 'True':
+      json['is_enabled'] = True
+    else:
+      json['is_enabled'] = False
+    return json
+
+  def build_data(self, db_record):
+    super().build_data(db_record)

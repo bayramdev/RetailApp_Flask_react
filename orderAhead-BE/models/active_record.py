@@ -27,13 +27,20 @@ class ActiveRecord(Base):
 
     is_loaded = True
 
+    return self
+
   def build_data(self, db_record):
     if db_record is None:
       return
 
     self.data = {}
+    print('build_data')
     for index, field in enumerate(self.allow_fields.keys()):
-      self.data[field] = db_record[index]
+      # print(index, field, db_record[index])
+      if db_record[index] is None:
+        self.data[field] = None
+      else:
+        self.data[field] = str(db_record[index])
 
   def bind(self, changes):
     for key in changes:
@@ -53,11 +60,14 @@ class ActiveRecord(Base):
       sql_values = ','.join(list(map(lambda x: '%s', sql_params)))
       sql_insert = ','.join(column_names)
       sql = f'INSERT INTO "{self.table_name}"({sql_insert}) VALUES ({sql_values}) RETURNING "{self.primary_key}"'
+      print(sql)
       self.id = Postgres_DB.query(sql, sql_params)
     else:
       sql_set = ','.join(list(map(lambda column_name: f'{column_name} = %s', column_names)))
       sql_params += (self.id,)
       sql = f'UPDATE "{self.table_name}" SET {sql_set} WHERE "{self.primary_key}" = %s'
+      print(sql)
+      print(sql_params)
       Postgres_DB.query(sql, sql_params)
 
 
@@ -67,6 +77,7 @@ class ActiveRecord(Base):
     Postgres_DB.query(sql, params)
 
   def to_json(self):
+    self.load()
     json = {**self.data, 'id': self.id}
     return json
 
@@ -89,6 +100,7 @@ class ActiveRecord(Base):
     sql = f'SELECT MAX("{order_field}")+1 FROM "{cls.table_name}"'
     result = Postgres_DB.fetchone(sql, ())
     if result:
+      print('get_next_ordering', result)
       return result[0]
     else:
       return 1

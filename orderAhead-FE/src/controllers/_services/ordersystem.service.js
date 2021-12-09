@@ -16,6 +16,7 @@ export const osServices = {
   osLoadReview,
   osUpdateReview,
   osLoadProductTypesByCategory,
+  osLoadShippingZone,
   osLoadShippingZones,
   osUpdateShippingZone,
   osGetShippingMethods,
@@ -27,6 +28,11 @@ export const osServices = {
   osUpdateProduct,
   osShippingZoneAddMethod,
   osShippingZoneSaveChanges,
+  osShippingZoneDelete,
+  osShippingZoneUpdateMethodStatus,
+  osShippingZoneInstanceDelete,
+  osLoadMethodInstance,
+  osUpdateMethodInstace,
 };
 
 function handleResponse(response) {
@@ -106,14 +112,6 @@ function osLoadProductTypesByCategory(params) {
   return callApi('ordersystem/osLoadProductTypesByCategory', params)
 }
 
-function osLoadShippingZones(params) {
-  return callApi('ordersystem/osLoadShippingZones', params)
-}
-
-function osUpdateShippingZone(params) {
-  return callApi('ordersystem/osUpdateShippingZone', params)
-}
-
 function osGetShippingMethods(params) {
   return callApi('ordersystem/osGetShippingMethods', params)
 }
@@ -159,3 +157,32 @@ function osShippingZoneSaveChanges(formData) {
   return axios.post(`${serverURL}/${path}`, formData)
 }
 
+function osLoadShippingZone(params) {
+  return callApi('ordersystem/osLoadShippingZone', params)
+}
+
+function osLoadShippingZones(params) {
+  return callApi('ordersystem/osLoadShippingZones', params)
+}
+
+function osUpdateShippingZone(params) {
+  return callApi('ordersystem/osUpdateShippingZone', params)
+}
+
+function osShippingZoneDelete(params) {
+  return callApi('ordersystem/osShippingZoneDelete', params)
+}
+function osShippingZoneUpdateMethodStatus(params) {
+  return callApi('ordersystem/osShippingZoneUpdateMethodStatus', params)
+}
+function osShippingZoneInstanceDelete(params) {
+  return callApi('ordersystem/osShippingZoneInstanceDelete', params)
+}
+
+function osLoadMethodInstance(params) {
+  return callApi('ordersystem/osLoadMethodInstance', params)
+}
+
+function osUpdateMethodInstace(params) {
+  return callApi('ordersystem/osUpdateMethodInstace', params)
+}

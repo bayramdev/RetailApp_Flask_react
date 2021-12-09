@@ -15,6 +15,7 @@ const AdminShippingManage = () => {
     history.push('/shipping_zone?zone_id=new')
   }
 
+
   useEffect(() => {
     setLoading(true)
     osServices.osLoadShippingZones().then(response => {
@@ -22,6 +23,14 @@ const AdminShippingManage = () => {
       setLoading(false)
     })
   }, [])
+
+  const handleDeleteClicked = (e) => {
+    const deletedZoneId = e.currentTarget.dataset.zone
+    osServices.osShippingZoneDelete({zone_id: deletedZoneId}).then(response => {
+      const updatedZones = shippingZones.filter(zone => zone.id != deletedZoneId)
+      setShippingZones(updatedZones)
+    })
+  }
 
   return (
     <div>
@@ -55,7 +64,7 @@ const AdminShippingManage = () => {
                     },
                   }}
                 >
-                  <Button color={'error'} variant="contained"  style={{color: 'white'}} ><OsIconRemove/></Button>
+                  <Button color={'error'} variant="contained"  style={{color: 'white'}} data-zone={zone.id} onClick={handleDeleteClicked}><OsIconRemove/></Button>
                   <Divider orientation="vertical" flexItem />
                   <Button variant="contained">Edit</Button>
                 </Box>

@@ -1,18 +1,21 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { Select, MenuItem, Divider, Button } from '@mui/material';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types'
+import { osServices } from '../../../controllers/_services/ordersystem.service';
 
 const OsAddShippingDialog = (props) => {
   const {onDialogClosed, isOpen} = props
-  const predefinedShippingMethods = [
-    {id: 'flat_rate', title: 'Flat rate'},
-    {id: 'free_shipping', title: 'Free shipping'},
-    {id: 'local_pickup', title: 'Local pickup'},
-  ]
+  const [predefinedShippingMethods, setShippingMethods] = useState([])
+  const [shippingMethod, setShippingMethod] = useState(false)
 
-  const defaultShippingMethod = 'flat_rate'
-  const [shippingMethod, setShippingMethod] = useState(defaultShippingMethod)
+  useEffect(() => {
+    osServices.osGetShippingMethods({}).then(response => {
+      setShippingMethods(response.data)
+      setShippingMethod(response.data[0].id)
+    })
+  }, [])
+
   const handleShippingMethodChanged = (e) => {
     setShippingMethod(e.target.value)
   }
@@ -23,7 +26,6 @@ const OsAddShippingDialog = (props) => {
 
   const handleAddShippingClicked = (e) => {
     onDialogClosed(shippingMethod)
-    setShippingMethod(defaultShippingMethod)
   }
 
   return <Dialog onClose={handleClose} open={isOpen}>
@@ -31,7 +33,7 @@ const OsAddShippingDialog = (props) => {
         <DialogContent>
           <DialogContentText>Choose the shipping method you wish to add. Only shipping methods which support zones are listed.</DialogContentText>
           <Select fullWidth className="mt-2 mb-1" value={shippingMethod} onChange={handleShippingMethodChanged}>
-            {predefinedShippingMethods.map(method => <MenuItem key={method.id} value={method.id}>{method.title}</MenuItem>)}
+            {predefinedShippingMethods.map(method => <MenuItem key={method.id} value={method.id}>{method.name}</MenuItem>)}
           </Select>
         </DialogContent>
         <Divider />

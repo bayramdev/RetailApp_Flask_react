@@ -26,8 +26,8 @@ class ShippingZone(ActiveRecord):
 
   def get_location_list(self):
     if self.locations is None:
-      self.locations = Location.find('"Zone ID" = %s', (self.id,))
-    raise self.locations
+      self.locations = ZoneLocation.find('"Zone ID" = %s', (self.id,))
+    return self.locations
 
   def delete(self):
     # delete shipping method instances
@@ -52,3 +52,6 @@ class ShippingZone(ActiveRecord):
     })
     zone.save()
     return zone
+
+  def bind(self, changes):
+    super().bind(changes)
