@@ -10,6 +10,7 @@ import OsAdminShippingMethods  from './components/OsAdminShippingMethods'
 import Formik from 'formik'
 
 const AdminShippingZoneEdit = () => {
+  const history = useHistory()
   const [zoneName, setZoneName] = useState('Everywhere')
   const [zoneLocations, setZoneLocations] = useState([])
   const [methodInstances, setMethodInstances] = useState([])
@@ -42,7 +43,14 @@ const AdminShippingZoneEdit = () => {
     zoneLocations.map(zoneLocation => formData.append('zone_locations', zoneLocation))
 
     osServices.osShippingZoneSaveChanges(formData).then(response => {
-      console.log(response.data)
+      const result = response.data
+      const data = result.data
+      if (zoneId == 'new') {
+        history.push({
+          pathname: '/shipping_zone',
+          search: '?zone_id=' + data.id
+        })
+      }
       setMessageShown(true)
     })
   }

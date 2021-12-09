@@ -519,6 +519,8 @@ def osShippingZoneSaveChanges():
   form_data = request.form
   print('osShippingZoneSaveChanges')
   zone_id = form_data.get('zone_id')
+  if zone_id == 'new':
+    zone_id = None
   zone_name = form_data.get('zone_name')
   zone_locations = form_data.getlist('zone_locations')
   changes = {
