@@ -23,3 +23,9 @@ class ZoneLocation(ActiveRecord):
         'zone_id': zone.id
       })
       loc.save()
+
+  # def get_name(self):
+  #   if not self.is_loaded:
+  #     self.load()
+
+  #   sql = 'SELECT * '

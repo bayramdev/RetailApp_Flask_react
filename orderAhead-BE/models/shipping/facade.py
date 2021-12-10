@@ -72,7 +72,34 @@ class ShippingFacade:
 
   def get_zone_list(self):
     zone_list = ShippingZone.find_all()
-    return zone_list
+
+    data = []
+    for zone in zone_list:
+      json = zone.to_json()
+
+      shipping_methods = []
+      for instance in zone.get_method_instance_list():
+        instance.load()
+        shipping_methods.append(instance.title)
+
+      regions = []
+      for location in zone.get_location_list():
+        location.load()
+        regions.append(location.code)
+
+      if len(shipping_methods) > 0:
+        json['shipping_methods'] = ', '.join(shipping_methods)
+      else:
+        json['shipping_methods'] = 'No shipping methods offered to this zone.'
+
+      if len(regions) > 0:
+        json['regions'] = ', '.join(regions)
+      else:
+        json['regions'] = 'Everywhere'
+
+      data.append(json)
+
+    return data
 
   def delete_zone(self, zone_id):
     zone = ShippingZone(zone_id)

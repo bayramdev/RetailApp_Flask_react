@@ -5,6 +5,10 @@ import OsLoading from '../../components/order-system/OsLoading'
 import { useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import OsIconRemove from '../../components/order-system/icons/OsIconRemove'
+import {Country, State, City} from 'country-state-city'
+
+// const states = State.getStatesOfCountry('US')
+
 
 const AdminShippingManage = () => {
   const [shippingZones, setShippingZones] = useState([])
@@ -40,6 +44,18 @@ const AdminShippingManage = () => {
     })
   }
 
+  const convertCodesToNames = (stateCodesText) => {
+    if (stateCodesText == 'Everywhere')
+      return stateCodesText
+    let stateCodes = stateCodesText.split(',')
+    stateCodes = stateCodes.map(stateCode => {
+      const state = State.getStateByCode(stateCode.trim())
+      return state.name
+    })
+
+    return stateCodes.join(', ')
+  }
+
   return (
     <div>
       <Box class="d-flex">
@@ -60,7 +76,7 @@ const AdminShippingManage = () => {
           {!isLoading && shippingZones.map(zone =>
             <TableRow>
               <TableCell>{zone.name}</TableCell>
-              <TableCell>{zone.regions}</TableCell>
+              <TableCell>{convertCodesToNames(zone.regions)}</TableCell>
               <TableCell>{zone.shipping_methods}</TableCell>
               <TableCell>
                 <Box

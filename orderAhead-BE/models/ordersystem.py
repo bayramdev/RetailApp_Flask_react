@@ -348,12 +348,7 @@ def osLoadShippingZones():
   # content = request.get_json()
 
 
-  result = facade.get_zone_list()
-
-  data = []
-  for zone in result:
-    zone.load()
-    data.append(zone.to_json())
+  data = facade.get_zone_list()
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
