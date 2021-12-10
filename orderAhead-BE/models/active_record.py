@@ -34,7 +34,6 @@ class ActiveRecord(Base):
       return
 
     self.data = {}
-    print('build_data')
     for index, field in enumerate(self.allow_fields.keys()):
       # print(index, field, db_record[index])
       if db_record[index] is None:

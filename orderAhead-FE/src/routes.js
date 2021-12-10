@@ -48,7 +48,7 @@ const routes = [
   { path: '/dashboard-3', name: 'Dashboard 3', component: AdminDashboard3, fullwidth: true,},
   { path: '/dashboard-4', name: 'Dashboard 4', component: AdminDashboard4, fullwidth: true,},
   { path: '/order-manage', name: 'Order Manage', component: AdminOrderManage,},
-  { path: '/order-new', name: 'New Order', component: AdminOrderEdit,},
+  { path: '/order-new', name: 'New Order', component: AdminOrderEdit, fullwidth: false,},
   { path: '/order', exact: false, name: 'Order', component: withRouter(OrderSystem), fullwidth: true,},
 ];
 

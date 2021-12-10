@@ -1,9 +1,12 @@
 import React from 'react';
+import OsOrderData from './components/order/OsOrderData'
+import OsOrderItems from './components/order/OsOrderItems'
 
 const AdminOrderEdit = () => {
   return (
     <div>
-      AdminOrderEdit
+      <OsOrderData />
+      <OsOrderItems />
     </div>
   );
 };

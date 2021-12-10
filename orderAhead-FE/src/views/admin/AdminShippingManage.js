@@ -45,8 +45,10 @@ const AdminShippingManage = () => {
   }
 
   const convertCodesToNames = (stateCodesText) => {
-    if (stateCodesText == 'Everywhere')
+    if (stateCodesText == 'Everywhere' || stateCodesText === undefined)
       return stateCodesText
+    console.log('stateCodesText')
+    console.log(stateCodesText)
     let stateCodes = stateCodesText.split(',')
     stateCodes = stateCodes.map(stateCode => {
       const state = State.getStateByCode(stateCode.trim())

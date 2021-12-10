@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 const AdminOrderManage = () => {
   const history = useHistory()
   const handleCreateOrderClicked = () => {
-    history.push('/order-create')
+    history.push('/order-new')
   }
   return (
     <div>

@@ -29,9 +29,12 @@ const TheContent = (props) => {
 
   fullwidthClasses = fullwidthClasses.map((route, idx) => sanitizeTitle(route.path))
 
-
   if (fullwidthClasses.some(item => -1 !== pageClass.indexOf(item)))
     boxLayoutClass = ' fullwidth'
+
+  if (pageClass == 'order-new' || pageClass == 'order-manage') {
+    boxLayoutClass = ' main-padding'
+  }
 
   return (
     <main className={'c-main route-'+pageClass+boxLayoutClass}>
