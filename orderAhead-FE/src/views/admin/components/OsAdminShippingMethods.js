@@ -25,6 +25,8 @@ const OsAdminShippingMethods = (props) => {
   }, [methods])
 
   const handleDialogClosed = (value) => {
+    console.log('handleDialogClosed')
+    console.log(value)
     if (value) {
       const formData = new FormData()
       formData.append('method_id', value)
@@ -69,9 +71,10 @@ const OsAdminShippingMethods = (props) => {
   }
 
   const handleUpdateDialogClosed = (changes) => {
-    if (!changes)
+    if (!changes) {
       setIsUpdating(false)
       return
+    }
 
     osServices.osUpdateMethodInstace({instance_id: updatedInstanceId, data: changes}).then(response => {
       const updateInstances = methodInstances.map(instance => {
