@@ -6,22 +6,34 @@ const OsShippingContext = React.createContext()
 const OsItemsContext = React.createContext()
 
 export const useCustomerContext = (initialValue) => {
-  const [,setCustomer] = useContext(OsCustomerContext)
+  const [customer,setCustomer] = useContext(OsCustomerContext)
+  if (customer) {
+    return [customer, setCustomer]
+  }
   return [initialValue, setCustomer]
 }
 
 export const useBillingContext = (initialValue) => {
-  const [,setBilling] = useContext(OsBillingContext)
+  const [billing,setBilling] = useContext(OsBillingContext)
+  if (billing) {
+    return [billing, setBilling]
+  }
   return [initialValue,setBilling]
 }
 
 export const useShippingContext = (initialValue) => {
-  const [,setShipping] = useContext(OsShippingContext)
+  const [shipping,setShipping] = useContext(OsShippingContext)
+  if (shipping) {
+    return [shipping,setShipping]
+  }
   return [initialValue,setShipping]
 }
 
 export const useItemsContext = (initialValue) => {
-  const [,setItems] = useContext(OsItemsContext)
+  const [items,setItems] = useContext(OsItemsContext)
+  if (items) {
+    return [items,setItems]
+  }
   return [initialValue,setItems]
 }
 

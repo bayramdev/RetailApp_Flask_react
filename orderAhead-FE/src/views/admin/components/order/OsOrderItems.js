@@ -3,11 +3,13 @@ import {Box, Button, Card, CardContent, CardActions} from '@mui/material'
 import {Table, TableHead, TableBody, TableFooter, TableRow, TableCell} from '@mui/material'
 import OsAddProductDialog from './OsAddProductDialog'
 import { formatPrice } from '../../../../components/order-system/ultility';
+import {useItemsContext} from './../../contexts/OsOrderContext'
 
 const OsOrderItems = () => {
   const [isAddingBarShown, showAddingBar] = useState(false)
   const [isAddProductDialogShown, showAddProductDialog] = useState(false)
-  const [items, setItems] = useState([])
+  const [items, setItems] = useItemsContext([])
+
   const handleAddProductClicked = (e) => {
     showAddProductDialog(true)
   }
