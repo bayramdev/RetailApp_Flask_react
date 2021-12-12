@@ -1,9 +1,11 @@
-import React from 'react';
-import {Grid, TextField, Select, MenuItem, Typography, Divider} from '@mui/material';
+import React, { useEffect } from 'react';
+import {Grid, TextField, Select, MenuItem, Typography, Divider, Autocomplete} from '@mui/material';
+import { osServices } from '../../../../controllers/_services/ordersystem.service';
 
 const OsOrderGeneral = () => {
   const [value, setValue] = React.useState(new Date());
-  const [customers, setCustomers] = React.useState([{id:1, name:'Test customer'}])
+  const [customer, setCustomer] = React.useState(false)
+  const [options, setOptions] = React.useState([])
   const orderStatuses = [
     { code: 'pending', title: 'Pending payment' },
     { code: 'processing', title: 'Processing' },
@@ -13,6 +15,13 @@ const OsOrderGeneral = () => {
     { code: 'refunded', title: 'Refunded' },
     { code: 'failed', title: 'Failed' },
   ]
+
+  useEffect(() => {
+    osServices.osGetCustomers().then(response => {
+      const customers = response.data
+      console.log(customers)
+    })
+  }, [])
   return (
     <>
       <Typography>General</Typography>
@@ -24,9 +33,13 @@ const OsOrderGeneral = () => {
           </Select>
         </Grid>
         <Grid item>
-          <Select label="Customer" fullWidth size="small" value={1}>
-            {customers.map(customer => <MenuItem value={customer.id}>{customer.name}</MenuItem>)}
-          </Select>
+          <Autocomplete id="test" options={options} autoHighlight size="small"
+            renderInput={(params) => <TextField {...params} label="Select customer" />}
+            onChange={(event, newValue) => {
+              setCustomer(newValue.customer)
+            }}
+          />
+
         </Grid>
       </Grid>
     </>

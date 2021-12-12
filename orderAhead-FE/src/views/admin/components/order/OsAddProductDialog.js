@@ -42,7 +42,6 @@ const OsAddProductDialog = (props) => {
           <TableBody>
             <TableRow>
               <TableCell>
-                {/* <TextField label="Product Sku" size="small" fullWidth value={productSku} onChange={e => setProductSku(e.target.value)}></TextField> */}
                 <Autocomplete id="test" options={options} autoHighlight size="small"
                   renderInput={(params) => <TextField {...params} label="Select product" />}
                   onChange={(event, newValue) => {

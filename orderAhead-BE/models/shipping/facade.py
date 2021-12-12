@@ -2,7 +2,7 @@ from models.shipping.zone import ShippingZone
 from models.shipping.method import ShippingMethod
 from models.shipping.instance import MethodInstance
 from models.shipping.location import ZoneLocation
-
+from models.shipping.customer import OrderCustomer
 class ShippingFacade:
   def create_method_instance(self, method_id, zone_id = None):
     if zone_id is None:
@@ -123,3 +123,10 @@ class ShippingFacade:
   def get_instance(self, instance_id):
     instance = MethodInstance(instance_id)
     return instance.to_json()
+
+  def get_customers(self):
+    customers = OrderCustomer.find_all()
+    a = self.to_json(customers)
+    print(a)
+
+    return self.to_json(customers)

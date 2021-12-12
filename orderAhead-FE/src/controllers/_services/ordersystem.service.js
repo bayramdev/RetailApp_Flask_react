@@ -33,6 +33,7 @@ export const osServices = {
   osShippingZoneInstanceDelete,
   osLoadMethodInstance,
   osUpdateMethodInstace,
+  osGetCustomers,
 };
 
 function handleResponse(response) {
@@ -185,4 +186,8 @@ function osLoadMethodInstance(params) {
 
 function osUpdateMethodInstace(params) {
   return callApi('ordersystem/osUpdateMethodInstace', params)
+}
+
+function osGetCustomers(params) {
+  return callApi('ordersystem/osGetCustomers', params)
 }

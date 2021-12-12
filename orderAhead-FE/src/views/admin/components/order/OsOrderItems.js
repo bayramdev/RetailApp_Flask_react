@@ -48,7 +48,7 @@ const OsOrderItems = () => {
             <TableBody>
               {items.map(item =>
                 <TableRow>
-                  <TableCell><img src={'/img/default_product.jpg'} width="50" /></TableCell>
+                  <TableCell width="80"><img src={item.product.thumbnail} width="50" /></TableCell>
                   <TableCell>{item.product.name}</TableCell>
                   <TableCell width="5%">{formatPrice(item.product.price)}</TableCell>
                   <TableCell width="5%">× {item.qty}</TableCell>

@@ -1,11 +1,15 @@
 import React from 'react';
-import {TextField, Typography, Grid, Select} from '@mui/material'
+import {Button, TextField, Typography, Grid, Select} from '@mui/material'
 
 const OsOrderShipping = () => {
+  const handleLoadShippingAddress = e => {
+    alert('handleLoadShippingAddress')
+  }
   return (
     <>
-      <Typography>Billing</Typography>
+      <Typography>Shipping</Typography>
       <Grid container spacing={2}>
+        <Grid item xs="12"><Button onClick={handleLoadShippingAddress} size="small" variant="outlined">Load shipping address</Button></Grid>
         <Grid item xs="6"><TextField label="First name" fullWidth size="small"></TextField></Grid>
         <Grid item xs="6"><TextField label="Last name" fullWidth size="small"></TextField></Grid>
         <Grid item xs="12"><TextField label="Company" fullWidth size="small"></TextField></Grid>

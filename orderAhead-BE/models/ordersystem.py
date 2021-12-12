@@ -628,6 +628,19 @@ def osShippingZoneAddMethod():
   )
   return response
 
+@app.route('/ordersystem/osGetCustomers', methods=['GET', 'POST'])
+@cross_origin()
+def osGetCustomers():
+  data = facade.get_customers()
+  print(data)
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
 
 @app.route('/ordersystem/osUpdateMethodInstace', methods=['GET', 'POST'])
 @cross_origin()
