@@ -3,6 +3,7 @@ import {Grid, TextField, Select, MenuItem, Typography, Divider} from '@mui/mater
 
 const OsOrderGeneral = () => {
   const [value, setValue] = React.useState(new Date());
+  const [customers, setCustomers] = React.useState([{id:1, name:'Test customer'}])
   const orderStatuses = [
     { code: 'pending', title: 'Pending payment' },
     { code: 'processing', title: 'Processing' },
@@ -20,6 +21,11 @@ const OsOrderGeneral = () => {
         <Grid item>
           <Select label="Date created" fullWidth value={'pending'} size="small">
             {orderStatuses.map(status => <MenuItem value={status.code}>{status.title}</MenuItem>)}
+          </Select>
+        </Grid>
+        <Grid item>
+          <Select label="Customer" fullWidth size="small" value={1}>
+            {customers.map(customer => <MenuItem value={customer.id}>{customer.name}</MenuItem>)}
           </Select>
         </Grid>
       </Grid>
