@@ -33,7 +33,7 @@ const TheContent = (props) => {
     boxLayoutClass = ' fullwidth'
 
   if (pageClass == 'order-new' || pageClass == 'order-manage') {
-    boxLayoutClass = ' main-padding'
+    boxLayoutClass = ' main-padding main-paddingx'
   }
 
   return (

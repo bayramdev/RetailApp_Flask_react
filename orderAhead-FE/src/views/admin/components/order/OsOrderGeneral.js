@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, TextField, Select, MenuItem} from '@mui/material';
+import {Grid, TextField, Select, MenuItem, Typography, Divider} from '@mui/material';
 
 const OsOrderGeneral = () => {
   const [value, setValue] = React.useState(new Date());
@@ -13,14 +13,17 @@ const OsOrderGeneral = () => {
     { code: 'failed', title: 'Failed' },
   ]
   return (
-    <Grid container direction="column" rowSpacing={2}>
-      <Grid item><TextField label="Date created" fullWidth></TextField></Grid>
-      <Grid item>
-        <Select label="Date created" fullWidth value={'pending'}>
-          {orderStatuses.map(status => <MenuItem value={status.code}>{status.title}</MenuItem>)}
-        </Select>
+    <>
+      <Typography>General</Typography>
+      <Grid container direction="column" rowSpacing={2}>
+        <Grid item><TextField label="Date created" fullWidth size="small"></TextField></Grid>
+        <Grid item>
+          <Select label="Date created" fullWidth value={'pending'} size="small">
+            {orderStatuses.map(status => <MenuItem value={status.code}>{status.title}</MenuItem>)}
+          </Select>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
