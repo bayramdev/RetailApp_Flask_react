@@ -1,5 +1,5 @@
 from models.active_record import ActiveRecord
-
+from models.postgres_db import Postgres_DB
 class OrderCustomer(ActiveRecord):
   table_name = "Customers"
   primary_key = "Customer ID"
@@ -23,3 +23,8 @@ class OrderCustomer(ActiveRecord):
     'last_purchase_date': 'Last Purchase Date',
     'current_date': 'Current Date',
   }
+
+  @classmethod
+  def find_all(cls):
+    sql = f'SELECT "{cls.primary_key}" FROM "{cls.table_name}" LIMIT 20'
+    return Postgres_DB.fetchall(sql, (), cls.build_object)
