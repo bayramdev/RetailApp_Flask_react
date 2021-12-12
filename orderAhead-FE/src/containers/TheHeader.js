@@ -125,6 +125,9 @@ const TheHeader = () => {
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/ip" className={currPath === '/ip' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>IP Manage</CHeaderNavLink>
         </CHeaderNavItem>
+        <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/location-mgr" className={currPath === '/ip' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Location Mgr</CHeaderNavLink>
+        </CHeaderNavItem>
         <CHeaderNavItem className={isLogin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/order" className={currPath === '/order' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Order</CHeaderNavLink>
         </CHeaderNavItem>
