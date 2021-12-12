@@ -34,6 +34,7 @@ export const osServices = {
   osLoadMethodInstance,
   osUpdateMethodInstace,
   osGetCustomers,
+  osCreateOrder,
 };
 
 function handleResponse(response) {
@@ -190,4 +191,9 @@ function osUpdateMethodInstace(params) {
 
 function osGetCustomers(params) {
   return callApi('ordersystem/osGetCustomers', params)
+}
+
+function osCreateOrder(formData) {
+  const path = 'ordersystem/osCreateOrder'
+  return axios.post(`${serverURL}/${path}`, formData)
 }

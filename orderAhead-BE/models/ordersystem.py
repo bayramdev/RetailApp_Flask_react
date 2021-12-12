@@ -632,7 +632,6 @@ def osShippingZoneAddMethod():
 @cross_origin()
 def osGetCustomers():
   data = facade.get_customers()
-  print(data)
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
@@ -678,6 +677,22 @@ def osShippingZoneMethodsSaveSettings():
     },
     'zone_name': 'Everywhere',
   }
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
+
+
+@app.route('/ordersystem/osCreateOrder', methods=['GET', 'POST'])
+@cross_origin()
+def osCreateOrder():
+  form_data = request.form
+  print('osCreateOrder', form_data)
+
+  data = form_data
 
   response = app.response_class(
       response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
