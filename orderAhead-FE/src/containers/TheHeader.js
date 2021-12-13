@@ -107,12 +107,8 @@ const TheHeader = () => {
               <CImg src={'/img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
             </CDropdownToggle>
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
-              <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
-                <CHeaderNavLink to="/users" className={currPath === '/users' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>User Manage</CHeaderNavLink>
-              </CHeaderNavItem>
-              <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
-                <CHeaderNavLink to="/links" className={currPath === '/links' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Link Manage</CHeaderNavLink>
-              </CHeaderNavItem>
+              <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('users')}>User Manage</CDropdownItem>
+              <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('links')}>Link Manage</CDropdownItem>
             </CDropdownMenu>
         </CDropdown>}
 
@@ -121,12 +117,8 @@ const TheHeader = () => {
               <CImg src={'/img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
             </CDropdownToggle>
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
-              <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
-                <CHeaderNavLink to="/db-manage" className={currPath === '/db-manage' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>DB Manage</CHeaderNavLink>
-              </CHeaderNavItem>
-              <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
-                <CHeaderNavLink to="/ip" className={currPath === '/ip' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>IP Manage</CHeaderNavLink>
-              </CHeaderNavItem>
+              <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('db-manage')}>DB Manage</CDropdownItem>
+              <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('ip')}>IP Manage</CDropdownItem>
             </CDropdownMenu>
         </CDropdown>}
 
@@ -135,12 +127,8 @@ const TheHeader = () => {
               <CImg src={'/img/icons8-white-expand-arrow-24.png'} alt="Search" height={24}></CImg>
             </CDropdownToggle>
             <CDropdownMenu className="pt-1 dropdown-toggle-menu" placement="bottom-end">
-              <CHeaderNavItem className={isEmployee || isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
-                <CHeaderNavLink to="/types" className={currPath === '/types' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Type</CHeaderNavLink>
-              </CHeaderNavItem>
-              <CHeaderNavItem className={isEmployee || isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
-                <CHeaderNavLink to="/products" className={currPath === '/products' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Product Manage</CHeaderNavLink>
-              </CHeaderNavItem>
+              <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('types')}>Product Type</CDropdownItem>
+              <CDropdownItem className={isLogin && isAdmin ? 'dropdown-toggle-menuitem' : 'd-none'} onClick={() => history.push('products')}>Product Manage</CDropdownItem>
             </CDropdownMenu>
         </CDropdown>}
 
