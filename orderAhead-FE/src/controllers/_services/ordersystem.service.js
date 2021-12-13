@@ -35,6 +35,7 @@ export const osServices = {
   osUpdateMethodInstace,
   osGetCustomers,
   osCreateOrder,
+  osSetAsFeatureImage,
 };
 
 function handleResponse(response) {
@@ -196,4 +197,8 @@ function osGetCustomers(params) {
 function osCreateOrder(formData) {
   const path = 'ordersystem/osCreateOrder'
   return axios.post(`${serverURL}/${path}`, formData)
+}
+
+function osSetAsFeatureImage(params) {
+  return callApi('ordersystem/osSetAsFeatureImage', params)
 }

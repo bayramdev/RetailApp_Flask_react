@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Alert, Box, Button, Table, TableBody, TableHead, TableCell, TableRow } from '@mui/material'
+import { Snackbar, Alert, Box, Button, Table, TableBody, TableHead, TableCell, TableRow } from '@mui/material'
 import { osServices } from '../../../controllers/_services/ordersystem.service'
 import OsIconRemove from '../../../components/order-system/icons/OsIconRemove'
 import OsLoading from '../../../components/order-system/OsLoading'
@@ -14,6 +14,7 @@ const OsAdminProductMediaManage = (props) => {
   const [isUploading, setUploading] = useState(false)
   const [message, setMessage] = useState('')
   const uploadRef = useRef()
+  const [isMessageShown, setMessageShown] = useState(false)
 
   if (!medias) return (<></>)
 
@@ -60,6 +61,21 @@ const OsAdminProductMediaManage = (props) => {
     setSelectedFile(file)
   }
 
+  const handleSetAsFeatureImage = (e) => {
+    const mediaId = e.currentTarget.dataset.id
+    const params = {
+      sku: sku,
+      media: mediaId,
+    }
+    osServices.osSetAsFeatureImage(params).then(response => {
+      setMessageShown(true)
+    })
+
+  }
+
+  const handleCloseMessage = () => {
+    setMessageShown(false)
+  }
 
   return (
     <>
@@ -71,7 +87,8 @@ const OsAdminProductMediaManage = (props) => {
               <TableCell><img src={media.media_thumbnail} width="100" height="100" /></TableCell>
               <TableCell>{media.media_type}</TableCell>
               <TableCell>
-                  <Button style={{color: 'white'}} variant={'contained'} data-id={media.media_id} onClick={handleDeleteMedia}><OsIconRemove /></Button>
+                  <Button style={{color: 'white'}} color="error" variant={'contained'} data-id={media.media_id} onClick={handleDeleteMedia}><OsIconRemove /></Button>
+                  <Button style={{color: 'white'}} className={'ml-2'} variant={'contained'} data-id={media.media_id} onClick={handleSetAsFeatureImage}>Set as featured image</Button>
               </TableCell>
             </TableRow>
           )}
@@ -85,7 +102,11 @@ const OsAdminProductMediaManage = (props) => {
         {isUploading && <div class="ml-5 d-flex align-items-center"><OsLoading /> <span>Uploading...</span></div>}
       </Box>
 
-
+      <Snackbar open={isMessageShown} autoHideDuration={6000} onClose={handleCloseMessage}>
+        <Alert onClose={handleCloseMessage} severity="success" sx={{ width: '100%' }}>
+          Image was set as featured image!
+        </Alert>
+      </Snackbar>
     </>
   )
 }

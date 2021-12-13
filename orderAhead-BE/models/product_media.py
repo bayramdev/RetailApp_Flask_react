@@ -1,5 +1,15 @@
 from models.postgres_db import Postgres_DB
-class ProductMedia:
+from models.active_record import ActiveRecord
+class ProductMedia(ActiveRecord):
+  table_name = 'Product_Medias'
+  primary_key = 'Media ID'
+  allow_fields = {
+    'product_sku': 'Product Sku',
+    'media_type': 'Media Type',
+    'media_path': 'Media Path',
+    'thumbnail': 'Thumbnail',
+  }
+
   @staticmethod
   def add_media(product_sku, media_path, media_type, thumbnail):
     sql = 'INSERT INTO "Product_Medias"("Product Sku", "Media Path", "Media Type", "Thumbnail") VALUES (%s, %s, %s, %s) RETURNING "Media ID"'
@@ -33,3 +43,4 @@ class ProductMedia:
       return 'https://voyageursgourmands.fr/wp-content/plugins/video-thumbnails/default.jpg'
     else:
       return media_path
+

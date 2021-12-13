@@ -183,6 +183,7 @@ class Product(Base):
     update_fields = {
       'product_name': 'Product Name',
       'visibility': 'Visibility',
+      'img_url': 'img_url',
     }
 
     for key, column_name in update_fields.items():

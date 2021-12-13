@@ -700,3 +700,26 @@ def osCreateOrder():
       mimetype='application/json'
   )
   return response
+
+@app.route('/ordersystem/osSetAsFeatureImage', methods=['GET', 'POST'])
+@cross_origin()
+def osSetAsFeatureImage():
+  params = request.get_json()
+  sku = params.get('sku')
+  media_id = params.get('media')
+
+  # data = facade.setFeatureImage(sku, media_id)
+  media = ProductMedia(media_id)
+  media.load()
+  thumbnail = media.thumbnail
+  product = Product(sku)
+  product.img_url = thumbnail
+  product.save()
+  data = 'DONE'
+
+  response = app.response_class(
+      response=json.dumps({"status": True, "message": "successfully sent", "data": data}),
+      status=200,
+      mimetype='application/json'
+  )
+  return response
