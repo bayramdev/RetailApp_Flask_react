@@ -83,7 +83,7 @@ class ActiveRecord(Base):
   @classmethod
   def find_all(cls):
     sql = f'SELECT "{cls.primary_key}" FROM "{cls.table_name}"'
-    return Postgres_DB.fetchall(sql, (), cls.build_object_loop)
+    return Postgres_DB.fetchall(sql, (), cls.build_object)
 
   @classmethod
   def find(cls, conditions = '', params = ()):
