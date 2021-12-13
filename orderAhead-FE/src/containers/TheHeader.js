@@ -152,6 +152,10 @@ const TheHeader = () => {
           <CHeaderNavLink to="/shipping" className={currPath === '/shipping' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Shipping Manage</CHeaderNavLink>
         </CHeaderNavItem>
 
+        <CHeaderNavItem className={(isEmployee || isAdmin) ? 'px-2 d-md-down-none' : 'd-none'}>
+          <CHeaderNavLink to="/order-new" className={currPath === '/order-new' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Fulfillment Manage</CHeaderNavLink>
+        </CHeaderNavItem>
+
         <CHeaderNavItem className={isLogin && isAdmin ? 'px-2 d-md-down-none' : 'd-none'}>
           <CHeaderNavLink to="/location-mgr" className={currPath === '/ip' ? 'menu-item-active' : 'dropdown-toggle-exchange'}>Location Manage</CHeaderNavLink>
         </CHeaderNavItem>
