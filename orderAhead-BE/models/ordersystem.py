@@ -234,6 +234,11 @@ def os_updateType():
 
   type_obj.price_from = price_from
   type_obj.price_to = price_to
+
+  # delete existing type
+  Type.delete(type_name)
+
+  # save update type
   type_obj.save()
 
 

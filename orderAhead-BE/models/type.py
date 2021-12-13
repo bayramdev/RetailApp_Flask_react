@@ -66,6 +66,7 @@ class Type(Base):
 
     return Postgres_DB.fetchall(sql, (self.id,), Brand.build_category)
 
+
   @classmethod
   def build_type(cls, db_record):
     product_type = cls(db_record[0])
@@ -92,3 +93,8 @@ class Type(Base):
     sql = f'UPDATE "Product_Types" SET "Name" = %s WHERE "Name" = %s;'
     sql += f'UPDATE "Inventory" SET "Product Type" = %s WHERE "Product Type" = %s;'
     Postgres_DB.query(sql, (new_name, self.name, new_name, self.name,))
+
+  @staticmethod
+  def delete(delete_name):
+    sql = f'DELETE FROM "Product_Types" WHERE "Name" = %s;'
+    Postgres_DB.query(sql, (delete_name,))
