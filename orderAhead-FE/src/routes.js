@@ -52,6 +52,7 @@ const routes = [
   { path: '/order-manage', name: 'Order Manage', component: AdminOrderManage,},
   { path: '/order-new', name: 'New Order', component: AdminOrderEdit, fullwidth: false,},
   { path: '/order', exact: false, name: 'Order', component: withRouter(OrderSystem), fullwidth: true,},
+  // { path: '/retailer-signup', exact: false, name: 'Order', component: withRouter(OrderSystem), fullwidth: true,},
 ];
 
 export default routes;
